@@ -2,7 +2,9 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
-import Vuex from 'vuex'
+import * as firebase from 'firebase'
+import router from './router'
+import { store } from './store'
 
 import './../node_modules/jquery/dist/jquery.min.js';
 import './../node_modules/bootstrap/dist/css/bootstrap.min.css';
@@ -11,13 +13,29 @@ import './../node_modules/bootstrap/dist/js/bootstrap.min.js';
 import './assets/scss/styles.scss'
 import './assets/fontawesome-all.js'
 
-Vue.use(Vuex)
-
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
+  router,
+  store,
+  created () {
+    firebaaase.initializeApp({
+      apiKey: "AIzaSyAeiKMd8qgkoW2Dkc9N_Ku6Oa5dDrPN3T8",
+      authDomain: "vueskills.firebaseapp.com",
+      databaseURL: "https://vueskills.firebaseio.com",
+      projectId: "vueskills",
+      storageBucket: "vueskills.appspot.com",
+      messagingSenderId: "757389415869"
+    })
+  },
+  // firebase.auth().onAuthStateChanged((user) => {
+  //   if (user) {
+  //     this.$store.dispatch('autoSignIn', user)
+  //     this.$store.dispatch('fetchUserData')
+  //   }
+  // })
   components: { App },
   template: '<App/>'
 })
