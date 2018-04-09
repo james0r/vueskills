@@ -2,47 +2,45 @@
   <div>
     <div id="app">
       <nav class="navbar navbar-expand-md navbar-dark bg-primary">
-        <a class="navbar-brand" href="#">VueSkillz</a>
+        <router-link to="/" class="navbar-brand" style="cursor: pointer">VueSkillz</router-link>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample04" aria-controls="navbarsExample04" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
   
         <div class="collapse navbar-collapse" id="navbarsExample04">
           <ul class="navbar-nav ml-auto">
-            <li class="nav-item active">
-              <a class="nav-link" href="#">Browse <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Link</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link disabled" href="#">Disabled</a>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
-              <div class="dropdown-menu" aria-labelledby="dropdown04">
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <a class="dropdown-item" href="#">Something else here</a>
-              </div>
+            <li v-for="item in menuItems" :key="item.title" class="nav-item active">
+              <router-link class="nav-link" :to="item.link">
+                <i :class="item.icon"></i>
+                {{ item.title }} 
+                </router-link>
             </li>
           </ul>
         </div>
       </nav>      
     </div>
-  
-    <Home></Home>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import Home from './components/Home'
+// import Home from './components/Home'
 
 export default {
-  name: 'App',
-  components: {
-    Home
+  computed: {
+    menuItems () {
+      let menuItems = [
+      { icon: 'fas fa-cog', title: 'Settings', link: '/settings'},
+      { icon: 'fab fa-blackberry', title: 'Blah 1', link: '/blah'},
+      { icon: 'far fa-edit', title: 'Edit Profile', link: '/edit'}
+      ]
+      return menuItems
+    }
   }
+  // name: 'App',
+  // components: {
+  //   Home
+  // },
 }
 </script>
 
