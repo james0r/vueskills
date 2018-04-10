@@ -1,5 +1,5 @@
 <template>
-  <div class="modal fade" id="myModal" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+  <div class="modal fade" id="registerModal" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content" role="document">
           <div class="modal-header bg-primary text-white py-1 border-primary">
@@ -53,3 +53,15 @@
     }
 
 </script>
+
+<style lang="scss" scoped>
+    .close-button-fix {
+    padding-right: 15px !important;
+    padding-top: 20px !important;
+    }
+
+    .modal-header {
+    box-shadow: 5px 5px 8px 2px #888888;
+    }
+</style>
+

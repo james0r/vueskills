@@ -21,7 +21,7 @@ new Vue({
   router,
   store,
   created () {
-    firebaaase.initializeApp({
+    firebase.initializeApp({
       apiKey: "AIzaSyAeiKMd8qgkoW2Dkc9N_Ku6Oa5dDrPN3T8",
       authDomain: "vueskills.firebaseapp.com",
       databaseURL: "https://vueskills.firebaseio.com",

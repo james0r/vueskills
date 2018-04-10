@@ -73,7 +73,6 @@
   padding-bottom: 20px;
 }
 
-button,
 .card-shadow,
 .card {
   box-shadow: 0px 5px 8px 0px #888888;

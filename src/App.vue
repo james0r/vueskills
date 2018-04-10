@@ -16,9 +16,21 @@
                 </router-link>
             </li>
             <li class="nav-item active">
-              <button class="btn btn-secondary nav-link" data-toggle="modal" data-target="#myModal">
+              <button class="btn btn-secondary nav-link" data-toggle="modal" data-target="#registerModal">
+                <i class="far fa-registered"></i>
+                Register
+                </button>
+            </li>
+            <li class="nav-item active">
+              <button class="btn btn-secondary nav-link" data-toggle="modal" data-target="#signInModal">
                 <i class="fas fa-sign-out-alt"></i>
                 Sign In
+                </button>
+            </li>
+            <li class="nav-item active">
+              <button class="btn btn-secondary nav-link" data-toggle="modal" data-target="#educationModal">
+                <i class="fas fa-graduation-cap"></i>
+                Education
                 </button>
             </li>
           </ul>
@@ -26,27 +38,32 @@
       </nav>      
     </div>
     <router-view></router-view>
-    <Register></Register>
+    <register></register>
+    <sign-in></sign-in>
+    <add-education-modal></add-education-modal>
 
   </div>
 </template>
 
 <script>
 import Register from './components/NoAuth/Register'
+import SignIn from './components/NoAuth/SignIn'
+import AddEducationModal from './components/Auth/AddEducationModal'
 
 export default {
   computed: {
     menuItems () {
       let menuItems = [
       { icon: 'fas fa-cog', title: 'Settings', link: '/settings'},
-      { icon: 'fab fa-blackberry', title: 'Blah 1', link: '/blah'},
       { icon: 'far fa-edit', title: 'Edit Profile', link: '/edit'}
       ]
       return menuItems
     }
   },
   components: {
-    Register
+    Register,
+    SignIn,
+    AddEducationModal
   }
   // name: 'App',
   // components: {
@@ -56,9 +73,12 @@ export default {
 </script>
 
 <style lang="scss">
-div {
-  .test-class {
-    color: blue !important;
-  }
-}
+    .close-button-fix {
+    padding-right: 15px !important;
+    padding-top: 20px !important;
+    }
+
+    .modal-header {
+    box-shadow: 0px 5px 8px 2px #888888;
+    }
 </style>

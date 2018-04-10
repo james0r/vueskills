@@ -150,7 +150,7 @@
             </div>
           </div>
           <div class="text-center mb-3">
-            <button class="btn btn-primary">Add Skill</button>
+            <button class="btn btn-primary button-shadow">Add Skill</button>
           </div>
         </div>
       </div>
@@ -181,7 +181,7 @@
           </div>
 
           <div class="text-center">
-            <button class="btn btn-primary">Add Organization</button>
+            <button class="btn btn-primary button-shadow">Add Organization</button>
           </div>
         </div>
       </div>
@@ -219,7 +219,7 @@
           </div>
 
           <div class="text-center">
-            <button class="btn btn-primary">Add Employer</button>
+            <button class="btn btn-primary button-shadow">Add Employer</button>
           </div>
         </div>
       </div>
@@ -235,10 +235,10 @@
     padding-bottom: 20px;
     }
 
-    button,
+    .button-shadow,
     .card-shadow,
     .card {
-    box-shadow: 5px 5px 8px 2px #888888;
+    box-shadow: 0px 5px 8px 2px #888888;
     }
 
     .dark-header {
