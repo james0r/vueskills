@@ -33,6 +33,24 @@
                 Education
                 </button>
             </li>
+            <li class="nav-item active">
+              <button class="btn btn-secondary nav-link" data-toggle="modal" data-target="#employmentModal">
+                <i class="fas fa-user-md"></i>
+                Employment
+                </button>
+            </li>
+            <li class="nav-item active">
+              <button class="btn btn-secondary nav-link" data-toggle="modal" data-target="#directionalLandingModal">
+                <i class="fas fa-arrows-alt-h"></i>
+                Dir Landing
+                </button>
+            </li>
+            <li class="nav-item active">
+              <button class="btn btn-secondary nav-link" data-toggle="modal" data-target="#addSkillModal">
+                <i class="fas fa-tasks"></i>
+                Skills
+                </button>
+            </li>
           </ul>
         </div>
       </nav>      
@@ -41,6 +59,9 @@
     <register></register>
     <sign-in></sign-in>
     <add-education-modal></add-education-modal>
+    <add-employment-modal></add-employment-modal>
+    <directional-landing-modal></directional-landing-modal>
+    <add-skill-modal></add-skill-modal>
 
   </div>
 </template>
@@ -49,6 +70,9 @@
 import Register from './components/NoAuth/Register'
 import SignIn from './components/NoAuth/SignIn'
 import AddEducationModal from './components/Auth/AddEducationModal'
+import AddEmploymentModal from './components/Auth/AddEmploymentModal'
+import DirectionalLandingModal from './components/NoAuth/DirectionalLandingModal'
+import AddSkillModal from './components/Auth/AddSkillModal'
 
 export default {
   computed: {
@@ -63,7 +87,10 @@ export default {
   components: {
     Register,
     SignIn,
-    AddEducationModal
+    AddEducationModal,
+    AddEmploymentModal,
+    DirectionalLandingModal,
+    AddSkillModal
   }
   // name: 'App',
   // components: {

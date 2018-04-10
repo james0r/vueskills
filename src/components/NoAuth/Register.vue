@@ -61,7 +61,7 @@
     }
 
     .modal-header {
-    box-shadow: 5px 5px 8px 2px #888888;
+    box-shadow: 0px 5px 8px 2px #888888;
     }
 </style>
 
