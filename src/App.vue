@@ -15,16 +15,24 @@
                 {{ item.title }} 
                 </router-link>
             </li>
+            <li class="nav-item active">
+              <button class="btn btn-secondary nav-link" data-toggle="modal" data-target="#myModal">
+                <i class="fas fa-sign-out-alt"></i>
+                Sign In
+                </button>
+            </li>
           </ul>
         </div>
       </nav>      
     </div>
     <router-view></router-view>
+    <Register></Register>
+
   </div>
 </template>
 
 <script>
-// import Home from './components/Home'
+import Register from './components/NoAuth/Register'
 
 export default {
   computed: {
@@ -36,6 +44,9 @@ export default {
       ]
       return menuItems
     }
+  },
+  components: {
+    Register
   }
   // name: 'App',
   // components: {
