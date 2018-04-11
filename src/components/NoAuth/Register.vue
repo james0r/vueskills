@@ -30,15 +30,12 @@
               </div>
               <input type="password" class="form-control" v-model="confirmPassword">
             </div>
-            <p class="text-danger mb-0">Please for alert</p>
-            Email: {{ email }} <br>
-            Password: {{ password }} <br>
-            Confirm Password: {{ confirmPassword }}
+            <p class="text-danger mb-0">{{ passwordsMatch }}</p>
           </div>
           <div class="modal-footer">
             <div class="col text-right">
               <div class="row float-right">
-                <a class="pt-2" href="#">Already Registered?</a>
+                <a class="pt-2 no-active-border" href="#" data-dismiss="modal" aria-label="Close" data-toggle="modal" data-target="#signInModal">Already Registered?</a>
                 <button type="submit" class="btn btn-primary ml-2">Register</button>
               </div>
               <div class="clearfix"></div>
@@ -56,11 +53,13 @@
                 //V-modal these
                 email: '',
                 password: '',
-                confirmPassword: ''
+                confirmPassword: '',
             }
         },
         computed: {
-            
+            passwordsMatch () {
+                return this.password !== this.confirmPassword ? 'Passwords do not match' : null
+            }
         },
         methods: {
             signUp () {
@@ -70,9 +69,7 @@
 
                 }
             },
-            passwordsMatch () {
-                return this.password !== this.confirmPassword ? false : true
-            }
+            
         }
     }
 </script>
@@ -85,6 +82,10 @@
 
     .modal-header {
     box-shadow: 0px 5px 8px 2px #888888;
+    }
+
+    .no-active-border:focus {
+        outline: none;
     }
 </style>
 
