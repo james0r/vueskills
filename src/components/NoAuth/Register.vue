@@ -12,35 +12,37 @@
             <h3></h3>
           </div>
           <div class="modal-body text-center">
-            <div class="input-group my-3">
-              <div class="input-group-prepend">
-                <span class="input-group-text" id="">Email</span>
+              <div class="input-group my-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="">Email</span>
+                </div>
+                <input type="text" class="form-control" v-model="email">
               </div>
-              <input type="text" class="form-control" v-model="email">
-            </div>
-            <div class="input-group my-3">
-              <div class="input-group-prepend">
-                <span class="input-group-text" id="">Password</span>
+              <div class="input-group my-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="">Password</span>
+                </div>
+                <input type="password" class="form-control" v-model="password">
               </div>
-              <input type="password" class="form-control" v-model="password">
-            </div>
-            <div class="input-group my-3">
-              <div class="input-group-prepend">
-                <span class="input-group-text" id="">Confirm</span>
+              <div class="input-group my-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="">Confirm</span>
+                </div>
+                <input type="password" class="form-control" v-model="confirmPassword">
               </div>
-              <input type="password" class="form-control" v-model="confirmPassword">
+              <p class="text-danger mb-0">{{ passwordsMatch }}</p>
             </div>
-            <p class="text-danger mb-0">{{ passwordsMatch }}</p>
-          </div>
-          <div class="modal-footer">
-            <div class="col text-right">
-              <div class="row float-right">
-                <a class="pt-2 no-active-border" href="#" data-dismiss="modal" aria-label="Close" data-toggle="modal" data-target="#signInModal">Already Registered?</a>
-                <button type="submit" class="btn btn-primary ml-2">Register</button>
+            <div class="modal-footer">
+              <div class="col text-right">
+                <div class="row float-right">
+                  <a class="pt-2 no-active-border" data-dismiss="modal" aria-label="Close" data-toggle="modal" data-target="#signInModal">Already Registered?</a>
+                  <form @submit.prevent="signUp">
+                  <button type="submit" class="btn btn-primary ml-2">Register</button>
+                  </form>
+                </div>
+                <div class="clearfix"></div>
               </div>
-              <div class="clearfix"></div>
             </div>
-          </div>
         </div>
       </div>
     </div>
@@ -58,18 +60,31 @@
         },
         computed: {
             passwordsMatch () {
-                return this.password !== this.confirmPassword ? 'Passwords do not match' : null
+              return this.password !== this.confirmPassword ? 'Passwords do not match' : null
+            },
+            user () {
+              return this.$store.getters.user
+            },
+            error () {
+              return this.$store.getters.error
+            },
+            loading () {
+              return this.$store.getters.loading
             }
+        },
+        watch: {
+          user (value) {
+            if (value !== null && value !== undefined) {
+              this.$router.push('/')
+            }
+          }
         },
         methods: {
             signUp () {
-                if (passwordsMatch()) {
+              console.log("signUp was called with email and password " + this.email + " and password is " + this.password)
+              // this.$store.dispatch('signUserUp', {email: this.email, password: this.password})
 
-                } else {
-
-                }
-            },
-            
+            } 
         }
     }
 </script>

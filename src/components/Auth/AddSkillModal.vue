@@ -21,13 +21,6 @@
                             ]"></v-select>
                         </div>
                     <form>
-                        <select id="" class="combobox input-large form-control mb-3" style="display: none;" placeholder="Choose a skill">
-                        <option></option>
-                        <option value="javascript">Javascript</option>
-                        <option value="Webpack">Webpack</option>
-                        <option value="PHP">PHP</option>
-                        <option value="Node.js">Node.js</option>
-                        </select>
                         <div class="form-group">
                         <select class="form-control" id="exampleFormControlSelect1">
                             <option selected>Rate your ability</option>
@@ -68,7 +61,7 @@
   export default {
       data: function() {
           return {
-
+              selected: ''
           }
       }
   }
