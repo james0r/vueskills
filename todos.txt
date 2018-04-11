@@ -1,0 +1,1 @@
+Fix jerky modal slide up
