@@ -14,7 +14,7 @@
             <div class="modal-body text-center">
                 <div class="input-group">
                 <div class="input-group-prepend">
-                    <span class="input-group-text" id="">Email</span>
+                    <input class="input-group-text" id="" v-model="email">Email</input>
                 </div>
                 <input type="text" class="form-control">
                 </div>
@@ -24,7 +24,7 @@
                 </div>
                 <input type="password" class="form-control">
                 </div>
-                <a href="#">Forgot Password?</a>
+                <a href="#">Forgot Password?</a> {{ email }}
             </div>
             <div class="modal-footer">
                 <div class="col">
@@ -43,7 +43,19 @@
 
 <script>
     export default {
-        
+        data () {
+            return {
+                //V-modal these
+                email: '',
+                password: ''
+            }
+        },
+        computed: {
+            
+        },
+        methods: {
+
+        }
     }
 
 </script>
