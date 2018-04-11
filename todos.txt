@@ -1,1 +1,2 @@
 Fix jerky modal slide up
+Create approval system for new registrars.

@@ -1,6 +1,6 @@
-# test-project3
+# VueSkills
 
-> A Vue.js project
+> A simple app for job seekers to create public resumes with an emphasis on their skills.
 
 ## Build Setup
 
