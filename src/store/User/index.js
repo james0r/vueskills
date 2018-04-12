@@ -2,11 +2,47 @@ import * as firebase from 'firebase'
 
 export default {
     state: {
-        user: null
+        user: {
+            id: '',
+            personal: {
+                firstName: '',
+                lastName: '',
+                title: '',
+                avatarUrl: '',
+                email: '',
+                twitterUrl: '',
+                facebookUrl: '',
+                instagramUrl: '',
+                linkedInUrl: '',
+                websiteUrl: ''
+            },
+            skills: [
+                {
+                    id: ';aljkfoaweifj',
+                    name: 'Javascript',
+                    stars: 3.5,
+
+                },
+                {
+                    id: 'o3iojewrijfsd',
+                    name: 'Node.js',
+                    stars: 4,
+                }
+            ],
+            education: [
+                
+            ],
+            employment: [
+                
+            ]
+        }
     },
     mutations: {
         setUser (state, payload) {
             state.user = payload
+        },
+        setSkill (state, payload) {
+            state.skills.push(payload)
         }
     },
     actions: {
@@ -52,6 +88,12 @@ export default {
                 }
             )
         },
+        setSkill ({commit}, payload) {
+            const newSkill = {
+                
+            }
+            commit('setSkill', newSkill)
+        }
     },
     getters: {
         user (state) {

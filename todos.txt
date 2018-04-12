@@ -1,2 +1,130 @@
 Fix jerky modal slide up
 Create approval system for new registrars.
+Ask danny or somebody how i would run the icon switch statement through the store
+
+Javascript	javascript
+PHP		php
+Python		python
+C#			csharp
+Webpack		webpack
+Sass		sass
+HTML5		html5
+Gulp		gulp
+Java 		java
+C++			cplusplus
+Ruby		ruby
+Linux	linux
+Windows		windows8
+Mac		apple
+AWS		devicon-amazonwebservices-original
+Apache		apache
+Photoshop		photoshop
+Illustrator		illustrator
+Vue.js 		vuejs
+React		react
+Angular		angularjs
+Django		django
+CSS		css3
+Git 		git
+JQuery 		jquery
+MongoDB		mongodb
+Node.js 		nodejs
+MySQL 		mysql
+NGINX		nginx
+Wordpress 	wordpress
+Typescript 		typescript
+
+switch (tech) {
+    case 'php':
+        return 'devicon-php-plain'
+        break;
+    case 'python':
+        return 'devicon-python-plain'
+        break;
+    case 'csharp':
+        return 'devicon-csharp-plain'
+        break;
+    case 'webpack':
+        return 'devicon-webpack-plain'
+        break;
+    case 'sass':
+        return 'devicon-sass-plain'
+        break;
+    case 'html5':
+        return 'devicon-html5-plain'
+        break;
+    case 'gulp':
+        return 'devicon-gulp-plain'
+        break;
+    case 'java':
+        return 'devicon-java-plain'
+        break;
+    case 'cplusplus':
+        return 'devicon-cpluscplus-plain'
+        break;
+    case 'ruby':
+        return 'devicon-ruby-plain'
+        break;
+    case 'linux':
+        return 'devicon-linux-plain'
+        break;
+    case 'windows':
+        return 'devicon-windows8-plain'
+        break;
+    case 'mac':
+        return 'devicon-apple-plain'
+        break;
+    case 'aws':
+        return 'devicon-amazonwebservices-original'
+        break;
+    case 'apache':
+        return 'devicon-apache-plain'
+        break;
+    case 'photoshop':
+        return 'devicon-photoshop-plain'
+        break;
+    case 'illustrator':
+        return 'devicon-illustrator-plain'
+        break;
+    case 'vuejs':
+        return 'devicon-vuejs-plain'
+        break;
+    case 'react':
+        return 'devicon-react-plain'
+        break;
+    case 'angular':
+        return 'devicon-angularjs-plain'
+        break;
+    case 'django':
+        return 'devicon-django-plain'
+        break;
+    case 'css':
+        return 'devicon-css3-plain'
+        break;
+    case 'git':
+        return 'devicon-git-plain'
+        break;
+    case 'jquery':
+        return 'devicon-jquery-plain'
+        break;
+    case 'mongodb':
+        return 'devicon-mongodb-plain'
+        break;
+    case 'nodejs':
+        return 'devicon-nodejs-plain'
+        break;
+    case 'mysql':
+        return 'devicon-mysql-plain'
+        break;
+    case 'nginx':
+        return 'devicon-nginx-plain'
+        break;
+    case 'wordpress':
+        return 'devicon-wordpress-plain'
+        break;
+    case 'typescript':
+        return 'devicon-typescript-plain'
+        break;
+    default:
+        return 'fas fa-question'
+}

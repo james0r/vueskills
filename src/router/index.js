@@ -13,6 +13,8 @@ import DirectionalLandingModal from '@/components/NoAuth/DirectionalLandingModal
 import Profiles from '@/components/NoAuth/Profiles'
 import Register from '@/components/NoAuth/Register'
 import SignIn from '@/components/NoAuth/SignIn'
+import Profile from '@/components/Auth/Profile'
+
 
 Vue.use(Router)
 
@@ -27,6 +29,11 @@ export default new Router({
         path: '/edit',
         name: 'EditProfile',
         component: EditProfile
+        },
+        {
+        path: '/profile',
+        name: 'Profile',
+        component: Profile
         },
         {
         path: '/preview',

@@ -1,79 +1,39 @@
 <template>
   <div class="container my-3">
-              <div class="outline-main col-12 col-sm-12 col-md-10 offset-md-1 col-lg-12 offset-lg-0">
-              <div class="row profile-card-header text-center mb-3">
-                <div class="mx-auto my-3">
-                  <img class="avatar-img">
-                  <div class="header-title">
-                    <h2 class="my-0">Janette Lewis</h2>
-                    <h5 class="my-0 text-white">Senior Game Designer</h5>
-                  </div>
-                </div>
-                </div>
-                <div class="row">
-              </div>
-              <div class="flex-around">
-                <div class="card border-primary mb-3 mx-2" style="width: 10rem;">
-                  <div class="card-header text-center py-1">Javascript <i class="fab fa-js"></i></div>
-                  <div class="card-body text-primary py-1">
-                    <div class="text-center">
-                      <i class="fas fa-star"></i>
-                      <i class="fas fa-star"></i>
-                      <i class="fas fa-star"></i>
-                      <i class="fas fa-star"></i>
-                      <i class="fas fa-star-half"></i>
-                    </div>
-                  </div>
-                </div>
-                <div class="card border-primary mb-3 mx-2" style="width: 10rem;">
-                  <div class="card-header text-center py-1">Node.js <i class="fab fa-node-js"></i></div>
-                  <div class="card-body text-primary py-1">
-                    <div class="text-center">
-                      <i class="fas fa-star"></i>
-                      <i class="fas fa-star"></i>
-                      <i class="fas fa-star"></i>
-                      <i class="fas fa-star"></i>
-                      <i class="fas fa-star-half"></i>
-                    </div>
-                  </div>
-                </div>
-                <div class="card border-primary mb-3 mx-2" style="width: 10rem;">
-                  <div class="card-header text-center py-1">Vue.js <i class="fab fa-vuejs"></i></div>
-                  <div class="card-body text-primary py-1">
-                    <div class="text-center">
-                      <i class="fas fa-star"></i>
-                      <i class="fas fa-star"></i>
-                      <i class="fas fa-star"></i>
-                    </div>
-                  </div>
-                </div>
-                <div class="card border-primary mb-3 mx-2" style="width: 10rem;">
-                  <div class="card-header text-center py-1">React <i class="fab fa-react"></i></div>
-                  <div class="card-body text-primary py-1">
-                    <div class="text-center">
-                      <i class="fas fa-star"></i>
-                      <i class="fas fa-star"></i>
-                      <i class="fas fa-star"></i>
-                    </div>
-                  </div>
-                </div>
-                <div class="card border-primary mb-3 mx-2" style="width: 10rem;">
-                  <div class="card-header text-center py-1">PHP <i class="fab fa-php"></i></div>
-                  <div class="card-body text-primary py-1">
-                    <div class="text-center">
-                      <i class="fas fa-star"></i>
-                      <i class="fas fa-star"></i>
-                      <i class="fas fa-star"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>    
-                <div class="text-center">
-                  <button class="btn btn-primary card-shadow">See More</button>
-                </div>
+    <div class="outline-main col-12 col-sm-12 col-md-10 offset-md-1 col-lg-12 offset-lg-0">
+      <div class="row profile-card-header text-center mb-3">
+        <div class="mx-auto my-3">
+          <img class="avatar-img">
+          <div class="header-title">
+            <h2 class="my-0">Janette Lewis</h2>
+            <h5 class="my-0 text-white">Senior Game Designer</h5>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+      </div>
+      <div class="flex-around">
+        <div 
+        class="card border-primary mb-3 mx-2" 
+        v-for="skill in user.skills"
+        :key="skill.key" 
+        style="width: 10rem;">
+          <div class="card-header text-center py-1">{{ skill.name }}
+            <i class="devicon-github-plain"></i>
+          </div>
+          <div class="card-body text-primary py-1">
+            <div class="text-center">
+              <i v-for="star in Math.floor(skill.stars)" :key="star.key" class="fas fa-star"></i>
+              <i v-if="Number.isInteger(skill.stars)" class="fas fa-star-half"></i>
             </div>
           </div>
-
+        </div>
+      </div>
+      <div class="text-center">
+        <button class="btn btn-primary card-shadow">See More</button>
+      </div>
+    </div>
+</div>
 </template>
 
 <script>
@@ -81,15 +41,20 @@ export default {
   name: 'Home',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+  
+    }
+  },
+  computed: {
+    user () {
+      return this.$store.getters.user
+    },
+    error () {
+      return this.$store.getters.error
     }
   }
 }
 </script>
 
-<script lang="scss">
-
-</script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .header-title {

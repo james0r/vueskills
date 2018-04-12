@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import main from './Main'
+import shared from './Shared'
 import user from './User'
 import profiles from './Profiles'
 
@@ -8,7 +8,7 @@ Vue.use(Vuex)
 
 export const store = new Vuex.Store({
     modules: {
-        main: main,
+        shared: shared,
         user: user,
         profiles: profiles
     }

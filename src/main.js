@@ -6,6 +6,8 @@ import * as firebase from 'firebase'
 import router from './router'
 import { store } from './store'
 import vSelect from 'vue-select'
+import devicon from 'devicon'
+
 
 import './../node_modules/jquery/dist/jquery.min.js';
 import './../node_modules/bootstrap/dist/css/bootstrap.min.css';

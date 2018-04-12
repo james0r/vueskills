@@ -12,18 +12,50 @@
                 <div class="row">
                     <div class="col-8 offset-2 text-center">
                         <div class="my-3">
-                            <v-select v-model="selected" :options="[
+                            <v-select :class="{required: techRequired}" placeholder="Choose a technology" v-model="techSelected" :options="[
+                            'Angular',
+                            'Apache',
+                            'AWS',
+                            'C#',
+                            'C++',
+                            'CSS',
+                            'Django',
+                            'Git',
+                            'Gulp',
+                            'HTML5',
+                            'Illustrator',
+                            'Java',
                             'Javascript',
+                            'jQuery',
+                            'LESS',
+                            'Linux',
+                            'Mac',
+                            'MongoDB',
+                            'MySQL',
+                            'NGINX',
                             'Node.js',
-                            'Vue.js',
+                            'Photoshop',
                             'PHP',
-                            'Webpack'
+                            'Python',
+                            'React',
+                            'Ruby',
+                            'Sass',
+                            'Typescript',
+                            'Vue.js',
+                            'Webpack',
+                            'Windows',
+                            'Wordpress'
                             ]"></v-select>
+                            Tech Selected: {{ techSelected }}
                         </div>
                     <form>
                         <div class="form-group">
-                        <select class="form-control" id="exampleFormControlSelect1">
-                            <option selected>Rate your ability</option>
+                        <select 
+                            placeholder="Rate your ability"
+                            v-model="ratingSelected" 
+                            class="form-control" 
+                            :class="{required: ratingRequired}">
+                            <option value="0" selected disabled>Rate your ability</option>
                             <option>1 (Weakest)</option>
                             <option>1.5</option>
                             <option>2</option>
@@ -34,21 +66,24 @@
                             <option>4.5</option>
                             <option>5 (Strongest)</option>
                         </select>
+                        Rating Selected: {{ ratingSelected }}
                         </div>
                         <div class="form-group">
-                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="Optional Notes"></textarea>
+                        <textarea v-model="skillNotes" class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="Optional Notes"></textarea>
+                        Skill Notes: {{ skillNotes }}
                         </div>
                         <div class="btn-groupmb-2">
                         <label class="btn btn-primary">
-                            <input type="checkbox" name="field" value="NO"> Strongest
+                            <input v-model="strongestSkill" type="checkbox" name="field" value="NO"> Strongest
                         </label>
+                        Strongest skill: {{ strongestSkill }}
                         </div>
                     </form>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <a href="#" class="btn btn-danger ml-3">Cancel</a>
-                    <a href="#" class="btn btn-primary ml-3">Register</a>
+                    <a href="#" class="btn btn-danger ml-3" @click="clearValues">Cancel</a>
+                    <a href="#" class="btn btn-primary ml-3" @click="register">Register</a>
                 </div>
                 </div>
             </div>
@@ -58,11 +93,71 @@
 </template>
 
 <script>
-  export default {
-      data: function() {
-          return {
-              selected: ''
-          }
-      }
-  }
+    export default {
+        data: function() {
+            return {
+              techSelected: '',
+              ratingSelected: 0,
+              skillNotes: '',
+              strongestSkill: false,
+              techRequired: false,
+              ratingRequired: false
+            }
+        },
+        watch: {
+            techRequired: function (val) {
+                if (val) {
+                    var self = this;
+                    setTimeout( function () {
+                        self.techRequired = false
+                    }, 1000)
+                }
+            },
+            ratingRequired: function (val) {
+                if (val) {
+                    var self = this;
+                    setTimeout( function () {
+                        self.ratingRequired = false
+                    }, 1000)
+                }
+            }
+        },
+        methods: {
+            onSave () {
+                console.log(techSelected, ratingSelected, skillNotes, strongestSkill)
+            },
+            clearValues () {
+                this.techSelected = '',
+                this.ratingSelected = 0,
+                this.skillNotes = '',
+                this.strongestSkill = false
+
+                setTimeout
+            },
+            register () {
+                if (this.techSelected == '') {
+                    this.techRequired = true
+                }
+                if (this.ratingSelected == 0) {
+                    this.ratingRequired = true
+                }
+            }
+
+        }
+    }
 </script>
+
+<style scoped>
+.required {
+    border: 2px solid red;
+    border-radius: 5px;
+    animation: blinker 1 ease-in-out 1;
+}
+
+@keyframes blinker {
+    50% {
+        opacity: 0;
+    }
+}
+</style>
+
