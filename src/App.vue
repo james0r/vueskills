@@ -1,8 +1,13 @@
 <template>
   <div>
     <div id="app">
-      <nav class="navbar navbar-expand-md navbar-dark bg-primary">
-        <router-link to="/" class="navbar-brand" style="cursor: pointer">VueSkills</router-link>
+      <nav class="navbar navbar-expand-md navbar-dark bg-primary py-0">
+        <router-link to="/" class="navbar-brand" style="cursor: pointer">
+        <div class="row nowrap pl-2">
+        <img src="./assets/vueskills-logo.png" height="38px" class="ml-0">
+        <p class="my-auto ml-1">Vueskills</p>
+        </div>
+        </router-link>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample04" aria-controls="navbarsExample04" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>

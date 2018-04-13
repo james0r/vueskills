@@ -1,6 +1,12 @@
 <template>
     <div class="row">
-        <div class="modal fade" id="addSkillModal" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+        <div
+        :class="{ in: modalShown }" 
+        class="modal fade" 
+        id="addSkillModal" 
+        role="dialog" 
+        aria-labelledby="modalLabel" 
+        aria-hidden="true">
             <div class="modal-dialog" role="document">
             <div class="modal-content" role="document">
                 <div class="modal-header py-1 bg-primary text-white border-primary">
@@ -82,8 +88,13 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <a href="#" class="btn btn-danger ml-3" @click="clearValues">Cancel</a>
-                    <a href="#" class="btn btn-primary ml-3" @click="register">Register</a>
+                    <a 
+                    href="#" 
+                    class="btn btn-danger ml-3"
+                    @click="clearValues" 
+                    data-toggle="modal" 
+                    data-target="#addSkillModal">Cancel</a>
+                    <a href="#" class="btn btn-primary ml-3 px-3" @click="save">Save</a>
                 </div>
                 </div>
             </div>
@@ -101,7 +112,8 @@
               skillNotes: '',
               strongestSkill: false,
               techRequired: false,
-              ratingRequired: false
+              ratingRequired: false,
+              modalShown: null
             }
         },
         watch: {
@@ -123,9 +135,6 @@
             }
         },
         methods: {
-            onSave () {
-                console.log(techSelected, ratingSelected, skillNotes, strongestSkill)
-            },
             clearValues () {
                 this.techSelected = '',
                 this.ratingSelected = 0,
@@ -134,13 +143,17 @@
 
                 setTimeout
             },
-            register () {
+            save () {
                 if (this.techSelected == '') {
                     this.techRequired = true
                 }
                 if (this.ratingSelected == 0) {
                     this.ratingRequired = true
                 }
+            },
+            cancel () {
+                console.log("cancel was called")
+                this.modalShown = true
             }
 
         }

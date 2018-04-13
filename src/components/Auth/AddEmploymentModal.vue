@@ -14,7 +14,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="">Employer Name</span>
                     </div>
-                    <input type="text" class="form-control">
+                    <input v-model="employer" type="text" class="form-control"> {{ employer }}
                     </div>
                     <div class="row my-3">
                     <div class="col">
@@ -22,7 +22,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="">Job Title</span>
                         </div>
-                        <input type="text" class="form-control">
+                        <input v-model="jobTitle" type="text" class="form-control"> {{ jobTitle }}
                         </div>
                     </div>
                     </div>
@@ -32,37 +32,38 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="">City</span>
                         </div>
-                        <input type="text" class="form-control">
+                        <input v-model="city" type="text" class="form-control"> {{ city }}
                         </div>
                     </div>
                     <div class="col-4">
-                        <select class="custom-select">
-                        <option selected>State</option>
+                        <select v-model="state" class="custom-select" placeholder="State">
+                        <option value="" selected disabled>State</option>
                         <option v-for="state in states" :key="state.key">{{ state }}</option>
                         </select>
+                        {{ state }}
                     </div>
                     </div>
 
                     <div class="row my-3">
                     <div class="col-6">
-                        <select id="from-dropdown" class="custom-select">
-                        <option selected>From</option>
-                        <option v-for="year in yearsArray()" :key="year.key">{{ year }}</option>
-
+                        <select v-model="fromYear" class="custom-select" placeholder="From">
+                        <option value="null" selected disabled>From</option>
+                        <option v-for="year in yearsArray()" :key="year.key" :value="year">{{ year }}</option>
                         </select>
                     </div>
                     <div class="col-6">
-                        <select id="to-dropdown" class="custom-select">
-                        <option selected>To</option>
+                        <select v-model="toYear" class="custom-select" placeholder="From">
+                        <option value="null" selected disabled>To</option>
                         <option v-for="year in yearsArray()" :key="year.key">{{ year }}</option>
                         </select>
                     </div>
                     </div>
+                    <p v-if="keepToYearHigher" class="text-center" style="color:red;">{{ keepToYearHigher }}</p>
                 </div>
                 </div>
                 <div class="modal-footer">
                 <a href="#" class="btn btn-danger ml-3">Cancel</a>
-                <a href="#" class="btn btn-primary ml-3">Register</a>
+                <a href="#" class="btn btn-primary ml-2 px-3">Save</a>
                 </div>
             </div>
             </div>
@@ -80,7 +81,20 @@
                 "MA", "MD", "ME", "MI", "MN", "MO", "MS", "MT", "NC", "ND", "NE",  
                 "NH", "NJ", "NM", "NV", "NY", "OH", "OK", "OR", "PA", "RI", "SC",  
                 "SD", "TN", "TX", "UT", "VA", "VT", "WA", "WI", "WV", "WY"
-              ]
+              ],
+              employer: '',
+              jobTitle: '',
+              city: '',
+              state: '',
+              fromYear: null,
+              toYear: null
+          }
+      },
+      computed: {
+          keepToYearHigher () {
+              if (this.toYear <= this.fromYear && this.fromYear !== null && this.toYear !== null) {
+                  return 'Invalid year range.'
+              }
           }
       },
       methods: {
@@ -90,10 +104,32 @@
                   years.push(i)
               }
               return years;
-          }
+          },
+          save () {
+                if (this.techSelected == '') {
+                    this.techRequired = true
+                }
+                if (this.ratingSelected == 0) {
+                    this.ratingRequired = true
+                }
+            }
       },
       created() {
 
       }
   }
 </script>
+
+<style scoped>
+.required {
+    border: 2px solid red;
+    border-radius: 5px;
+    animation: blinker 1 ease-in-out 1;
+}
+
+@keyframes blinker {
+    50% {
+        opacity: 0;
+    }
+}
+</style>
