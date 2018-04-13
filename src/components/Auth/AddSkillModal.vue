@@ -11,7 +11,7 @@
             <div class="modal-content" role="document">
                 <div class="modal-header py-1 bg-primary text-white border-primary">
                 <div class="modal-title pt-2" id="modalLabel">
-                    <h4>New Skill</h4>
+                    <h4>Add Skill</h4>
                 </div>
                 </div>
                 <div class="modal-body">

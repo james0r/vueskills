@@ -4,7 +4,7 @@
             <div class="modal-content" role="document">
             <div class="modal-header py-1 bg-primary text-white border-primary">
                 <div class="modal-title pt-2" id="modalLabel">
-                <h4>New Employment</h4>
+                <h4>Add Employment</h4>
                 </div>
             </div>
             <div class="modal-body">
@@ -62,7 +62,12 @@
                 </div>
                 </div>
                 <div class="modal-footer">
-                <a href="#" class="btn btn-danger ml-3">Cancel</a>
+                <a 
+                href="#" 
+                @click="clearValues"
+                class="btn btn-danger ml-3" 
+                data-toggle="modal" 
+                data-target="#employmentModal">Cancel</a>
                 <a href="#" class="btn btn-primary ml-2 px-3">Save</a>
                 </div>
             </div>
@@ -98,20 +103,28 @@
           }
       },
       methods: {
-          yearsArray() {
+            yearsArray() {
               let years = []
               for (let i = 1950; i < 2019 ; i++) {
                   years.push(i)
               }
               return years;
-          },
-          save () {
+            },
+            save () {
                 if (this.techSelected == '') {
                     this.techRequired = true
                 }
                 if (this.ratingSelected == 0) {
                     this.ratingRequired = true
                 }
+            },
+            clearValues () {
+                this.employer = '',
+                this.jobTitle = '',
+                this.city = '',
+                this.state = '',
+                this.fromYear = null,
+                this.toYear = null
             }
       },
       created() {

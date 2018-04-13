@@ -35,7 +35,13 @@
             <div class="modal-footer">
               <div class="col text-right">
                 <div class="row float-right">
-                  <a class="pt-2 no-active-border" data-dismiss="modal" aria-label="Close" data-toggle="modal" data-target="#signInModal">Already Registered?</a>
+                  <a 
+                  class="pt-2 no-active-border" 
+                  style="cursor: pointer"
+                  data-dismiss="modal" 
+                  aria-label="Close" 
+                  data-toggle="modal" 
+                  data-target="#signInModal">Already Registered?</a>
                   <form @submit.prevent="signUp">
                   <button type="submit" class="btn btn-primary ml-2">Register</button>
                   </form>
@@ -101,6 +107,12 @@
 
     .no-active-border:focus {
         outline: none;
+    }
+    a:hover {
+      color: hotpink !important;
+    }
+    a {
+      color: #800080 !important;
     }
 </style>
 

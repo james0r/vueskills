@@ -5,7 +5,7 @@
           <div class="modal-content" role="document">
             <div class="modal-header py-1 bg-primary text-white border-primary">
               <div class="modal-title pt-2" id="modalLabel">
-                <h4>New Education</h4>
+                <h4>Add Education</h4>
               </div>
             </div>
             <div class="modal-body">
@@ -15,7 +15,7 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text" id="">Organization</span>
                     </div>
-                    <input type="text" class="form-control">
+                    <input v-model="organization" type="text" class="form-control">
                   </div>
                   <div class="row my-3">
                     <div class="col">
@@ -24,7 +24,7 @@
                           <span class="input-group-text" id="">Degree
                             </span>
                         </div>
-                        <input type="text" class="form-control">
+                        <input v-model="degree" type="text" class="form-control">
                       </div>
                     </div>
                   </div>
@@ -34,46 +34,52 @@
                         <div class="input-group-prepend">
                           <span class="input-group-text" id="">City</span>
                         </div>
-                        <input type="text" class="form-control">
+                        <input v-model="city" type="text" class="form-control">
                       </div>
                     </div>
                     <div class="col-4">
-                      <select class="custom-select">
-                        <option selected>State</option>
-                        <option v-for="state in states" :key="state.key">{{ state }}</option>
+                      <select v-model="state" class="custom-select" placeholder="State">
+                      <option value="" selected disabled>State</option>
+                      <option v-for="state in states" :key="state.key">{{ state }}</option>
                       </select>
+                      {{ state }}
                     </div>
                   </div>
 
                   <div class="row my-3">
                     <div class="col-6">
-                      <select id="from-dropdown" class="custom-select">
-                        <option selected>From</option>
-                        <option v-for="year in yearsArray()" :key="year.key">{{ year }}</option>
-
-                      </select>
+                      <select v-model="fromYear" class="custom-select">
+                        <option value="null" selected disabled>From</option>
+                        <option v-for="year in yearsArray()" :key="year.key" :value="year">{{ year }}</option>
+                        </select>
                     </div>
                     <div class="col-6">
-                      <select id="to-dropdown" class="custom-select">
-                        <option selected>To</option>
+                      <select v-model="toYear" class="custom-select">
+                        <option value="null" selected disabled>To</option>
                         <option v-for="year in yearsArray()" :key="year.key">{{ year }}</option>
-
-                      </select>
+                        </select>
                     </div>
                   </div>
+                  <p v-if="keepToYearHigher" class="text-center" style="color:red;">{{ keepToYearHigher }}</p>
                   <div class="row my-3">
                     <div class="col">
-                      <select class="custom-select">
-                        <option selected>Completed?</option>
-                        <option value="1">No</option>
-                        <option value="2">Yes</option>
+                      <select v-model="completed" class="custom-select">
+                        <option value="null" disabled selected>Completed?</option>
+                        <option value="false">No</option>
+                        <option value="true">Yes</option>
                       </select>
+                      {{ completed }}
                     </div>
                   </div>
                 </div>
               </div>
               <div class="modal-footer">
-                <a href="#" class="btn btn-danger ml-3">Cancel</a>
+                <a 
+                href="#" 
+                @click="clearValues"
+                class="btn btn-danger ml-3"
+                data-toggle="modal"
+                data-target="#educationModal">Cancel</a>
                 <a href="#" class="btn btn-primary ml-3">Register</a>
               </div>
             </div>
@@ -93,7 +99,21 @@
                 "MA", "MD", "ME", "MI", "MN", "MO", "MS", "MT", "NC", "ND", "NE",  
                 "NH", "NJ", "NM", "NV", "NY", "OH", "OK", "OR", "PA", "RI", "SC",  
                 "SD", "TN", "TX", "UT", "VA", "VT", "WA", "WI", "WV", "WY"
-              ]
+              ],
+              organization: '',
+              degree: '',
+              city: '',
+              state: '',
+              fromYear: null,
+              toYear: null,
+              completed: null
+          }
+      },
+      computed: {
+          keepToYearHigher () {
+              if (this.toYear <= this.fromYear && this.fromYear !== null && this.toYear !== null) {
+                  return 'Invalid year range.'
+              }
           }
       },
       methods: {
@@ -103,6 +123,16 @@
                   years.push(i)
               }
               return years;
+          },
+          clearValues () {
+            this.organization = '',
+            this.degree = '',
+            this.city = '',
+            this.state = '',
+            this.fromYear = null,
+            this.toYear = null,
+            this.completed = null
+            console.log("clear values was called")
           }
       },
       created() {

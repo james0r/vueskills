@@ -24,7 +24,7 @@
           </div>
           <input type="password" class="form-control" v-model="password">
         </div>
-        <a href="#">Forgot Password?</a>
+        <a href="#" style="text-decoration: none">Forgot Password?</a>
       </div>
       <div class="modal-footer">
         <div class="col">
@@ -63,6 +63,9 @@
 <style lang="scss" scoped>
     .btn:focus {
         outline: none;
+    }
+    a:hover {
+      color: hotpink !important;
     }
 </style>
 
