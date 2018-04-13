@@ -1,5 +1,5 @@
 <template>
-    <div class="modal fade" id="employmentModal" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal fade" id="addEmploymentModal" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content" role="document">
             <div class="modal-header py-1 bg-primary text-white border-primary">

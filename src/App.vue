@@ -15,45 +15,18 @@
         <div class="collapse navbar-collapse" id="navbarsExample04">
           <ul class="navbar-nav ml-auto">
             <li v-for="item in menuItems" :key="item.title" class="nav-item active">
-              <router-link class="nav-link" :to="item.link">
+              <router-link 
+              class="nav-link" 
+              :to="item.link" 
+              :data-toggle="item.dataToggle" 
+              :data-target="item.dataTarget">
                 <i :class="item.icon"></i>
                 {{ item.title }} 
                 </router-link>
             </li>
             <li class="nav-item active">
-              <button class="btn btn-secondary nav-link" data-toggle="modal" data-target="#registerModal">
-                <i class="far fa-registered"></i>
-                Register
-                </button>
-            </li>
-            <li class="nav-item active">
-              <button class="btn btn-secondary nav-link" data-toggle="modal" data-target="#signInModal">
-                <i class="fas fa-sign-out-alt"></i>
-                Sign In
-                </button>
-            </li>
-            <li class="nav-item active">
-              <button class="btn btn-secondary nav-link" data-toggle="modal" data-target="#educationModal">
-                <i class="fas fa-graduation-cap"></i>
-                Education
-                </button>
-            </li>
-            <li class="nav-item active">
-              <button class="btn btn-secondary nav-link" data-toggle="modal" data-target="#employmentModal">
-                <i class="fas fa-user-md"></i>
-                Employment
-                </button>
-            </li>
-            <li class="nav-item active">
-              <button class="btn btn-secondary nav-link" data-toggle="modal" data-target="#directionalLandingModal">
-                <i class="fas fa-arrows-alt-h"></i>
-                Dir Landing
-                </button>
-            </li>
-            <li class="nav-item active">
-              <button class="btn btn-secondary nav-link" data-toggle="modal" data-target="#addSkillModal">
-                <i class="fas fa-tasks"></i>
-                Skills
+              <button class="btn btn-info nav-link" @click="isUserAuth = !isUserAuth">
+                UserAuth? {{ isUserAuth }}
                 </button>
             </li>
           </ul>
@@ -80,12 +53,24 @@ import DirectionalLandingModal from './components/NoAuth/DirectionalLandingModal
 import AddSkillModal from './components/Auth/AddSkillModal'
 
 export default {
+  data () {
+    return {
+      isUserAuth: false
+    }
+  },
   computed: {
     menuItems () {
       let menuItems = [
-      { icon: 'fas fa-cog', title: 'Settings', link: '/settings'},
-      { icon: 'far fa-edit', title: 'Edit Profile', link: '/edit'}
+        { icon: 'fas fa-eye', title: 'Browse', link: '/browse', dataToggle: '', dataTarget: ''},
+        { icon: 'fas fa-sign-out-alt', title: 'Sign In', link: '/signin', dataToggle: 'modal', dataTarget: '#signInModal'},
+        { icon: 'far fa-registered', title: 'Register', link: '/register', dataToggle: 'modal', dataTarget: '#registerModal'}
       ]
+      if (this.isUserAuth) {
+        menuItems = [
+          { icon: 'fas fa-cog', title: 'Settings', link: '/settings', dataToggle: '', dataTarget: ''},
+          { icon: 'far fa-edit', title: 'Edit Profile', link: '/edit', dataToggle: '', dataTarget: ''},
+        ]
+      }
       return menuItems
     }
   },

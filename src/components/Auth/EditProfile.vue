@@ -150,7 +150,7 @@
             </div>
           </div>
           <div class="text-center mb-3">
-            <button class="btn btn-primary button-shadow">Add Skill</button>
+            <button class="btn btn-primary button-shadow" data-toggle="modal" data-target="#addSkillModal">Add Skill</button>
           </div>
         </div>
       </div>
@@ -181,7 +181,7 @@
           </div>
 
           <div class="text-center">
-            <button class="btn btn-primary button-shadow">Add Organization</button>
+            <button class="btn btn-primary button-shadow" data-toggle="modal" data-target="#addEducationModal">Add Education</button>
           </div>
         </div>
       </div>
@@ -219,7 +219,7 @@
           </div>
 
           <div class="text-center">
-            <button class="btn btn-primary button-shadow">Add Employer</button>
+            <button class="btn btn-primary button-shadow" data-toggle="modal" data-target="#addEmploymentModal">Add Employer</button>
           </div>
         </div>
       </div>
