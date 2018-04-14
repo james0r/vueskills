@@ -62,15 +62,15 @@
                             class="form-control" 
                             :class="{required: ratingRequired}">
                             <option value="0" selected disabled>Rate your ability</option>
-                            <option>1 (Weakest)</option>
-                            <option>1.5</option>
-                            <option>2</option>
-                            <option>2.5</option>
-                            <option>3</option>
-                            <option>3.5</option>
-                            <option>4</option>
-                            <option>4.5</option>
-                            <option>5 (Strongest)</option>
+                            <option value="1">1 (Weakest)</option>
+                            <option value="1.5">1.5</option>
+                            <option value="2">2</option>
+                            <option value="2.5">2.5</option>
+                            <option value="3">3</option>
+                            <option value="3.5">3.5</option>
+                            <option value="4">4</option>
+                            <option value="4.5">4.5</option>
+                            <option value="5">5 (Strongest)</option>
                         </select>
                         Rating Selected: {{ ratingSelected }}
                         </div>
@@ -94,7 +94,11 @@
                     @click="clearValues" 
                     data-toggle="modal" 
                     data-target="#addSkillModal">Cancel</a>
-                    <a href="#" class="btn btn-primary ml-3 px-3" @click="save">Save</a>
+                    <a href="#" 
+                    class="btn btn-primary ml-3 px-3" 
+                    @click="save"
+                    data-toggle="modal" 
+                    data-target="#addSkillModal">Save</a>
                 </div>
                 </div>
             </div>
@@ -146,10 +150,22 @@
             save () {
                 if (this.techSelected == '') {
                     this.techRequired = true
+                    return;
                 }
                 if (this.ratingSelected == 0) {
                     this.ratingRequired = true
+                    return;
                 }
+
+                const skillData = {
+                    id: 'kljkwwerewr3',
+                    name: this.techSelected,
+                    stars: this.ratingSelected,
+                    notes: this.skillNotes
+                }
+                this.$store.dispatch('setSkill', skillData)
+
+                this.clearValues()
             },
             cancel () {
                 console.log("cancel was called")

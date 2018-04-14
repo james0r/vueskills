@@ -79,7 +79,7 @@
                 @click="clearValues"
                 class="btn btn-danger ml-3"
                 data-toggle="modal"
-                data-target="#educationModal">Cancel</a>
+                data-target="#addEducationModal">Cancel</a>
                 <a href="#" class="btn btn-primary ml-3">Register</a>
               </div>
             </div>

@@ -217,7 +217,6 @@
               </div>
             </div>
           </div>
-
           <div class="text-center">
             <button class="btn btn-primary button-shadow" data-toggle="modal" data-target="#addEmploymentModal">Add Employer</button>
           </div>

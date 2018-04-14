@@ -1,4 +1,5 @@
 import * as firebase from 'firebase'
+import Shared from '../Shared'
 
 export default {
     state: {
@@ -42,7 +43,7 @@ export default {
             state.user = payload
         },
         setSkill (state, payload) {
-            state.skills.push(payload)
+            state.user.skills.push(payload)
         }
     },
     actions: {
@@ -88,9 +89,13 @@ export default {
                 }
             )
         },
-        setSkill ({commit}, payload) {
+        setSkill ({ commit}, payload) {
             const newSkill = {
-                
+                id: payload.id,
+                name: payload.name,
+                icon: Shared.state.techIcons[payload.name],
+                stars: payload.stars,
+                notes: payload.notes
             }
             commit('setSkill', newSkill)
         }

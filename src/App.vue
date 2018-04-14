@@ -25,7 +25,7 @@
                 </router-link>
             </li>
             <li class="nav-item active">
-              <button class="btn btn-info nav-link" @click="isUserAuth = !isUserAuth">
+              <button class="btn btn-secondary nav-link" @click="isUserAuth = !isUserAuth">
                 UserAuth? {{ isUserAuth }}
                 </button>
             </li>
@@ -51,6 +51,7 @@ import AddEducationModal from './components/Auth/AddEducationModal'
 import AddEmploymentModal from './components/Auth/AddEmploymentModal'
 import DirectionalLandingModal from './components/NoAuth/DirectionalLandingModal'
 import AddSkillModal from './components/Auth/AddSkillModal'
+import Profile from './components/Auth/Profile'
 
 export default {
   data () {
@@ -80,7 +81,8 @@ export default {
     AddEducationModal,
     AddEmploymentModal,
     DirectionalLandingModal,
-    AddSkillModal
+    AddSkillModal,
+    Profile
   }
   // name: 'App',
   // components: {
