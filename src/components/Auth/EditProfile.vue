@@ -84,7 +84,13 @@
             </div>
           </div>
           <div class="flex-around">
-            <div class="card border-primary mb-3 mx-2" v-for="skill in user.skills" :key="skill.key" style="width: 10rem;">
+            <div 
+            class="card border-primary mb-3 mx-2" 
+            v-for="skill in skills" 
+            :to="{name: 'EditSkillModal'}"
+            :class="{ jiggle: isEditable, clickable: isEditable }"
+            :key="skill.key" 
+            style="width: 10rem;">
               <div v-show="skill.strongestSkill" class="box">
                   <div class="ribbon"><span>STRONGEST</span></div>
               </div>
@@ -100,7 +106,17 @@
             </div>
           </div>
           <div class="text-center mb-3">
-            <button class="btn btn-primary button-shadow" data-toggle="modal" data-target="#addSkillModal">Add Skill</button>
+            <button 
+            class="btn btn-primary button-shadow" 
+            @click="skillCardsEditable"><i class="far fa-edit"></i></button>
+            <button 
+            class="btn btn-primary button-shadow ml-3" 
+            data-toggle="modal" 
+            data-target="#editSkillModal"><i class="fas fa-plus"></i></button>
+            <button 
+            class="btn btn-primary button-shadow ml-3" 
+            data-toggle="modal" 
+            data-target="#addSkillModal"><i class="fas fa-plus"></i></button>
           </div>
         </div>
       </div>
@@ -174,11 +190,12 @@
       </div>
     </div>
   </div>
+<edit-skill-modal :id="id"></edit-skill-modal>
 </div>
-
 </template>
 
 <script>
+import EditSkillModal from './EditSkillModal'
 
 export default {
   data () {
@@ -192,17 +209,30 @@ export default {
       facebookUrl: '',
       instagramUrl: '',
       linkedInUrl: '',
-      websiteUrl: ''
+      websiteUrl: '',
+      isEditable: false
+
     }
   },
   computed: {
     user () {
       return this.$store.getters.user
     },
+    skills () {
+      return this.$store.getters.user.skills
+    },
     error () {
       return this.$store.getters.error
     }
-  }    
+  },
+  methods: {
+    skillCardsEditable () {
+      this.isEditable = !this.isEditable
+    }
+  },
+  components: {
+    EditSkillModal
+  }
 }
 
 </script>
@@ -279,6 +309,40 @@ export default {
       border-right: 3px solid #800080;
       border-bottom: 3px solid transparent;
       border-top: 3px solid #800080;
+    }
+    @-webkit-keyframes wiggle
+    {
+        0% {-webkit-transform: rotateZ(2deg);}
+        50% {-webkit-transform: rotateZ(-2deg);}
+        100% {-webkit-transform: rotateZ(2deg);}
+    }
+    @-moz-keyframes wiggle
+    {
+        0% {-moz-transform: rotateZ(2deg);}
+        50% {-moz-transform: rotateZ(-2deg);}
+        100% {-moz-transform: rotateZ(2deg);}
+    }
+    @-o-keyframes wiggle
+    {
+        0% {-o-transform: rotateZ(2deg);}
+        50% {-o-transform: rotateZ(-2deg);}
+        100% {-o-transform: rotateZ(2deg);}
+    }
+    @keyframes wiggle
+    {
+        0% {transform: rotateZ(2deg);}
+        50% {transform: rotateZ(-2deg);}
+        100% {transform: rotateZ(2deg);}
+    }
+
+    .jiggle {
+        -webkit-animation: wiggle 0.2s ease infinite;
+        -moz-animation: wiggle 0.2s ease infinite;
+        -o-animation: wiggle 0.2s ease infinite;
+        animation: wiggle 0.2s ease infinite;
+    }
+    .clickable {
+      cursor: pointer;
     }
 </style>
 

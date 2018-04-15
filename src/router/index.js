@@ -14,6 +14,7 @@ import Profiles from '@/components/NoAuth/Profiles'
 import Register from '@/components/NoAuth/Register'
 import SignIn from '@/components/NoAuth/SignIn'
 import Profile from '@/components/Auth/Profile'
+import EditSkillModal from '@/components/Auth/EditSkillModal'
 
 
 Vue.use(Router)
@@ -24,6 +25,11 @@ export default new Router({
         path: '/',
         name: 'Home',
         component: Home
+        },
+        {
+        path: '/editskill/:id',
+        name: 'EditSkillModal',
+        component: EditSkillModal
         },
         {
         path: '/edit',

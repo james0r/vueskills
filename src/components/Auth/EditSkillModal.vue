@@ -3,7 +3,7 @@
         <div
         :class="{ in: modalShown }" 
         class="modal fade" 
-        id="addSkillModal" 
+        id="editSkillModal" 
         role="dialog" 
         aria-labelledby="modalLabel" 
         aria-hidden="true">
@@ -75,14 +75,25 @@
                         Rating Selected: {{ ratingSelected }}
                         </div>
                         <div class="form-group">
-                        <textarea v-model="skillNotes" class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="Optional Notes"></textarea>
+                        <textarea 
+                        v-model="skillNotes" 
+                        class="form-control" 
+                        id="exampleFormControlTextarea1" 
+                        rows="3" 
+                        placeholder="Optional Notes"></textarea>
                         Skill Notes: {{ skillNotes }}
                         </div>
                         <div class="btn-groupmb-2">
                         <label class="btn btn-primary">
-                            <input v-model="strongestSkill" type="checkbox" name="field" value="NO"> Strongest
+                            <input 
+                            v-model="strongestSkill" 
+                            type="checkbox" 
+                            name="field" 
+                            value="NO"> Strongest
                         </label>
                         Strongest skill: {{ strongestSkill }}
+                        <br>
+                        Skill to edit: {{ skillToEdit }}
                         </div>
                     </form>
                     </div>
@@ -93,12 +104,12 @@
                     class="btn btn-danger ml-3"
                     @click="clearValues" 
                     data-toggle="modal" 
-                    data-target="#addSkillModal">Cancel</a>
+                    data-target="#editSkillModal">Cancel</a>
                     <a href="#" 
                     class="btn btn-primary ml-3 px-3" 
                     @click="save"
                     data-toggle="modal" 
-                    data-target="#addSkillModal">Save</a>
+                    data-target="#editSkillModal">Save</a>
                 </div>
                 </div>
             </div>
@@ -109,6 +120,7 @@
 
 <script>
     export default {
+        props: ['id'],
         data: function() {
             return {
               techSelected: '',
@@ -141,6 +153,17 @@
         computed: {
             user () {
                 return this.$store.getters.user
+            },
+            skills () {
+                return this.$store.getters.user.skills
+            },
+            skillToEdit () {
+                this.skills.map(function(currentValue) {
+                    if (currentValue.id == this.id) {
+                        console.log(currentValue)
+                        return currentValue
+                    }
+                })
             }
         },
         methods: {
@@ -162,13 +185,13 @@
                     return;
                 }
                 if (this.strongestSkill) {
-                    this.user.skills.map(function(currentValue) {
+                    this.skills.map(function(currentValue) {
                         currentValue.strongestSkill = false
                     })
                 }
 
                 const skillData = {
-                    id: this.makeid(),
+                    id: 'kljkwwerewr3',
                     name: this.techSelected,
                     stars: this.ratingSelected,
                     notes: this.skillNotes,
@@ -181,15 +204,6 @@
             cancel () {
                 console.log("cancel was called")
                 this.modalShown = true
-            },
-            makeid() {
-                var text = "";
-                var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
-                for (var i = 0; i < 10; i++)
-                    text += possible.charAt(Math.floor(Math.random() * possible.length));
-
-                return text;
             }
 
         }
