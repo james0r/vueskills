@@ -162,7 +162,9 @@
                     return;
                 }
                 if (this.strongestSkill) {
-                    this.user.skills.map( console.log(this))
+                    this.user.skills.map(function(currentValue) {
+                        currentValue.strongestSkill = false
+                    })
                 }
 
                 const skillData = {
