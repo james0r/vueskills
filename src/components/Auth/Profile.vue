@@ -34,7 +34,14 @@
     v-show="showMore"
     ></employment-component>
     <div class="text-center">
-      <button class="btn btn-primary card-shadow" @click="delayCollapse">See Employment & Education</button>
+      <button 
+      class="btn btn-primary card-shadow"
+      v-show="!showMore" 
+      @click="delayCollapse">Show Employment & Education</button>
+      <button 
+      class="btn btn-primary card-shadow" 
+      v-show="showMore"
+      @click="delayCollapse">Hide Employment & Education</button>
     </div>
   </div>
 </div>

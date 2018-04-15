@@ -24,10 +24,6 @@
         </div>
       </div>
     </div>
-
-    <div class="text-center">
-      <button class="btn btn-primary button-shadow" data-toggle="modal" data-target="#addEducationModal">Add Education</button>
-    </div>
   </div>
 </div>
 

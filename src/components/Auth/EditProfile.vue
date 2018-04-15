@@ -84,68 +84,18 @@
             </div>
           </div>
           <div class="flex-around">
-            <div class="card border-primary mb-3 mx-2" style="width: 12rem;">
-              <div class="card-header text-center">Javascript
-                <i class="fab fa-js"></i>
+            <div class="card border-primary mb-3 mx-2" v-for="skill in user.skills" :key="skill.key" style="width: 10rem;">
+              <div v-show="skill.strongestSkill" class="box">
+                  <div class="ribbon"><span>STRONGEST</span></div>
               </div>
-              <div class="card-body text-primary pt-3 pb-2">
-                <h5 class="card-title text-center">
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star-half"></i>
-                </h5>
+              <div class="card-header text-center py-1">{{ skill.name }}
+                <i :class="skill.icon"></i>
               </div>
-            </div>
-            <div class="card border-primary mb-3 mx-2" style="width: 12rem;">
-              <div class="card-header text-center">Node.js
-                <i class="fab fa-node-js"></i>
-              </div>
-              <div class="card-body text-primary pt-3 pb-2">
-                <h5 class="card-title text-center">
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star-half"></i>
-                </h5>
-              </div>
-            </div>
-            <div class="card border-primary mb-3 mx-2" style="width: 12rem;">
-              <div class="card-header text-center">Vue.js
-                <i class="fab fa-vuejs"></i>
-              </div>
-              <div class="card-body text-primary pt-3 pb-2">
-                <h5 class="card-title text-center">
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                </h5>
-              </div>
-            </div>
-            <div class="card border-primary mb-3 mx-2" style="width: 12rem;">
-              <div class="card-header text-center">React
-                <i class="fab fa-react"></i>
-              </div>
-              <div class="card-body text-primary pt-3 pb-2">
-                <h5 class="card-title text-center">
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                </h5>
-              </div>
-            </div>
-            <div class="card border-primary mb-3 mx-2" style="width: 12rem;">
-              <div class="card-header text-center">PHP
-                <i class="fab fa-php"></i>
-              </div>
-              <div class="card-body text-primary pt-3 pb-2">
-                <h5 class="card-title text-center">
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                </h5>
+              <div class="card-body text-primary py-1">
+                <div class="text-center">
+                  <i v-for="star in Math.floor(skill.stars)" :key="star.key" class="fas fa-star"></i>
+                  <i v-if="Number.isInteger(skill.stars)" class="fas fa-star-half"></i>
+                </div>
               </div>
             </div>
           </div>
@@ -228,6 +178,35 @@
 
 </template>
 
+<script>
+
+export default {
+  data () {
+    return {
+      firstName: '',
+      lastName: '',
+      title: '',
+      avatarUrl: '',
+      email: '',
+      twitterUrl: '',
+      facebookUrl: '',
+      instagramUrl: '',
+      linkedInUrl: '',
+      websiteUrl: ''
+    }
+  },
+  computed: {
+    user () {
+      return this.$store.getters.user
+    },
+    error () {
+      return this.$store.getters.error
+    }
+  }    
+}
+
+</script>
+
 <style lang="scss">
     .outline-main {
     border: 1px solid #E5E5E5;
@@ -251,11 +230,55 @@
     justify-content: space-evenly;
     flex-wrap: wrap;
     }
+    .box {
+    width: 10rem;
+    position: relative;
+    right: 3px;
+    background: #EEE;
+    z-index: 5;
+    }
+    .ribbon {
+      position: absolute;
+      right: -5px; top: -5px;
+      z-index: 6;
+      overflow: hidden;
+      width: 75px; height: 75px;
+      text-align: right;
+    }
+    .ribbon span {
+      font-size: 10px;
+      font-weight: bold;
+      color: #FFF;
+      text-transform: uppercase;
+      text-align: center;
+      line-height: 20px;
+      transform: rotate(45deg);
+      -webkit-transform: rotate(45deg);
+      width: 100px;
+      display: block;
+      background: #79A70A;
+      background: linear-gradient(#800080 0%, #800080 100%);
+      box-shadow: 0 3px 10px -5px rgba(0, 0, 0, 1);
+      position: absolute;
+      top: 19px; right: -21px;
+    }
+    .ribbon span::before {
+      content: "";
+      position: absolute; left: 0px; top: 100%;
+      z-index: 4;
+      border-left: 3px solid #800080;
+      border-right: 3px solid transparent;
+      border-bottom: 3px solid transparent;
+      border-top: 3px solid #800080;
+    }
+    .ribbon span::after {
+      content: "";
+      position: absolute; right: 0px; top: 100%;
+      z-index: 4;
+      border-left: 3px solid transparent;
+      border-right: 3px solid #800080;
+      border-bottom: 3px solid transparent;
+      border-top: 3px solid #800080;
+    }
 </style>
 
-<script>
-    export default {
-        
-    }
-
-</script>

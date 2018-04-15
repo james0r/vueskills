@@ -18,17 +18,7 @@ export default {
                 websiteUrl: ''
             },
             skills: [
-                {
-                    id: ';aljkfoaweifj',
-                    name: 'Javascript',
-                    stars: 3.5,
-
-                },
-                {
-                    id: 'o3iojewrijfsd',
-                    name: 'Node.js',
-                    stars: 4,
-                }
+               
             ],
             education: [
                 
@@ -95,7 +85,8 @@ export default {
                 name: payload.name,
                 icon: Shared.state.techIcons[payload.name],
                 stars: payload.stars,
-                notes: payload.notes
+                notes: payload.notes,
+                strongestSkill: payload.strongestSkill
             }
             commit('setSkill', newSkill)
         }

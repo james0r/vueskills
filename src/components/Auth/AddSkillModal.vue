@@ -138,6 +138,11 @@
                 }
             }
         },
+        computed: {
+            user () {
+                return this.$store.getters.user
+            }
+        },
         methods: {
             clearValues () {
                 this.techSelected = '',
@@ -156,12 +161,16 @@
                     this.ratingRequired = true
                     return;
                 }
+                if (this.strongestSkill) {
+                    this.user.skills.map( console.log(this))
+                }
 
                 const skillData = {
                     id: 'kljkwwerewr3',
                     name: this.techSelected,
                     stars: this.ratingSelected,
-                    notes: this.skillNotes
+                    notes: this.skillNotes,
+                    strongestSkill: this.strongestSkill
                 }
                 this.$store.dispatch('setSkill', skillData)
 
