@@ -61,6 +61,9 @@ export default {
         },
         error (state) {
             return state.error
+        },
+        getTechIcons (state) {
+            return state.techIcons
         }
     }
 

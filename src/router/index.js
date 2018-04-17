@@ -29,6 +29,7 @@ export default new Router({
         {
         path: '/editskill/:id',
         name: 'EditSkillModal',
+        props: true,
         component: EditSkillModal
         },
         {

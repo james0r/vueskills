@@ -26,7 +26,8 @@ export default {
             employment: [
                 
             ]
-        }
+        },
+        skillEditingID: ''
     },
     mutations: {
         setUser (state, payload) {
@@ -34,9 +35,18 @@ export default {
         },
         setSkill (state, payload) {
             state.user.skills.push(payload)
-        }
+        },
+        updateSkills (state, payload) {
+            state.user.skills = payload
+        },
+        setSkillEditing (state, payload) {
+            state.skillEditingID = payload
+        },
     },
     actions: {
+        setSkillEditing ({commit}, payload) {
+            commit('setSkillEditing', payload)
+        },
         signUserUp ({commit}, payload) {
             commit('setLoading', true)
             commit('clearError')
@@ -89,11 +99,18 @@ export default {
                 strongestSkill: payload.strongestSkill
             }
             commit('setSkill', newSkill)
+        },
+        updateSkills ({commit}, payload) {
+            const newSkills = payload
+            commit('updateSkills', newSkills)
         }
     },
     getters: {
         user (state) {
             return state.user
+        },
+        getSkillEditing (state) {
+            return state.skillEditingID
         }
     }
 }

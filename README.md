@@ -1,6 +1,6 @@
 # VueSkills
 
-> A simple app for job seekers to create public resumes with an emphasis on their skills.
+> A skills-first social networking site for employers and candidates made with Vue.js + Bootstrap 4.
 
 ## Build Setup
 

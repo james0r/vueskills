@@ -87,116 +87,122 @@
             <div 
             class="card border-primary mb-3 mx-2" 
             v-for="skill in skills" 
-            :to="{name: 'EditSkillModal'}"
-            :class="{ jiggle: isEditable, clickable: isEditable }"
-            :key="skill.key" 
-            style="width: 10rem;">
-              <div v-show="skill.strongestSkill" class="box">
-                  <div class="ribbon"><span>STRONGEST</span></div>
-              </div>
-              <div class="card-header text-center py-1">{{ skill.name }}
-                <i :class="skill.icon"></i>
-              </div>
-              <div class="card-body text-primary py-1">
-                <div class="text-center">
-                  <i v-for="star in Math.floor(skill.stars)" :key="star.key" class="fas fa-star"></i>
-                  <i v-if="Number.isInteger(skill.stars)" class="fas fa-star-half"></i>
+            :class="{ jiggle: isEditable }"
+            :key="skill.key" style="width: 10rem;">
+                <div v-show="skill.strongestSkill" class="box">
+                  <div class="ribbon">
+                    <span>STRONGEST</span>
+                  </div>
                 </div>
-              </div>
+                <div class="card-header text-center py-1">{{ skill.name }}
+                  <i :class="skill.icon"></i>
+                </div>
+                <div class="card-body text-primary py-1">
+                  <div class="text-center">
+                    <i 
+                    v-for="star in Math.floor(skill.stars)" 
+                    :key="star.key" class="fas fa-star"></i><i 
+                    v-show="skill.stars % 1 !== 0" 
+                    class="fas fa-star-half"></i>
+                  </div>
+                  <a
+                  v-show="isEditable"
+                  :class="{ clickable: isEditable }"
+                  @click="sendID(skill.id)"
+                  data-toggle="modal"
+                  data-target="#editSkillModal">
+                  <p class="text-center my-0 py-0">Edit</p>
+                  ID: {{ skill.id}}
+                  </a>
+                </div>
             </div>
           </div>
-          <div class="text-center mb-3">
-            <button 
-            class="btn btn-primary button-shadow" 
-            @click="skillCardsEditable"><i class="far fa-edit"></i></button>
-            <button 
-            class="btn btn-primary button-shadow ml-3" 
-            data-toggle="modal" 
-            data-target="#editSkillModal"><i class="fas fa-plus"></i></button>
-            <button 
-            class="btn btn-primary button-shadow ml-3" 
-            data-toggle="modal" 
-            data-target="#addSkillModal"><i class="fas fa-plus"></i></button>
-          </div>
+            <div class="text-center mb-3">
+              <button class="btn btn-primary button-shadow" @click="skillCardsEditable">
+                <i class="far fa-edit"></i> Edit
+              </button>
+              <button class="btn btn-primary button-shadow ml-3" data-toggle="modal" data-target="#addSkillModal">
+                <i class="fas fa-plus"></i> Add
+              </button>
+            </div>
         </div>
-      </div>
-      <div class="row mb-3">
-        <div class="col-12 mt-2">
-          <div class="row">
-            <div class="col-12 text-center mb-4 bg-primary text-white card-shadow">
-              <h4 class="pt-1">Education</h4>
-            </div>
-          </div>
-          <div class="row mb-3 mx-0 border card-shadow">
-            <div class="col-12">
-              <div class="row">
-                <div class="col-8 font-weight-bold">University of Southern California</div>
-                <div class="col-4 text-right font-italic nowrap">Los Angeles, CA</div>
-              </div>
-              <div class="row mt-2 text-center">
-                <div class="col-12">
-                  Bachelor of Science in Computer Science
-                </div>
-              </div>
-              <div class="row mb-2 text-center">
-                <div class="col-12">
-                  2010 - 2014
-                </div>
+        </div>
+        <div class="row mb-3">
+          <div class="col-12 mt-2">
+            <div class="row">
+              <div class="col-12 text-center mb-4 bg-primary text-white card-shadow">
+                <h4 class="pt-1">Education</h4>
               </div>
             </div>
-          </div>
+            <div class="row mb-3 mx-0 border card-shadow">
+              <div class="col-12">
+                <div class="row">
+                  <div class="col-8 font-weight-bold">University of Southern California</div>
+                  <div class="col-4 text-right font-italic nowrap">Los Angeles, CA</div>
+                </div>
+                <div class="row mt-2 text-center">
+                  <div class="col-12">
+                    Bachelor of Science in Computer Science
+                  </div>
+                </div>
+                <div class="row mb-2 text-center">
+                  <div class="col-12">
+                    2010 - 2014
+                  </div>
+                </div>
+              </div>
+            </div>
 
-          <div class="text-center">
-            <button class="btn btn-primary button-shadow" data-toggle="modal" data-target="#addEducationModal">Add Education</button>
+            <div class="text-center">
+              <button class="btn btn-primary button-shadow" data-toggle="modal" data-target="#addEducationModal">Add Education</button>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="col-12 text-center mb-3 bg-primary text-white card-shadow">
-          <h4 class="pt-1">Employment</h4>
-        </div>
-        <div class="col-12 mt-2">
-          <div class="row mb-3 mx-0 border card-shadow">
-            <div class="col-12">
-              <div class="row">
-                <div class="col-8 font-weight-bold">Blizzard Entertainment</div>
-                <div class="col-4 text-right font-italic nowrap">Los Angeles, CA</div>
-              </div>
-              <div class="row mt-2 text-center">
-                <div class="col-12">
-                  Senior Game Designer
+        <div class="row">
+          <div class="col-12 text-center mb-3 bg-primary text-white card-shadow">
+            <h4 class="pt-1">Employment</h4>
+          </div>
+          <div class="col-12 mt-2">
+            <div class="row mb-3 mx-0 border card-shadow">
+              <div class="col-12">
+                <div class="row">
+                  <div class="col-8 font-weight-bold">Blizzard Entertainment</div>
+                  <div class="col-4 text-right font-italic nowrap">Los Angeles, CA</div>
                 </div>
-              </div>
-              <div class="row mb-2 text-center">
-                <div class="col-12">
-                  2014 - Present
+                <div class="row mt-2 text-center">
+                  <div class="col-12">
+                    Senior Game Designer
+                  </div>
                 </div>
-              </div>
-              <div class="row mb-2 text-center">
-                <div class="col-12">
-                  <ul>
-                    <li>Lorem ipsum dolor sit amet consectetur adipisicing.</li>
-                    <li>Lorem ipsum dolor sit amet.</li>
-                    <li>Lorem ipsum dolor sit amet consectetur adipisicing elit.</li>
-                  </ul>
+                <div class="row mb-2 text-center">
+                  <div class="col-12">
+                    2014 - Present
+                  </div>
+                </div>
+                <div class="row mb-2 text-center">
+                  <div class="col-12">
+                    <ul>
+                      <li>Lorem ipsum dolor sit amet consectetur adipisicing.</li>
+                      <li>Lorem ipsum dolor sit amet.</li>
+                      <li>Lorem ipsum dolor sit amet consectetur adipisicing elit.</li>
+                    </ul>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div class="text-center">
-            <button class="btn btn-primary button-shadow" data-toggle="modal" data-target="#addEmploymentModal">Add Employer</button>
+            <div class="text-center">
+              <button class="btn btn-primary button-shadow" data-toggle="modal" data-target="#addEmploymentModal">Add Employer</button>
+            </div>
           </div>
         </div>
       </div>
     </div>
+    <edit-skill-modal></edit-skill-modal>
   </div>
-<edit-skill-modal :id="id"></edit-skill-modal>
-</div>
 </template>
 
 <script>
 import EditSkillModal from './EditSkillModal'
-
 export default {
   data () {
     return {
@@ -210,8 +216,8 @@ export default {
       instagramUrl: '',
       linkedInUrl: '',
       websiteUrl: '',
-      isEditable: false
-
+      isEditable: false,
+      skillID: ''
     }
   },
   computed: {
@@ -228,6 +234,10 @@ export default {
   methods: {
     skillCardsEditable () {
       this.isEditable = !this.isEditable
+    },
+    sendID (id) {
+      this.$store.dispatch('setSkillEditing', id)
+      console.log("sent id " + id)
     }
   },
   components: {

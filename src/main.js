@@ -7,6 +7,9 @@ import router from './router'
 import { store } from './store'
 import vSelect from 'vue-select'
 import devicon from 'devicon'
+import VModal from 'vue-js-modal'
+import EditProfile from '@/components/Auth/EditProfile'
+import EditSkillModal from '@/components/Auth/EditSkillModal'
 
 
 import './../node_modules/jquery/dist/jquery.min.js';
@@ -18,6 +21,7 @@ import './assets/fontawesome-all.js'
 
 Vue.component('v-select', vSelect)
 Vue.config.productionTip = false
+Vue.use(VModal)
 
 /* eslint-disable no-new */
 new Vue({
@@ -40,6 +44,10 @@ new Vue({
   //     this.$store.dispatch('fetchUserData')
   //   }
   // })
-  components: { App },
+  components: { 
+  App,
+  EditProfile,
+  EditSkillModal
+  },
   template: '<App/>'
 })
