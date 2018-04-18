@@ -64,7 +64,7 @@
                                     placeholder="Rate your ability"
                                     v-model="skillLoaded.stars" 
                                     class="form-control">
-                                    <option value="0" selected disabled>Rate your ability</option>
+                                    <option value=0 selected disabled>Rate your ability</option>
                                     <option value=1>1 (Weakest)</option>
                                     <option value=1.5>1.5</option>
                                     <option value=2>2</option>
@@ -82,7 +82,6 @@
                                 class="form-control" 
                                 rows="3" 
                                 placeholder="Optional Notes"></textarea>
-                                Skill Notes: {{ notes }}
                                 </div>
                                 <div class="btn-groupmb-2">
                                 <label class="btn btn-primary">
@@ -126,7 +125,7 @@
             return {
               id: '',
               name: '',
-              stars: '',
+              stars: 0,
               notes: '',
               strongestSkill: false
             }
@@ -168,27 +167,6 @@
             }
         },
         methods: {
-            clearValues () {
-
-            },
-            save () {
-                if (this.strongestSkill) {
-                    this.skills.map(function(currentValue) {
-                        currentValue.strongestSkill = false
-                    })
-                }
-
-                const skillData = {
-                    id: this.id,
-                    name: skillLoaded.name,
-                    stars: skillLoadeds.stars,
-                    notes: skillLoaded.notes,
-                    strongestSkill: skillLoaded.strongestSkill
-                }
-                this.$store.dispatch('setSkill', skillData)
-
-                this.clearValues()
-            },
             deleteSkill () {
                 let newSkillArr = this.$store.getters.user.skills.filter(skill => skill.id !== this.id)
 

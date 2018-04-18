@@ -98,22 +98,26 @@
                   <i :class="skill.icon"></i>
                 </div>
                 <div class="card-body text-primary py-1">
-                  <div class="text-center">
-                    <i 
-                    v-for="star in Math.floor(skill.stars)" 
-                    :key="star.key" class="fas fa-star"></i><i 
-                    v-show="skill.stars % 1 !== 0" 
-                    class="fas fa-star-half"></i>
+                  <div class="col-10 offset-1 mx-auto px-0 nowrap">
+                    <div class="row mx-1 px-auto nowrap">
+                      <div 
+                      class="mr-0"
+                      v-for="star in Math.floor(skill.stars)" 
+                      :key="star.key"><i class="fas fa-star"></i>
+                      </div><div v-show="skill.stars % 1 !== 0"><i class="fas fa-star-half"></i></div>
+                    </div>
+                    <div class="row mx-auto text-center">
+                      <a
+                      v-show="isEditable"
+                      class="mx-auto"
+                      :class="{ clickable: isEditable }"
+                      @click="sendID(skill.id)"
+                      data-toggle="modal"
+                      data-target="#editSkillModal">
+                      <p class="text-center my-0 py-0">Edit</p>
+                      </a>
+                    </div>
                   </div>
-                  <a
-                  v-show="isEditable"
-                  :class="{ clickable: isEditable }"
-                  @click="sendID(skill.id)"
-                  data-toggle="modal"
-                  data-target="#editSkillModal">
-                  <p class="text-center my-0 py-0">Edit</p>
-                  ID: {{ skill.id}}
-                  </a>
                 </div>
             </div>
           </div>
@@ -220,12 +224,15 @@ export default {
       skillID: ''
     }
   },
+  watch: {
+    
+  },
   computed: {
     user () {
       return this.$store.getters.user
     },
-    skills () {
-      return this.$store.getters.user.skills
+    skills: function () {
+      return this.$store.getters.getSkills
     },
     error () {
       return this.$store.getters.error

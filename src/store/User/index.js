@@ -111,6 +111,9 @@ export default {
         },
         getSkillEditing (state) {
             return state.skillEditingID
+        },
+        getSkills (state) {
+            return state.user.skills
         }
     }
 }
