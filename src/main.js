@@ -10,11 +10,13 @@ import devicon from 'devicon'
 import VModal from 'vue-js-modal'
 import EditProfile from '@/components/Auth/EditProfile'
 import EditSkillModal from '@/components/Auth/EditSkillModal'
+import Popper from 'vue-popperjs'
 
 
 import './../node_modules/jquery/dist/jquery.min.js';
 import './../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import './../node_modules/bootstrap/dist/js/bootstrap.min.js';
+
 
 import './assets/scss/styles.scss'
 import './assets/fontawesome-all.js'
@@ -22,7 +24,7 @@ import './assets/fontawesome-all.js'
 Vue.component('v-select', vSelect)
 Vue.config.productionTip = false
 Vue.use(VModal)
-
+Vue.use(Popper)
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

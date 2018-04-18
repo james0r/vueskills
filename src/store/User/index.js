@@ -36,6 +36,9 @@ export default {
         setSkill (state, payload) {
             state.user.skills.push(payload)
         },
+        setPersonalInfo (state, payload) {
+            state.user.personal = payload
+        },
         updateSkills (state, payload) {
             state.user.skills = payload
         },
@@ -100,6 +103,9 @@ export default {
             }
             commit('setSkill', newSkill)
         },
+        setPersonalInfo ({ commit}, payload) {
+            commit('setPersonalInfo', payload)
+        },
         updateSkills ({commit}, payload) {
             const newSkills = payload
             commit('updateSkills', newSkills)
@@ -114,6 +120,9 @@ export default {
         },
         getSkills (state) {
             return state.user.skills
+        },
+        getPersonalInfo (state) {
+            return state.user.personal
         }
     }
 }
