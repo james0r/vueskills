@@ -181,15 +181,25 @@
                     this.user.skills.map(function(currentValue) {
                         currentValue.strongestSkill = false
                     })
+                    
+                    newSkills.push({
+                        id: id,
+                        icon: this.$store.getters.getTechIcons[this.skillLoaded.name],
+                        name: this.skillLoaded.name,
+                        stars: this.skillLoaded.stars,
+                        notes: this.skillLoaded.notes,
+                        strongestSkill: true
+                    })
+                } else {
+                    newSkills.push({
+                        id: id,
+                        icon: this.$store.getters.getTechIcons[this.skillLoaded.name],
+                        name: this.skillLoaded.name,
+                        stars: this.skillLoaded.stars,
+                        notes: this.skillLoaded.notes,
+                        strongestSkill: this.skillLoaded.strongestSkill
+                    })
                 }
-                newSkills.push({
-                    id: id,
-                    icon: this.$store.getters.getTechIcons[this.skillLoaded.name],
-                    name: this.skillLoaded.name,
-                    stars: this.skillLoaded.stars,
-                    notes: this.skillLoaded.notes,
-                    strongestSkill: this.skillLoaded.strongestSkill
-                })
 
                 this.$store.dispatch('updateSkills', newSkills)
             }
