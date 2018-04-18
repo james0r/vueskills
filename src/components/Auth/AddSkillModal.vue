@@ -52,7 +52,6 @@
                             'Windows',
                             'Wordpress'
                             ]"></v-select>
-                            Tech Selected: {{ techSelected }}
                         </div>
                     <form>
                         <div class="form-group">
@@ -72,17 +71,14 @@
                             <option value=4.5>4.5</option>
                             <option value=5>5 (Strongest)</option>
                         </select>
-                        Rating Selected: {{ ratingSelected }}
                         </div>
                         <div class="form-group">
                         <textarea v-model="skillNotes" class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="Optional Notes"></textarea>
-                        Skill Notes: {{ skillNotes }}
                         </div>
                         <div class="btn-groupmb-2">
                         <label class="btn btn-primary">
                             <input v-model="strongestSkill" type="checkbox" name="field" value="NO"> Strongest
                         </label>
-                        Strongest skill: {{ strongestSkill }}
                         </div>
                     </form>
                     </div>
