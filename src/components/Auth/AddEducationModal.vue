@@ -42,7 +42,6 @@
                       <option value="" selected disabled>State</option>
                       <option v-for="state in states" :key="state.key">{{ state }}</option>
                       </select>
-                      {{ state }}
                     </div>
                   </div>
 
@@ -68,9 +67,9 @@
                         <option value="false">No</option>
                         <option value="true">Yes</option>
                       </select>
-                      {{ completed }}
                     </div>
                   </div>
+                  <p v-if="requiredAlert" class="text-center" style="color: red">Complete All Required Fields</p>
                 </div>
               </div>
               <div class="modal-footer">
@@ -80,7 +79,9 @@
                 class="btn btn-danger ml-3"
                 data-toggle="modal"
                 data-target="#addEducationModal">Cancel</a>
-                <a href="#" class="btn btn-primary ml-3">Register</a>
+                <a href="#" 
+                class="btn btn-primary ml-2 px-3"
+                @click="save">Save</a>
               </div>
             </div>
           </div>
@@ -106,7 +107,8 @@
               state: '',
               fromYear: null,
               toYear: null,
-              completed: null
+              completed: null,
+              requiredAlert: false
           }
       },
       computed: {
@@ -117,6 +119,20 @@
           }
       },
       methods: {
+          save () {
+            if (this.organization == '' ||
+                this.degree == '' ||
+                this.city == '' ||
+                this.state == '' ||
+                this.fromYear == null ||
+                this.toYear == null ||
+                this.completed == null) {
+                  this.requiredAlert = true
+                  //Dispatch info
+                } else {
+                  this.requiredAlert = false
+                }
+          },
           yearsArray() {
               let years = []
               for (let i = 1950; i < 2019 ; i++) {

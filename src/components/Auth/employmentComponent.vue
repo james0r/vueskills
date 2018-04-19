@@ -1,39 +1,39 @@
 <template>
+  <div class="col-12">
+    <div class="row">
+      <div class="col-12 text-center mb-4 bg-primary text-white card-shadow">
+        <h4 class="pt-1">Employment</h4>
+      </div>
+    </div>
+    <div class="col-12 card-shadow">
       <div class="row">
-        <div class="col-12 text-center mb-3 bg-primary header-title text-white card-shadow">
-          <h4 class="pt-1">Employment</h4>
-        </div>
-        <div class="col-12 mt-2">
-          <div class="row mb-3 mx-0 border card-shadow">
-            <div class="col-12">
-              <div class="row">
-                <div class="col-8 font-weight-bold">Blizzard Entertainment</div>
-                <div class="col-4 text-right font-italic nowrap">Los Angeles, CA</div>
-              </div>
-              <div class="row mt-2 text-center">
-                <div class="col-12">
-                  Senior Game Designer
-                </div>
-              </div>
-              <div class="row mb-2 text-center">
-                <div class="col-12">
-                  2014 - Present
-                </div>
-              </div>
-              <div class="row mb-2 text-center">
-                <div class="col-12">
-                  <ul>
-                    <li>Lorem ipsum dolor sit amet consectetur adipisicing.</li>
-                    <li>Lorem ipsum dolor sit amet.</li>
-                    <li>Lorem ipsum dolor sit amet consectetur adipisicing elit.</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
+        <div class="col-8 font-weight-bold">Blizzard Entertainment</div>
+        <div class="col-4 text-right font-italic nowrap">Los Angeles, CA</div>
+      </div>
+      <div class="row mt-2 text-center">
+        <div class="col-12">
+          Senior Game Designer
         </div>
       </div>
+      <div class="row mb-2 text-center">
+        <div class="col-12">
+          2014 - Present
+        </div>
+      </div>
+      <div class="row mb-2 text-center">
+        <div class="col-12">
+          <ul>
+            <li>Lorem ipsum dolor sit amet consectetur adipisicing.</li>
+            <li>Lorem ipsum dolor sit amet.</li>
+            <li>Lorem ipsum dolor sit amet consectetur adipisicing elit.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </template>
+
 
 <script>
     export default {

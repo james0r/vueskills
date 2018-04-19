@@ -1,8 +1,7 @@
 <template>
-<div class="row mb-3">
   <div class="col-12 mt-2">
     <div class="row">
-      <div class="col-12 text-center mb-4 bg-primary text-white card-shadow header-title">
+      <div class="col-12 text-center mb-4 bg-primary text-white card-shadow">
         <h4 class="pt-1">Education</h4>
       </div>
     </div>
@@ -25,8 +24,6 @@
       </div>
     </div>
   </div>
-</div>
-
 </template>
 
 <script>

@@ -1,35 +1,43 @@
 <template>
-<div class="container my-3">
-  <div class="outline-main col-12 col-sm-12 col-md-10 offset-md-1 col-lg-12 offset-lg-0">
-    <div class="row profile-card-header text-center mb-3">
+  <div class="outline-main col-10 col-sm-10 col-md-10 offset-md-1 col-lg-10 offset-lg-1">
+    <div class="row profile-card-header text-center mb-3 mx-0">
       <div class="mx-auto my-3">
-        <img class="avatar-img">
+        <img class="avatar-img" :src="user.personal.avatarUrl">
         <div class="header-title">
-          <h2 class="my-0">Janette Lewis</h2>
-          <h5 class="my-0 text-white">Senior Game Designer</h5>
+          <h2 class="my-0">{{ user.personal.firstName }} {{ user.personal.lastName }}</h2>
+          <h5 class="my-0 text-white">{{ user.personal.title }}</h5>
         </div>
       </div>
     </div>
-    <div class="row">
-    </div>
-    <div class="flex-around">
-      <div class="card border-primary mb-3 mx-2" v-for="skill in user.skills" :key="skill.key" style="width: 10rem;">
-        <div class="card-header text-center py-1">{{ skill.name }}
-          <i :class="skill.icon"></i>
-        </div>
-        <div class="card-body text-primary py-1">
-          <div class="text-center">
-            <i v-for="star in Math.floor(skill.stars)" :key="star.key" class="fas fa-star"></i>
-            <i v-if="Number.isInteger(skill.stars)" class="fas fa-star-half"></i>
+    <div v-if="hasSkills">
+      <div
+      style="height: 40px" 
+      class="col-12 text-center bg-primary text-white card-shadow mt-3 mb-3 pb-0 pt-1">
+        <h4 class="">Skills</h4>
+      </div>
+      <div class="flex-around">
+        <div class="card border-primary mb-2 mt-0" v-for="skill in user.skills" :key="skill.key" style="width: 10rem;">
+          <div class="card-header text-center py-1">{{ skill.name }}
+            <i :class="skill.icon"></i>
+          </div>
+          <div class="card-body text-primary py-1">
+            <div class="text-center">
+              <i v-for="star in Math.floor(skill.stars)" :key="star.key" class="fas fa-star"></i>
+              <i v-if="Number.isInteger(skill.stars)" class="fas fa-star-half"></i>
+            </div>
           </div>
         </div>
       </div>
+    </div>
+    <div v-else class="text-center mb-3">
+      No Skills Entered
     </div>
     <education-component 
     v-show="showMore" 
     :class="{fadeIn: showMore, fadeOut: triggerFadeOut}"
     ></education-component>
-    <employment-component 
+    <employment-component
+    class="mb-3" 
     :class="{fadeIn: showMore, fadeOut: triggerFadeOut}"
     v-show="showMore"
     ></employment-component>
@@ -44,7 +52,6 @@
       @click="delayCollapse">Hide Employment & Education</button>
     </div>
   </div>
-</div>
 </template>
 
 <script>
@@ -64,6 +71,9 @@ export default {
     },
     error () {
       return this.$store.getters.error
+    },
+    hasSkills () {
+      return this.$store.getters.getSkills.length > 0
     }
   },
   methods: {
@@ -122,7 +132,7 @@ export default {
 }
 .outline-main {
   border: 1px solid #E5E5E5;
-  padding-bottom: 20px;
+  padding: 10px 0px 20px 0px;
   border-radius: 10px;
 }
 
@@ -130,7 +140,6 @@ export default {
   position: relative;
   width: 120px;
   height: 120px;
-  background-image: url("https://www.rd.com/wp-content/uploads/2017/09/01-shutterstock_476340928-Irina-Bg-1024x683.jpg");
   background-size: cover;
   background-repeat: no-repeat;
   background-position: 40% 50%;
@@ -140,7 +149,7 @@ export default {
 
 .card-shadow,
 .card {
-  box-shadow: 5px 5px 8px 2px #888888;
+  box-shadow: 0px 5px 8px 2px #888888;
 }
 
 .dark-header {
