@@ -44,7 +44,6 @@
                       </select>
                     </div>
                   </div>
-
                   <div class="row my-3">
                     <div class="col-6">
                       <select v-model="fromYear" class="custom-select">
@@ -63,12 +62,13 @@
                   <div class="row my-3">
                     <div class="col">
                       <select v-model="completed" class="custom-select">
-                        <option value="null" disabled selected>Completed?</option>
-                        <option value="false">No</option>
-                        <option value="true">Yes</option>
+                        <option :value="null" disabled selected>Completed?</option>
+                        <option :value="false">No</option>
+                        <option :value="true">Yes</option>
                       </select>
                     </div>
                   </div>
+                  {{ typeof completed }}
                   <p v-if="requiredAlert" class="text-center" style="color: red">Complete All Required Fields</p>
                 </div>
               </div>
@@ -81,7 +81,9 @@
                 data-target="#addEducationModal">Cancel</a>
                 <a href="#" 
                 class="btn btn-primary ml-2 px-3"
-                @click="save">Save</a>
+                @click="save"
+                data-toggle="modal"
+                data-target="#addEducationModal">Save</a>
               </div>
             </div>
           </div>
@@ -128,9 +130,21 @@
                 this.toYear == null ||
                 this.completed == null) {
                   this.requiredAlert = true
+                  return
                   //Dispatch info
                 } else {
                   this.requiredAlert = false
+                  let educationItem = {
+                    organization: this.organization,
+                    degree: this.degree,
+                    city: this.city,
+                    state: this.state,
+                    fromYear: this.fromYear,
+                    toYear: this.toYear,
+                    completed: this.completed
+                  }
+                  this.$store.dispatch('setEducation', educationItem)
+                  this.clearValues()
                 }
           },
           yearsArray() {
@@ -150,9 +164,6 @@
             this.completed = null
             console.log("clear values was called")
           }
-      },
-      created() {
-
       }
   }
 

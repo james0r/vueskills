@@ -167,25 +167,32 @@
                 <h4 class="pt-1">Education</h4>
               </div>
             </div>
-            <div class="row mb-3 mx-0 border card-shadow">
+            <div 
+            v-for="eduItem in education"
+            :key="eduItem.key"
+            class="row mb-3 mx-0 border card-shadow">
               <div class="col-12">
                 <div class="row">
-                  <div class="col-8 font-weight-bold">University of Southern California</div>
-                  <div class="col-4 text-right font-italic nowrap">Los Angeles, CA</div>
+                  <div class="col-8 font-weight-bold">{{ eduItem.organization }}</div>
+                  <div class="col-4 text-right font-italic nowrap">{{ eduItem.city }}, {{ eduItem.state }}</div>
                 </div>
                 <div class="row mt-2 text-center">
                   <div class="col-12">
-                    Bachelor of Science in Computer Science
+                    {{ eduItem.degree }}
                   </div>
                 </div>
                 <div class="row mb-2 text-center">
                   <div class="col-12">
-                    2010 - 2014
+                    {{ eduItem.fromYear }} - {{ eduItem.toYear }}
+                  </div>
+                </div>
+                <div v-if="eduItem.completed" class="row mb-2 text-center">
+                  <div class="col-12">
+                    <i v-show="eduItem.completed" class="fas fa-graduation-cap"></i> Completed
                   </div>
                 </div>
               </div>
             </div>
-
             <div class="text-center">
               <button class="btn btn-primary button-shadow" data-toggle="modal" data-target="#addEducationModal">Add Education</button>
             </div>
@@ -269,6 +276,9 @@ export default {
     },
     skills: function () {
       return this.$store.getters.getSkills
+    },
+    education: function () {
+      return this.$store.getters.getEducation
     },
     error () {
       return this.$store.getters.error

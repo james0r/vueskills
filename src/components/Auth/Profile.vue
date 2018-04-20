@@ -16,7 +16,7 @@
         <h4 class="">Skills</h4>
       </div>
       <div class="flex-around">
-        <div class="card border-primary mb-2 mt-0" v-for="skill in user.skills" :key="skill.key" style="width: 10rem;">
+        <div class="card border-primary mb-3 mt-0" v-for="skill in user.skills" :key="skill.key" style="width: 10rem;">
           <div class="card-header text-center py-1">{{ skill.name }}
             <i :class="skill.icon"></i>
           </div>

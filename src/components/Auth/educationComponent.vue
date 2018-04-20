@@ -21,6 +21,11 @@
             2010 - 2014
           </div>
         </div>
+        <div v-if="true" class="row mb-2 text-center">
+          <div class="col-12">
+            <i class="fas fa-graduation-cap"></i>
+          </div>
+        </div>
       </div>
     </div>
   </div>

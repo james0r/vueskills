@@ -36,6 +36,9 @@ export default {
         setSkill (state, payload) {
             state.user.skills.push(payload)
         },
+        setEducation (state, payload) {
+            state.user.education.push(payload)
+        },
         setPersonalInfo (state, payload) {
             state.user.personal = payload
         },
@@ -103,6 +106,18 @@ export default {
             }
             commit('setSkill', newSkill)
         },
+        setEducation ({ commit}, payload) {
+            const newEducation = {
+                organization: payload.organization,
+                degree: payload.degree,
+                city: payload.city,
+                state: payload.state,
+                fromYear: payload.fromYear,
+                toYear: payload.toYear,
+                completed: payload.completed
+            }
+            commit('setEducation', newEducation)
+        },
         setPersonalInfo ({ commit}, payload) {
             commit('setPersonalInfo', payload)
         },
@@ -123,6 +138,9 @@ export default {
         },
         getPersonalInfo (state) {
             return state.user.personal
+        },
+        getEducation (state) {
+            return state.user.education
         }
     }
 }
