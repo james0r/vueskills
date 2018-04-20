@@ -117,7 +117,7 @@
             class="card border-primary mb-3 mx-2" 
             v-for="skill in skills" 
             :class="{ jiggle: isEditable }"
-            :key="skill.key" style="width: 10rem;">
+            :key="skill.key" style="width: 10rem; position: relative;">
                 <div v-show="skill.strongestSkill" class="box">
                   <div class="ribbon">
                     <span>STRONGEST</span>
@@ -208,6 +208,7 @@
             :key="empItem.key"
             class="row mb-3 mx-0 border card-shadow">
               <div class="col-12">
+                <div @click="delEdItem" class="deleteDot"><i style="font-size: 3em;" class="fas fa-minus-circle"></i></div>
                 <div class="row">
                   <div class="col-8 font-weight-bold">{{ empItem.employer }}</div>
                   <div class="col-4 text-right font-italic nowrap">{{ empItem.city }}, {{empItem.state}}</div>
@@ -222,7 +223,7 @@
                     {{ empItem.fromYear }} - {{ empItem.toYear }}
                   </div>
                 </div>
-                <div class="row mb-2 text-center">
+                <div class="row mb-2">
                   <div class="col-12">
                     <ul>
                       <li>{{ empItem.ach1 }}</li>
@@ -291,6 +292,9 @@ export default {
     }
   },
   methods: {
+    delEdItem () {
+      console.log("Education Item Delete")
+    },
     onKeyUp () {
       this.infoSaved = false
     },
@@ -355,6 +359,9 @@ export default {
 </script>
 
 <style lang="scss">
+    li {
+      list-style-position: inside;
+    }
     .outline-main {
     border: 1px solid #E5E5E5;
     padding-bottom: 20px;
@@ -474,6 +481,15 @@ export default {
         50% {
             opacity: 0;
         }
+    }
+
+    .deleteDot {
+      background-color: white;
+      position: absolute;
+      top: 70px;
+      right: -25px;
+      color: #800080;
+      cursor: pointer;
     }
 </style>
 
