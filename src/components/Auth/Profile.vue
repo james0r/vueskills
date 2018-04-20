@@ -69,6 +69,9 @@ export default {
     user () {
       return this.$store.getters.user
     },
+    education: function () {
+      return this.$store.getters.getEducation
+    },
     error () {
       return this.$store.getters.error
     },

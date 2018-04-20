@@ -39,6 +39,9 @@ export default {
         setEducation (state, payload) {
             state.user.education.push(payload)
         },
+        setEmployment (state, payload) {
+            state.user.employment.push(payload)
+        },
         setPersonalInfo (state, payload) {
             state.user.personal = payload
         },
@@ -118,6 +121,20 @@ export default {
             }
             commit('setEducation', newEducation)
         },
+        setEmployment ({commit}, payload) {
+            const newEmployment = {
+                employer: payload.employer,
+                jobTitle: payload.jobTitle,
+                city: payload.city,
+                state: payload.state,
+                fromYear: payload.fromYear,
+                toYear: payload.toYear,
+                ach1: payload.ach1,
+                ach2: payload.ach2,
+                ach3: payload.ach3
+            }
+            commit('setEmployment', newEmployment)
+        },
         setPersonalInfo ({ commit}, payload) {
             commit('setPersonalInfo', payload)
         },
@@ -141,6 +158,9 @@ export default {
         },
         getEducation (state) {
             return state.user.education
+        },
+        getEmployment (state) {
+            return state.user.employment
         }
     }
 }
