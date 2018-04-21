@@ -14,13 +14,23 @@
               <div class="input-group-prepend">
                 <span class="input-group-text" id="">First Name</span>
               </div>
-              <input @keyup="onKeyUp" type="text" v-model="firstName" class="form-control" :placeholder="firstName">
+              <input 
+              @keyup="onKeyUp" 
+              type="text" 
+              v-model="firstName" 
+              class="form-control" 
+              :placeholder="user.personal.firstName">
             </div>
             <div class="input-group mb-3">
               <div class="input-group-prepend">
                 <span class="input-group-text" id="">Last Name</span>
               </div>
-              <input @keyup="onKeyUp" type="text" v-model="lastName" class="form-control" placeholder="Doe">
+              <input 
+              @keyup="onKeyUp" 
+              type="text" 
+              v-model="lastName" 
+              class="form-control" 
+              :placeholder="user.personal.lastName">
             </div>
           </div>
           <div class="input-group mb-3">
@@ -32,7 +42,7 @@
             @keyup="onKeyUp"
             v-model="title" 
             class="form-control" 
-            placeholder="Enter a title that will appear under your name in candidate listings.">
+            :placeholder="user.personal.title">
           </div>
             <div class="input-group mb-3">
               <div class="custom-file">
@@ -58,7 +68,12 @@
             <div class="input-group-prepend">
               <span class="input-group-text" id="">Email</span>
             </div>
-            <input @keyup="onKeyUp" v-model="email" type="text" class="form-control" placeholder="example@example.com">
+            <input 
+            @keyup="onKeyUp" 
+            v-model="email" 
+            type="text" 
+            class="form-control"
+            :placeholder="user.personal.email">
           </div>
           <div class="input-group mb-3">
             <div class="input-group-prepend">
@@ -69,31 +84,51 @@
             v-model="twitterUrl"
             type="text" 
             class="form-control" 
-            placeholder="@handle">
+            :placeholder="user.personal.twitterUrl">
           </div>
           <div class="input-group mb-3">
             <div class="input-group-prepend">
               <span class="input-group-text" id="">Facebook URL</span>
             </div>
-            <input @keyup="onKeyUp" v-model="facebookUrl" type="text" class="form-control" placeholder="www.facebook.com/me">
+            <input 
+            @keyup="onKeyUp" 
+            v-model="facebookUrl" 
+            type="text" 
+            class="form-control" 
+            :placeholder="user.personal.facebookUrl">
           </div>
           <div class="input-group mb-3">
             <div class="input-group-prepend">
               <span class="input-group-text" id="">Instagram URL</span>
             </div>
-            <input @keyup="onKeyUp" v-model="instagramUrl" type="text" class="form-control" placeholder="www.instagram.com/me">
+            <input 
+            @keyup="onKeyUp" 
+            v-model="instagramUrl" 
+            type="text" 
+            class="form-control" 
+            :placeholder="user.personal.instagramUrl">
           </div>
           <div class="input-group mb-3">
             <div class="input-group-prepend">
               <span class="input-group-text" id="">LinkedIn URL</span>
             </div>
-            <input @keyup="onKeyUp" v-model="linkedInUrl" type="text" class="form-control" placeholder="www.linkedin.com/me">
+            <input 
+            @keyup="onKeyUp" 
+            v-model="linkedInUrl" 
+            type="text" 
+            class="form-control" 
+            :placeholder="user.personal.linkedInUrl">
           </div>
           <div class="input-group mb-3">
             <div class="input-group-prepend">
               <span class="input-group-text" id="">Website</span>
             </div>
-            <input @keyup="onKeyUp" v-model="websiteUrl" type="text" class="form-control" placeholder="www.mywebsite.com">
+            <input 
+            @keyup="onKeyUp" 
+            v-model="websiteUrl" 
+            type="text" 
+            class="form-control" 
+            :placeholder="user.personal.websiteUrl">
           </div>
           <div class="text-center col mx-auto">
             <button v-if="!infoSaved" class="btn btn-primary button-shadow" @click="savePersonalInfo">

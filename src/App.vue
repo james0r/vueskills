@@ -64,7 +64,7 @@ export default {
   computed: {
     menuItems () {
       let menuItems = [
-        { icon: 'fas fa-eye', title: 'Browse', link: '/browse', dataToggle: '', dataTarget: ''},
+        { icon: 'fas fa-eye', title: 'Browse', link: '/', dataToggle: '', dataTarget: ''},
         { icon: 'fas fa-sign-out-alt', title: 'Sign In', link: '/signin', dataToggle: 'modal', dataTarget: '#signInModal'},
         { icon: 'far fa-registered', title: 'Register', link: '/register', dataToggle: 'modal', dataTarget: '#registerModal'}
       ]
