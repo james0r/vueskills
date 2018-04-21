@@ -1,6 +1,9 @@
 <template>
   <div class="container">
-      <div class="modal fade" id="addEducationModal" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+      <div class="modal fade"  
+      id="addEducationModal" 
+      role="dialog" 
+      aria-labelledby="modalLabel">
         <div class="modal-dialog" role="document">
           <div class="modal-content" role="document">
             <div class="modal-header py-1 bg-primary text-white border-primary">
@@ -68,7 +71,6 @@
                       </select>
                     </div>
                   </div>
-                  {{ typeof completed }}
                   <p v-if="requiredAlert" class="text-center" style="color: red">Complete All Required Fields</p>
                 </div>
               </div>
@@ -80,10 +82,12 @@
                 data-toggle="modal"
                 data-target="#addEducationModal">Cancel</a>
                 <a href="#" 
+                :class="{ disabled: fieldsNotFilled}"
                 class="btn btn-primary ml-2 px-3"
                 @click="save"
                 data-toggle="modal"
-                data-target="#addEducationModal">Save</a>
+                data-target="#addEducationModal"
+                >Save</a>
               </div>
             </div>
           </div>
@@ -103,6 +107,7 @@
                 "NH", "NJ", "NM", "NV", "NY", "OH", "OK", "OR", "PA", "RI", "SC",  
                 "SD", "TN", "TX", "UT", "VA", "VT", "WA", "WI", "WV", "WY"
               ],
+              id: '',
               organization: '',
               degree: '',
               city: '',
@@ -110,7 +115,8 @@
               fromYear: null,
               toYear: null,
               completed: null,
-              requiredAlert: false
+              requiredAlert: false,
+              clearToSave: true
           }
       },
       computed: {
@@ -118,10 +124,8 @@
               if (this.toYear <= this.fromYear && this.fromYear !== null && this.toYear !== null) {
                   return 'Invalid year range.'
               }
-          }
-      },
-      methods: {
-          save () {
+          },
+          fieldsNotFilled () {
             if (this.organization == '' ||
                 this.degree == '' ||
                 this.city == '' ||
@@ -130,11 +134,21 @@
                 this.toYear == null ||
                 this.completed == null) {
                   this.requiredAlert = true
-                  return
-                  //Dispatch info
+                return true
                 } else {
                   this.requiredAlert = false
+                  return false
+                }
+          }
+      },
+      methods: {
+        toggleModal () {
+          this.modalHidden = !this.modalHidden
+        },
+          save () {
+            
                   let educationItem = {
+                    id: this.makeid(),
                     organization: this.organization,
                     degree: this.degree,
                     city: this.city,
@@ -143,9 +157,9 @@
                     toYear: this.toYear,
                     completed: this.completed
                   }
+
                   this.$store.dispatch('setEducation', educationItem)
                   this.clearValues()
-                }
           },
           yearsArray() {
               let years = []
@@ -163,9 +177,16 @@
             this.toYear = null,
             this.completed = null
             console.log("clear values was called")
-          }
+          },
+           makeid() {
+                var text = "";
+                var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+                for (var i = 0; i < 10; i++)
+                    text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+                return text;
+            }
       }
   }
-
-
 </script>

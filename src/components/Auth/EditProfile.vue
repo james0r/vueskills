@@ -14,13 +14,13 @@
               <div class="input-group-prepend">
                 <span class="input-group-text" id="">First Name</span>
               </div>
-              <input @keyup="onKeyUp" type="text" v-model="firstName" class="form-control" :placeholder="firstName"> {{ firstName}}
+              <input @keyup="onKeyUp" type="text" v-model="firstName" class="form-control" :placeholder="firstName">
             </div>
             <div class="input-group mb-3">
               <div class="input-group-prepend">
                 <span class="input-group-text" id="">Last Name</span>
               </div>
-              <input @keyup="onKeyUp" type="text" v-model="lastName" class="form-control" placeholder="Doe">{{ lastName }}
+              <input @keyup="onKeyUp" type="text" v-model="lastName" class="form-control" placeholder="Doe">
             </div>
           </div>
           <div class="input-group mb-3">
@@ -32,7 +32,7 @@
             @keyup="onKeyUp"
             v-model="title" 
             class="form-control" 
-            placeholder="Enter a title that will appear under your name in candidate listings.">{{title}}
+            placeholder="Enter a title that will appear under your name in candidate listings.">
           </div>
             <div class="input-group mb-3">
               <div class="custom-file">
@@ -70,31 +70,31 @@
             type="text" 
             class="form-control" 
             placeholder="@handle">
-          </div> {{ twitterUrl }}
+          </div>
           <div class="input-group mb-3">
             <div class="input-group-prepend">
               <span class="input-group-text" id="">Facebook URL</span>
             </div>
             <input @keyup="onKeyUp" v-model="facebookUrl" type="text" class="form-control" placeholder="www.facebook.com/me">
-          </div> {{ facebookUrl }}
+          </div>
           <div class="input-group mb-3">
             <div class="input-group-prepend">
               <span class="input-group-text" id="">Instagram URL</span>
             </div>
             <input @keyup="onKeyUp" v-model="instagramUrl" type="text" class="form-control" placeholder="www.instagram.com/me">
-          </div> {{ instagramUrl }}
+          </div>
           <div class="input-group mb-3">
             <div class="input-group-prepend">
               <span class="input-group-text" id="">LinkedIn URL</span>
             </div>
             <input @keyup="onKeyUp" v-model="linkedInUrl" type="text" class="form-control" placeholder="www.linkedin.com/me">
-          </div> {{ linkedInUrl }}
+          </div>
           <div class="input-group mb-3">
             <div class="input-group-prepend">
               <span class="input-group-text" id="">Website</span>
             </div>
             <input @keyup="onKeyUp" v-model="websiteUrl" type="text" class="form-control" placeholder="www.mywebsite.com">
-          </div> {{ websiteUrl }}
+          </div>
           <div class="text-center col mx-auto">
             <button v-if="!infoSaved" class="btn btn-primary button-shadow" @click="savePersonalInfo">
               <i class="far fa-save"></i> Save
@@ -172,6 +172,7 @@
             :key="eduItem.key"
             class="row mb-3 mx-0 border card-shadow">
               <div class="col-12">
+                <div @click="delEdItem" class="deleteDoted"><i style="font-size: 2em;" class="fas fa-minus-circle"></i></div>
                 <div class="row">
                   <div class="col-8 font-weight-bold">{{ eduItem.organization }}</div>
                   <div class="col-4 text-right font-italic nowrap">{{ eduItem.city }}, {{ eduItem.state }}</div>
@@ -208,7 +209,7 @@
             :key="empItem.key"
             class="row mb-3 mx-0 border card-shadow">
               <div class="col-12">
-                <div @click="delEdItem" class="deleteDot"><i style="font-size: 3em;" class="fas fa-minus-circle"></i></div>
+                <div @click="delEdItem" class="deleteDot"><i style="font-size: 2em;" class="fas fa-minus-circle"></i></div>
                 <div class="row">
                   <div class="col-8 font-weight-bold">{{ empItem.employer }}</div>
                   <div class="col-4 text-right font-italic nowrap">{{ empItem.city }}, {{empItem.state}}</div>
@@ -486,8 +487,16 @@ export default {
     .deleteDot {
       background-color: white;
       position: absolute;
-      top: 70px;
-      right: -25px;
+      top: 40%;
+      right: -17px;
+      color: #800080;
+      cursor: pointer;
+    }
+    .deleteDoted {
+      background-color: white;
+      position: absolute;
+      top: 35%;
+      right: -17px;
       color: #800080;
       cursor: pointer;
     }

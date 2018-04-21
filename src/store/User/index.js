@@ -111,6 +111,7 @@ export default {
         },
         setEducation ({ commit}, payload) {
             const newEducation = {
+                id: payload.id,
                 organization: payload.organization,
                 degree: payload.degree,
                 city: payload.city,
@@ -123,6 +124,7 @@ export default {
         },
         setEmployment ({commit}, payload) {
             const newEmployment = {
+                id: payload.id,
                 employer: payload.employer,
                 jobTitle: payload.jobTitle,
                 city: payload.city,

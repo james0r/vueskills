@@ -16,7 +16,7 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text" id="">Employer</span>
                   </div>
-                  <input v-model="employer" type="text" class="form-control"> {{ employer }}
+                  <input v-model="employer" type="text" class="form-control">
                 </div>
               </div>
             </div>
@@ -26,7 +26,7 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text" id="">Job Title</span>
                   </div>
-                  <input v-model="jobTitle" type="text" class="form-control"> {{ jobTitle }}
+                  <input v-model="jobTitle" type="text" class="form-control">
                 </div>
               </div>
             </div>
@@ -36,7 +36,7 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text" id="">City</span>
                   </div>
-                  <input v-model="city" type="text" class="form-control"> {{ city }}
+                  <input v-model="city" type="text" class="form-control">
                 </div>
               </div>
               <div class="col-4">
@@ -60,13 +60,14 @@
                 </select>
               </div>
             </div>
+            <p v-if="keepToYearHigher" class="text-center" style="color:red;">{{ keepToYearHigher }}</p>
             <div class="row mb-3">
               <div class="col">
                 <div class="input-group">
                   <div class="input-group-prepend">
                     <span class="input-group-text" id="">Achievement 1</span>
                   </div>
-                  <input v-model="ach1" type="text" class="form-control"> {{ ach1 }}
+                  <input v-model="ach1" type="text" class="form-control">
                 </div>
               </div>
             </div>
@@ -76,7 +77,7 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text" id="">Achievement 2</span>
                   </div>
-                  <input v-model="ach2" type="text" class="form-control"> {{ ach2 }}
+                  <input v-model="ach2" type="text" class="form-control">
                 </div>
               </div>
             </div>
@@ -86,11 +87,11 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text" id="">Achievement 3</span>
                   </div>
-                  <input v-model="ach3" type="text" class="form-control"> {{ ach3 }}
+                  <input v-model="ach3" type="text" class="form-control">
                 </div>
               </div>
             </div>
-            <p v-if="keepToYearHigher" class="text-center" style="color:red;">{{ keepToYearHigher }}</p>
+            <p v-if="requiredAlert" class="text-center" style="color: red">Complete All Required Fields</p>
           </div>
         </div>
         <div class="modal-footer">
@@ -123,6 +124,7 @@
                 "NH", "NJ", "NM", "NV", "NY", "OH", "OK", "OR", "PA", "RI", "SC",  
                 "SD", "TN", "TX", "UT", "VA", "VT", "WA", "WI", "WV", "WY"
               ],
+              id: '',
               employer: '',
               jobTitle: '',
               city: '',
@@ -156,16 +158,14 @@
                 this.city == '' ||
                 this.state == '' ||
                 this.fromYear == null ||
-                this.toYear == null ||
-                this.ach1 == '' ||
-                this.ach2 == '' ||
-                this.ach3 == '') {
+                this.toYear == null) {
                   this.requiredAlert = true
                   return
                   //Dispatch info
                 } else {
                   this.requiredAlert = false
                   let employmentItem = {
+                    id: this.makeid(),  
                     employer: this.employer,
                     jobTitle: this.jobTitle,
                     city: this.city,
@@ -191,6 +191,15 @@
                 this.ach2 = '',
                 this.ach3 = ''
 
+            },
+             makeid() {
+                var text = "";
+                var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+                for (var i = 0; i < 10; i++)
+                    text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+                return text;
             }
       },
       created() {
