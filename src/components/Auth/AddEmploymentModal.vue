@@ -102,6 +102,7 @@
           data-target="#addEmploymentModal">Cancel</a>
           <a href="#" 
           @click="save"
+          :class="{ disabled: fieldsNotFilled}"
           data-toggle="modal" 
           data-target="#addEmploymentModal"
           class="btn btn-primary ml-2 px-3">Save</a>
@@ -142,6 +143,20 @@
               if (this.toYear <= this.fromYear && this.fromYear !== null && this.toYear !== null) {
                   return 'Invalid year range.'
               }
+          },
+          fieldsNotFilled () {
+            if (this.employer == '' ||
+                this.jobTitle == '' ||
+                this.city == '' ||
+                this.state == '' ||
+                this.fromYear == null ||
+                this.toYear == null) {
+                  this.requiredAlert = true
+                return true
+                } else {
+                  this.requiredAlert = false
+                  return false
+                }
           }
       },
       methods: {

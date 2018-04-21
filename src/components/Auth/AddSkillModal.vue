@@ -79,6 +79,7 @@
                         <label class="btn btn-primary">
                             <input v-model="strongestSkill" type="checkbox" name="field" value="NO"> Strongest
                         </label>
+                        <p v-if="requiredAlert" class="text-center" style="color: red">Complete All Required Fields</p>
                         </div>
                     </form>
                     </div>
@@ -92,6 +93,7 @@
                     data-target="#addSkillModal">Cancel</a>
                     <a href="#" 
                     class="btn btn-primary ml-3 px-3" 
+                    :class="{ disabled: fieldsNotFilled}"
                     @click="save"
                     data-toggle="modal" 
                     data-target="#addSkillModal">Save</a>
@@ -113,7 +115,8 @@
               strongestSkill: false,
               techRequired: false,
               ratingRequired: false,
-              modalShown: null
+              modalShown: null,
+              requiredAlert: false
             }
         },
         watch: {
@@ -137,7 +140,17 @@
         computed: {
             user () {
                 return this.$store.getters.user
-            }
+            },
+            fieldsNotFilled () {
+            if (this.techSelected == '' ||
+                this.ratingSelected == 0) {
+                  this.requiredAlert = true
+                return true
+                } else {
+                  this.requiredAlert = false
+                  return false
+                }
+          }
         },
         methods: {
             clearValues () {
