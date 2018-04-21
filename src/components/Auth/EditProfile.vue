@@ -172,7 +172,7 @@
             :key="eduItem.key"
             class="row mb-3 mx-0 border card-shadow">
               <div class="col-12">
-                <div @click="delEdItem" class="deleteDoted"><i style="font-size: 2em;" class="fas fa-minus-circle"></i></div>
+                <div @click="deleteEducation(eduItem.id)" class="deleteDoted"><i style="font-size: 2em;" class="fas fa-minus-circle"></i></div>
                 <div class="row">
                   <div class="col-8 font-weight-bold">{{ eduItem.organization }}</div>
                   <div class="col-4 text-right font-italic nowrap">{{ eduItem.city }}, {{ eduItem.state }}</div>
@@ -209,7 +209,7 @@
             :key="empItem.key"
             class="row mb-3 mx-0 border card-shadow">
               <div class="col-12">
-                <div @click="delEdItem" class="deleteDot"><i style="font-size: 2em;" class="fas fa-minus-circle"></i></div>
+                <div @click="deleteEmployment(empItem.id)" class="deleteDot"><i style="font-size: 2em;" class="fas fa-minus-circle"></i></div>
                 <div class="row">
                   <div class="col-8 font-weight-bold">{{ empItem.employer }}</div>
                   <div class="col-4 text-right font-italic nowrap">{{ empItem.city }}, {{empItem.state}}</div>
@@ -293,9 +293,6 @@ export default {
     }
   },
   methods: {
-    delEdItem () {
-      console.log("Education Item Delete")
-    },
     onKeyUp () {
       this.infoSaved = false
     },
@@ -349,6 +346,18 @@ export default {
       })
       fileReader.readAsDataURL(files[0])
       this.avatar = files[0]
+    },
+    deleteEducation (id) {
+        console.log(id)
+        let newEducation = this.$store.getters.getEducation.filter(educationItem => educationItem.id !== id)
+
+        this.$store.dispatch('updateEducation', newEducation)
+    },
+    deleteEmployment (id) {
+        console.log(id)
+        let newEmployment = this.$store.getters.getEmployment.filter(employmentItem => employmentItem.id !== id)
+
+        this.$store.dispatch('updateEmployment', newEmployment)
     }
   },
   components: {

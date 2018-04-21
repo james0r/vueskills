@@ -48,6 +48,12 @@ export default {
         updateSkills (state, payload) {
             state.user.skills = payload
         },
+        updateEducation (state, payload) {
+            state.user.education = payload
+        },
+        updateEmployment (state, payload) {
+            state.user.employment = payload
+        },
         setSkillEditing (state, payload) {
             state.skillEditingID = payload
         },
@@ -143,6 +149,14 @@ export default {
         updateSkills ({commit}, payload) {
             const newSkills = payload
             commit('updateSkills', newSkills)
+        },
+        updateEducation ({commit}, payload) {
+            const newEducation = payload
+            commit('updateEducation', newEducation)
+        },
+        updateEmployment ({commit}, payload) {
+            const newEmployment = payload
+            commit('updateEmployment', newEmployment)
         }
     },
     getters: {
