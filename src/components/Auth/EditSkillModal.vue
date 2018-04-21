@@ -98,7 +98,7 @@
                         <div class="modal-footer">
                             <a href="#" 
                             class="btn btn-danger mr-auto" 
-                            @click="deleteSkill"
+                            @click="deleteSkill(skillID)"
                             data-toggle="modal" 
                             data-target="#editSkillModal">Delete</a>
                             <a 
@@ -140,6 +140,9 @@
             skills () {
                 return this.$store.getters.user.skills
             },
+            skillID () {
+                return this.$store.getters.getSkillEditing
+            },
             skillLoaded () {
                 let id = this.$store.getters.getSkillEditing
                 let skillToEdit = this.$store.getters.user.skills.filter(skill => skill.id == id)
@@ -167,8 +170,11 @@
             }
         },
         methods: {
-            deleteSkill () {
-                let newSkillArr = this.$store.getters.user.skills.filter(skill => skill.id !== this.id)
+            deleteSkill (id) {
+                console.log("detete skill called with id: " + id)
+                let newSkills = this.$store.getters.user.skills.filter(skill => skill.id !== id)
+
+                this.$store.dispatch('updateSkills', newSkills)
 
             },
             updateSkill () {
