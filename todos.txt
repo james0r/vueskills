@@ -5,3 +5,4 @@ fix shadow gone on button when active for add skills on editprofile component
 add transitions using <transition> </transition> tags
 look into font awesome v-for conflict
 prevent order change on save-edit
+add delete confirm to education and employment

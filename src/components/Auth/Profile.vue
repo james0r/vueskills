@@ -32,15 +32,23 @@
     <div v-else class="text-center mb-3">
       No Skills Entered
     </div>
-    <education-component 
-    v-show="showMore" 
-    :class="{fadeIn: showMore, fadeOut: triggerFadeOut}"
-    ></education-component>
-    <employment-component
-    class="mb-3" 
-    :class="{fadeIn: showMore, fadeOut: triggerFadeOut}"
-    v-show="showMore"
-    ></employment-component>
+    <div v-show="showMore">
+      <education-component 
+      v-if="hasEducation"
+      :class="{fadeIn: showMore, fadeOut: triggerFadeOut}"
+      ></education-component>
+      <div v-else class="text-center mb-3">
+        No Education Entered
+      </div>
+      <employment-component
+      v-if="hasEmployment"
+      class="mb-3" 
+      :class="{fadeIn: showMore, fadeOut: triggerFadeOut}"
+      ></employment-component>
+      <div v-else class="text-center mb-3">
+        No Employment Entered
+      </div>
+    </div>
     <div class="text-center">
       <button 
       class="btn btn-primary card-shadow"
@@ -77,6 +85,12 @@ export default {
     },
     hasSkills () {
       return this.$store.getters.getSkills.length > 0
+    },
+    hasEducation () {
+      return this.$store.getters.getEducation.length > 0
+    },
+    hasEmployment () {
+      return this.$store.getters.getEmployment.length > 0
     }
   },
   methods: {
