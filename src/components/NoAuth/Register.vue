@@ -1,58 +1,58 @@
 <template>
-  <div class="modal fade" id="registerModal" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content" role="document">
-          <div class="modal-header bg-primary text-white py-1 border-primary">
-            <div class="modal-title pt-1 pb-0" id="modalLabel">
-              <h4>Register</h4>
-            </div>
-            <button type="button" class="close close-button-fix" data-dismiss="modal" aria-label="Close">
-              <span class="text-white" aria-hidden="true">&times;</span>
-            </button>
-            <h3></h3>
+    <div class="modal-dialog" role="document">
+      <div class="modal-content" role="document">
+        <div class="modal-header bg-primary text-white py-1 border-primary">
+          <div class="modal-title pt-1 pb-0" id="modalLabel">
+            <h4>Register</h4>
           </div>
-          <div class="modal-body text-center">
-              <div class="input-group my-3">
-                <div class="input-group-prepend">
-                  <span class="input-group-text" id="">Email</span>
-                </div>
-                <input type="text" class="form-control" v-model="email">
-              </div>
-              <div class="input-group my-3">
-                <div class="input-group-prepend">
-                  <span class="input-group-text" id="">Password</span>
-                </div>
-                <input type="password" class="form-control" v-model="password">
-              </div>
-              <div class="input-group my-3">
-                <div class="input-group-prepend">
-                  <span class="input-group-text" id="">Confirm</span>
-                </div>
-                <input type="password" class="form-control" v-model="confirmPassword">
-              </div>
-              <p class="text-danger mb-0">{{ passwordsMatch }}</p>
+          <button type="button" class="close close-button-fix" data-dismiss="modal" aria-label="Close">
+          </button>
+          <h3></h3>
+        </div>
+        <div class="modal-body text-center">
+          <div class="input-group my-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="">Email</span>
             </div>
-            <div class="modal-footer">
-              <div class="col text-right">
-                <div class="row float-right">
-                  <a 
-                  class="pt-2 no-active-border" 
-                  style="cursor: pointer"
-                  data-dismiss="modal" 
-                  aria-label="Close" 
-                  data-toggle="modal" 
-                  data-target="#signInModal">Already Registered?</a>
-                  <form @submit.prevent="signUp">
-                  <button type="submit" class="btn btn-primary ml-2">Register</button>
-                  </form>
-                </div>
-                <div class="clearfix"></div>
-              </div>
+            <input type="text" class="form-control" v-model="email">
+          </div>
+          <div class="input-group my-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="">Password</span>
             </div>
+            <input type="password" class="form-control" v-model="password">
+          </div>
+          <div class="input-group my-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="">Confirm</span>
+            </div>
+            <input type="password" class="form-control" v-model="confirmPassword" v-on:keyup.enter="signUp">
+          </div>
+          <div v-if="error" class="alert alert-danger" role="alert">
+            {{ error.message }}
+          </div>
+        </div>
+        <div class="modal-footer">
+          <div class="col text-right">
+            <div class="row float-right">
+              <router-link to="/signin" class="pt-2 no-active-border link-secondary" 
+              style="cursor: pointer" 
+              >Already Registered?</router-link>
+              <a href="#" 
+              :class="{ disabled: passwordsDontMatch }" 
+              @click="signUp" 
+              class="btn btn-primary ml-2"
+              >Register</a>
+            </div>
+            <div class="clearfix"></div>
+          </div>
         </div>
       </div>
     </div>
+
+
 </template>
+
 
 <script>
     export default {
@@ -62,11 +62,12 @@
                 email: '',
                 password: '',
                 confirmPassword: '',
+                closeModal: false
             }
         },
         computed: {
-            passwordsMatch () {
-              return this.password !== this.confirmPassword ? 'Passwords do not match' : null
+            passwordsDontMatch () {
+              return this.password !== this.confirmPassword ? true : false
             },
             user () {
               return this.$store.getters.user
@@ -81,21 +82,28 @@
         watch: {
           user (value) {
             if (value !== null && value !== undefined) {
+              this.showBackdrop = false
+              this.closeModal = true
               this.$router.push('/')
             }
+          },
+          isBackdrop () {
+            return !closeModal
           }
         },
         methods: {
             signUp () {
               console.log("signUp was called with email and password " + this.email + " and password is " + this.password)
-              // this.$store.dispatch('signUserUp', {email: this.email, password: this.password})
-
+              this.$store.dispatch('signUserUp', {email: this.email, password: this.password})
             } 
         }
     }
 </script>
 
 <style lang="scss" scoped>
+    body {
+      background-color: black;
+    }
     .close-button-fix {
     padding-right: 15px !important;
     padding-top: 20px !important;
@@ -108,10 +116,10 @@
     .no-active-border:focus {
         outline: none;
     }
-    a:hover {
+    .link-secondary:hover {
       color: hotpink !important;
     }
-    a {
+    .link-secondary {
       color: #800080 !important;
     }
 </style>

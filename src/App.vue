@@ -34,8 +34,6 @@
       </nav>      
     </div>
     <router-view></router-view>
-    <register></register>
-    <sign-in></sign-in>
     <add-education-modal></add-education-modal>
     <add-employment-modal></add-employment-modal>
     <directional-landing-modal></directional-landing-modal>
@@ -58,7 +56,13 @@ import Profile from './components/Auth/Profile'
 export default {
   data () {
     return {
-      isUserAuth: false
+      isUserAuth: false,
+      showRegister: false
+    }
+  },
+  methods: {
+    toggleRegister () {
+      this.showRegister = !this.showRegister
     }
   },
   computed: {
@@ -66,7 +70,7 @@ export default {
       let menuItems = [
         { icon: 'fas fa-eye', title: 'Browse', link: '/', dataToggle: '', dataTarget: ''},
         { icon: 'fas fa-sign-out-alt', title: 'Sign In', link: '/signin', dataToggle: 'modal', dataTarget: '#signInModal'},
-        { icon: 'far fa-registered', title: 'Register', link: '/register', dataToggle: 'modal', dataTarget: '#registerModal'}
+        { icon: 'far fa-registered', title: 'Register', link: '/register'}
       ]
       if (this.isUserAuth) {
         menuItems = [

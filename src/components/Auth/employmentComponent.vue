@@ -5,27 +5,27 @@
         <h4 class="pt-1">Employment</h4>
       </div>
     </div>
-    <div class="col-12 card-shadow">
+    <div class="col-12 card-shadow" v-for="empItem in employment" :key="empItem.key">
       <div class="row">
-        <div class="col-8 font-weight-bold">Blizzard Entertainment</div>
-        <div class="col-4 text-right font-italic nowrap">Los Angeles, CA</div>
+        <div class="col-8 font-weight-bold">{{ empItem.employer }}</div>
+        <div class="col-4 text-right font-italic nowrap">{{ empItem.city }}, {{ empItem.state }}</div>
       </div>
       <div class="row mt-2 text-center">
         <div class="col-12">
-          Senior Game Designer
+          {{ empItem.jobTitle }}
         </div>
       </div>
       <div class="row mb-2 text-center">
         <div class="col-12">
-          2014 - Present
+          {{ empItem.fromYear }} - {{ empItem.toYear }}
         </div>
       </div>
       <div class="row mb-2 text-center">
         <div class="col-12">
           <ul>
-            <li>Lorem ipsum dolor sit amet consectetur adipisicing.</li>
-            <li>Lorem ipsum dolor sit amet.</li>
-            <li>Lorem ipsum dolor sit amet consectetur adipisicing elit.</li>
+            <li>{{ empItem.ach1 }}</li>
+            <li>{{ empItem.ach2 }}</li>
+            <li>{{ empItem.ach3 }}</li>
           </ul>
         </div>
       </div>
@@ -37,11 +37,11 @@
 
 <script>
     export default {
-        data () {
-            return {
-
-            }
-        }
+      computed: {
+        employment: function () {
+        return this.$store.getters.getEmployment
+     }
+  }
     }
 </script>
 

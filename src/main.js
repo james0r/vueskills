@@ -39,13 +39,13 @@ new Vue({
       storageBucket: "vueskills.appspot.com",
       messagingSenderId: "757389415869"
     })
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        this.$store.dispatch('autoSignIn', user)
+        // this.$store.dispatch('fetchUserData')
+      }
+    })
   },
-  // firebase.auth().onAuthStateChanged((user) => {
-  //   if (user) {
-  //     this.$store.dispatch('autoSignIn', user)
-  //     this.$store.dispatch('fetchUserData')
-  //   }
-  // })
   components: { 
   App,
   EditProfile,

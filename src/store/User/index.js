@@ -26,8 +26,7 @@ export default {
             employment: [
                 
             ]
-        },
-        skillEditingID: ''
+        }
     },
     mutations: {
         setUser (state, payload) {
@@ -56,9 +55,51 @@ export default {
         },
         setSkillEditing (state, payload) {
             state.skillEditingID = payload
-        },
+        }
     },
     actions: {
+        signUserUp ({commit}, payload) {
+            commit('setLoading', true)
+            commit('clearError')
+            firebase.auth().createUserWithEmailAndPassword(payload.email, payload.password)
+            .then(
+                user => {
+                    commit('setLoading', false)
+                    const newUser = {
+                        id: user.uid,
+                        personal: {
+                            firstName: 'Your',
+                            lastName: 'Name',
+                            title: 'VueSkills Resume Title',
+                            avatarUrl: 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIj8+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiBoZWlnaHQ9IjMwMHB4IiB3aWR0aD0iMzAwcHgiIHZlcnNpb249IjEuMCIgdmlld0JveD0iLTMwMCAtMzAwIDYwMCA2MDAiIHhtbDpzcGFjZT0icHJlc2VydmUiPgo8Y2lyY2xlIHN0cm9rZT0iI0FBQSIgc3Ryb2tlLXdpZHRoPSIxMCIgcj0iMjgwIiBmaWxsPSIjRkZGIi8+Cjx0ZXh0IHN0eWxlPSJsZXR0ZXItc3BhY2luZzoxO3RleHQtYW5jaG9yOm1pZGRsZTt0ZXh0LWFsaWduOmNlbnRlcjtzdHJva2Utb3BhY2l0eTouNTtzdHJva2U6IzAwMDtzdHJva2Utd2lkdGg6MjtmaWxsOiM0NDQ7Zm9udC1zaXplOjM2MHB4O2ZvbnQtZmFtaWx5OkJpdHN0cmVhbSBWZXJhIFNhbnMsTGliZXJhdGlvbiBTYW5zLCBBcmlhbCwgc2Fucy1zZXJpZjtsaW5lLWhlaWdodDoxMjUlO3dyaXRpbmctbW9kZTpsci10YjsiIHRyYW5zZm9ybT0ic2NhbGUoLjIpIj4KPHRzcGFuIHk9Ii00MCIgeD0iOCI+Tk8gSU1BR0U8L3RzcGFuPgo8dHNwYW4geT0iNDAwIiB4PSI4Ij5BVkFJTEFCTEU8L3RzcGFuPgo8L3RleHQ+Cjwvc3ZnPg==',
+                            email: '',
+                            twitterUrl: '',
+                            facebookUrl: '',
+                            instagramUrl: '',
+                            linkedInUrl: '',
+                            websiteUrl: ''
+                        },
+                        skills: [
+                           
+                        ],
+                        education: [
+                            
+                        ],
+                        employment: [
+                            
+                        ]
+                    }
+                    commit('setUser', newUser)
+                }
+            )
+            .catch(
+                error => {
+                    commit('setLoading', false),
+                    commit('setError', error),
+                    console.log(error)
+                }
+            )
+        },
         setSkillEditing ({commit}, payload) {
             commit('setSkillEditing', payload)
         },
@@ -72,11 +113,11 @@ export default {
                     const newUser = {
                         id: user.uid,
                         personal: {
-                            firstName: '',
-                            lastName: '',
-                            title: '',
-                            avatarUrl: '',
-                            email: payload.email,
+                            firstName: 'Your',
+                            lastName: 'Name',
+                            title: 'VueSkills Resume Title',
+                            avatarUrl: 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIj8+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiBoZWlnaHQ9IjMwMHB4IiB3aWR0aD0iMzAwcHgiIHZlcnNpb249IjEuMCIgdmlld0JveD0iLTMwMCAtMzAwIDYwMCA2MDAiIHhtbDpzcGFjZT0icHJlc2VydmUiPgo8Y2lyY2xlIHN0cm9rZT0iI0FBQSIgc3Ryb2tlLXdpZHRoPSIxMCIgcj0iMjgwIiBmaWxsPSIjRkZGIi8+Cjx0ZXh0IHN0eWxlPSJsZXR0ZXItc3BhY2luZzoxO3RleHQtYW5jaG9yOm1pZGRsZTt0ZXh0LWFsaWduOmNlbnRlcjtzdHJva2Utb3BhY2l0eTouNTtzdHJva2U6IzAwMDtzdHJva2Utd2lkdGg6MjtmaWxsOiM0NDQ7Zm9udC1zaXplOjM2MHB4O2ZvbnQtZmFtaWx5OkJpdHN0cmVhbSBWZXJhIFNhbnMsTGliZXJhdGlvbiBTYW5zLCBBcmlhbCwgc2Fucy1zZXJpZjtsaW5lLWhlaWdodDoxMjUlO3dyaXRpbmctbW9kZTpsci10YjsiIHRyYW5zZm9ybT0ic2NhbGUoLjIpIj4KPHRzcGFuIHk9Ii00MCIgeD0iOCI+Tk8gSU1BR0U8L3RzcGFuPgo8dHNwYW4geT0iNDAwIiB4PSI4Ij5BVkFJTEFCTEU8L3RzcGFuPgo8L3RleHQ+Cjwvc3ZnPg==',
+                            email: '',
                             twitterUrl: '',
                             facebookUrl: '',
                             instagramUrl: '',
@@ -84,7 +125,7 @@ export default {
                             websiteUrl: ''
                         },
                         skills: [
-                            
+                           
                         ],
                         education: [
                             
@@ -157,7 +198,58 @@ export default {
         updateEmployment ({commit}, payload) {
             const newEmployment = payload
             commit('updateEmployment', newEmployment)
-        }
+        },
+        autoSignIn ({commit}, payload) {
+            commit('setUser', {
+                id: user.uid,
+                personal: {
+                    firstName: 'Your',
+                    lastName: 'Name',
+                    title: 'VueSkills Resume Title',
+                    avatarUrl: 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIj8+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiBoZWlnaHQ9IjMwMHB4IiB3aWR0aD0iMzAwcHgiIHZlcnNpb249IjEuMCIgdmlld0JveD0iLTMwMCAtMzAwIDYwMCA2MDAiIHhtbDpzcGFjZT0icHJlc2VydmUiPgo8Y2lyY2xlIHN0cm9rZT0iI0FBQSIgc3Ryb2tlLXdpZHRoPSIxMCIgcj0iMjgwIiBmaWxsPSIjRkZGIi8+Cjx0ZXh0IHN0eWxlPSJsZXR0ZXItc3BhY2luZzoxO3RleHQtYW5jaG9yOm1pZGRsZTt0ZXh0LWFsaWduOmNlbnRlcjtzdHJva2Utb3BhY2l0eTouNTtzdHJva2U6IzAwMDtzdHJva2Utd2lkdGg6MjtmaWxsOiM0NDQ7Zm9udC1zaXplOjM2MHB4O2ZvbnQtZmFtaWx5OkJpdHN0cmVhbSBWZXJhIFNhbnMsTGliZXJhdGlvbiBTYW5zLCBBcmlhbCwgc2Fucy1zZXJpZjtsaW5lLWhlaWdodDoxMjUlO3dyaXRpbmctbW9kZTpsci10YjsiIHRyYW5zZm9ybT0ic2NhbGUoLjIpIj4KPHRzcGFuIHk9Ii00MCIgeD0iOCI+Tk8gSU1BR0U8L3RzcGFuPgo8dHNwYW4geT0iNDAwIiB4PSI4Ij5BVkFJTEFCTEU8L3RzcGFuPgo8L3RleHQ+Cjwvc3ZnPg==',
+                    email: '',
+                    twitterUrl: '',
+                    facebookUrl: '',
+                    instagramUrl: '',
+                    linkedInUrl: '',
+                    websiteUrl: ''
+                },
+                skills: [
+                   
+                ],
+                education: [
+                    
+                ],
+                employment: [
+                    
+                ]
+            })
+        },
+        // fetchUserData ({commit, getters}) {
+        //     commit('setLoading', true)
+        //     firebase.database().ref('/users/' + getters.user.id + '/registrations/').once('value')
+        //     .then(data => {
+        //         const dataPairs = data.val()
+        //         let registeredMeetups = []
+        //         let swappedPairs = {}
+        //         for (let key in dataPairs) {
+        //             registeredMeetups.push(dataPairs[key])
+        //             swappedPairs[dataPairs[key]] = key
+        //         }
+        //         const updatedUser = {
+        //             id: getters.user.id,
+        //             registeredMeetups: registeredMeetups,
+        //             fbKeys: swappedPairs,
+        //             email: getters.user.email
+        //         }
+        //         commit('setLoading', false)
+        //         commit('setUser', updatedUser)
+        //     })
+        //     .catch(error => {
+        //         console.log(error)
+        //         commit('setLoading', false)
+        //     })
+        // }
     },
     getters: {
         user (state) {

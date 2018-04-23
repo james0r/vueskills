@@ -93,7 +93,7 @@
                     data-target="#addSkillModal">Cancel</a>
                     <a href="#" 
                     class="btn btn-primary ml-3 px-3" 
-                    :class="{ disabled: fieldsNotFilled}"
+                    :class="{ disabled: fieldsNotFilled }"
                     @click="save"
                     data-toggle="modal" 
                     data-target="#addSkillModal">Save</a>
