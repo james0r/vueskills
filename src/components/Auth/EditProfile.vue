@@ -312,7 +312,7 @@ export default {
   },
   computed: {
     user () {
-      return this.$store.getters.user
+        return this.$store.getters.user
     },
     skills: function () {
       return this.$store.getters.getSkills

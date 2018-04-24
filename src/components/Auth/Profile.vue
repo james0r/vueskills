@@ -1,63 +1,72 @@
 <template>
-  <div class="outline-main col-10 col-sm-10 col-md-10 offset-md-1 col-lg-10 offset-lg-1">
-    <div class="row profile-card-header text-center mb-3 mx-0">
-      <div class="mx-auto my-3">
-        <img class="avatar-img" :src="user.personal.avatarUrl">
-        <div class="header-title">
-          <h2 class="my-0">{{ user.personal.firstName }} {{ user.personal.lastName }}</h2>
-          <h5 class="my-0 text-white">{{ user.personal.title }}</h5>
-        </div>
-      </div>
-    </div>
-    <div v-if="hasSkills">
-      <div
-      style="height: 40px" 
-      class="col-12 text-center bg-primary text-white card-shadow mt-3 mb-3 pb-0 pt-1">
-        <h4 class="">Skills</h4>
-      </div>
-      <div class="flex-around">
-        <div class="card border-primary mb-3 mt-0" v-for="skill in user.skills" :key="skill.key" style="width: 10rem;">
-          <div class="card-header text-center py-1">{{ skill.name }}
-            <i :class="skill.icon"></i>
-          </div>
-          <div class="card-body text-primary py-1">
-            <div class="text-center">
-              <i v-for="star in Math.floor(skill.stars)" :key="star.key" class="fas fa-star"></i>
-              <i v-if="Number.isInteger(skill.stars)" class="fas fa-star-half"></i>
+  <div>
+    <div v-if="profiles">
+      <div v-for="profile in profiles" :key="profile.key">
+        <div class="outline-main col-10 col-sm-10 col-md-10 offset-md-1 col-lg-10 offset-lg-1">
+          <div class="row profile-card-header text-center mb-3 mx-0">
+            <div class="mx-auto my-3">
+              <img class="avatar-img" :src="profile.personal.avatarUrl">
+              <div class="header-title">
+                <h2 class="my-0">{{ profile.personal.firstName }} {{ profile.personal.lastName }}</h2>
+                <h5 class="my-0 text-white">{{ profile.personal.title }}</h5>
+              </div>
             </div>
           </div>
+          <div v-if="hasSkills">
+            <div
+            style="height: 40px" 
+            class="col-12 text-center bg-primary text-white card-shadow mt-3 mb-3 pb-0 pt-1">
+              <h4 class="">Skills</h4>
+            </div>
+            <div class="flex-around">
+              <div class="card border-primary mb-3 mt-0" v-for="skill in profile.skills" :key="skill.key" style="width: 10rem;">
+                <div class="card-header text-center py-1">{{ skill.name }}
+                  <i :class="skill.icon"></i>
+                </div>
+                <div class="card-body text-primary py-1">
+                  <div class="text-center">
+                    <i v-for="star in Math.floor(skill.stars)" :key="star.key" class="fas fa-star"></i>
+                    <i v-if="Number.isInteger(skill.stars)" class="fas fa-star-half"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div v-else class="text-center mb-3">
+            No Skills Entered
+          </div>
+          <div v-show="showMore">
+            <education-component 
+            v-if="profile.education.length > 0"
+            :class="{fadeIn: showMore, fadeOut: triggerFadeOut}"
+            ></education-component>
+            <div v-else class="text-center mb-3">
+              No Education Entered
+            </div>
+            <employment-component
+            v-if="profile.employment.length > 0"
+            class="mb-3" 
+            :class="{fadeIn: showMore, fadeOut: triggerFadeOut}"
+            ></employment-component>
+            <div v-else class="text-center mb-3">
+              No Employment Entered
+            </div>
+          </div>
+          <div class="text-center">
+            <button 
+            class="btn btn-primary card-shadow"
+            v-show="!showMore" 
+            @click="delayCollapse">Show Employment & Education</button>
+            <button 
+            class="btn btn-primary card-shadow" 
+            v-show="showMore"
+            @click="delayCollapse">Hide Employment & Education</button>
+          </div>
         </div>
       </div>
     </div>
-    <div v-else class="text-center mb-3">
-      No Skills Entered
-    </div>
-    <div v-show="showMore">
-      <education-component 
-      v-if="hasEducation"
-      :class="{fadeIn: showMore, fadeOut: triggerFadeOut}"
-      ></education-component>
-      <div v-else class="text-center mb-3">
-        No Education Entered
-      </div>
-      <employment-component
-      v-if="hasEmployment"
-      class="mb-3" 
-      :class="{fadeIn: showMore, fadeOut: triggerFadeOut}"
-      ></employment-component>
-      <div v-else class="text-center mb-3">
-        No Employment Entered
-      </div>
-    </div>
-    <div class="text-center">
-      <button 
-      class="btn btn-primary card-shadow"
-      v-show="!showMore" 
-      @click="delayCollapse">Show Employment & Education</button>
-      <button 
-      class="btn btn-primary card-shadow" 
-      v-show="showMore"
-      @click="delayCollapse">Hide Employment & Education</button>
+    <div v-else class="alert alert-danger col-6 offset-3 my-3 text-center">
+      NO PROFILES TO DISPLAY
     </div>
   </div>
 </template>
@@ -77,20 +86,11 @@ export default {
     user () {
       return this.$store.getters.user
     },
-    education: function () {
-      return this.$store.getters.getEducation
+    profiles () {
+      return this.$store.getters.getProfiles
     },
     error () {
       return this.$store.getters.error
-    },
-    hasSkills () {
-      return this.$store.getters.getSkills.length > 0
-    },
-    hasEducation () {
-      return this.$store.getters.getEducation.length > 0
-    },
-    hasEmployment () {
-      return this.$store.getters.getEmployment.length > 0
     }
   },
   methods: {

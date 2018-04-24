@@ -56,7 +56,6 @@ import Profile from './components/Auth/Profile'
 export default {
   data () {
     return {
-      isUserAuth: false,
       showRegister: false
     }
   },
@@ -79,6 +78,9 @@ export default {
         ]
       }
       return menuItems
+    },
+    isUserAuth () {
+      return this.$store.getters.user !== null && this.$store.getters.user !== undefined
     }
   },
   components: {
