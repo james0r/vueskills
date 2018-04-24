@@ -69,8 +69,8 @@
             passwordsDontMatch () {
               return this.password !== this.confirmPassword ? true : false
             },
-            user () {
-              return this.$store.getters.user
+            userIsAuth () {
+              return this.$store.getters.userIsAuth
             },
             error () {
               return this.$store.getters.error
@@ -80,7 +80,7 @@
             }
         },
         watch: {
-          user (value) {
+          userIsAuth (value) {
             if (value !== null && value !== undefined) {
               this.showBackdrop = false
               this.closeModal = true
