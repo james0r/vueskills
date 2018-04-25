@@ -14,7 +14,16 @@
   
         <div class="collapse navbar-collapse" id="navbarsExample04">
           <ul class="navbar-nav ml-auto">
-            <li v-show="userIsAuth" flat :to="'/edit/' + this.$store.getters.getUser"></li>
+            <li v-show="userIsAuth" 
+            flat 
+            class="nav-item active">
+              <div 
+              style="cursor: pointer"
+              @click="logout" 
+              class="nav-link">
+                <i class="fas fa-sign-out-alt"></i> Logout
+              </div>
+            </li>
             <li v-for="item in menuItems" :key="item.title" class="nav-item active">
               <router-link 
               class="nav-link" 
@@ -45,6 +54,7 @@
 </template>
 
 <script>
+import * as firebase from 'firebase'
 import Register from './components/NoAuth/Register'
 import SignIn from './components/NoAuth/SignIn'
 import AddEducationModal from './components/Auth/AddEducationModal'
@@ -63,6 +73,10 @@ export default {
   methods: {
     toggleRegister () {
       this.showRegister = !this.showRegister
+    },
+    logout () {
+      firebase.auth().signOut()
+      this.$store.dispatch('setUserAuth', false)
     }
   },
   computed: {

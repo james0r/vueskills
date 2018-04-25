@@ -75,14 +75,19 @@
 import EducationComponent from './educationComponent' 
 import EmploymentComponent from './employmentComponent' 
 export default {
+
   name: 'Home',
   data () {
     return {
         showMore: false,
-        triggerFadeOut: false
+        triggerFadeOut: false,
+        userData: {}
     }
   },
   computed: {
+    userID () {
+      return this.$store.getters.getUserID
+    },
     user () {
       return this.$store.getters.user
     },
@@ -93,8 +98,66 @@ export default {
       return this.$store.getters.error
     }
   },
+  created() {
+    this.fetchUserData()
+  },
   methods: {
-      delayCollapse () {
+    fetchUserData (userID) {
+        commit('setLoading', true)
+        console.log(getters.getUserID)
+        let db = firebase.database()
+        let ref = db.ref('profiles')
+
+        ref.once("value", function(snapshot) {
+            snapshot.forEach(function(childSnapshot) {
+              var childData = childSnapshot.val();
+              if (childData.userID == userID) {
+                  console.log(childData)
+
+                  let builtData = {
+                      personal: {
+                        firstName: childData.personal.firstName,
+                        lastName: childData.personal.lastName,
+                        title: childData.personal.title,
+                        avatarUrl: childData.personal.avatarUrl,
+                        email: childData.personal.email,
+                        twitterUrl: childData.personal.twitterUrl,
+                        facebookUrl: childData.personal.facebookUrl,
+                        instagramUrl: childData.personal.instagramUrl,
+                        linkedInUrl: childData.personal.linkedInUrl,
+                        websiteUrl: childData.personal.websiteUrl
+                      },
+                      userID: childData.userID,
+                      email: childData.email,
+                      skills: [],
+                      employment: [],
+                      education: []
+                  }
+                  if (childData.hasOwnProperty('skills')) {
+                      for (skill in childData.skills) {
+                          builtData.skills.push(skill)
+                      }
+                  }
+                  if (childData.hasOwnProperty('employment')) {
+                      for (emp in childData.employment) {
+                          builtData.employment.push(emp)
+                      }
+                  }
+                  if (childData.hasOwnProperty('education')) {
+                      for (edu in childData.education) {
+                          builtData.education.push(edu)
+                      }
+                  }
+                  this.userData = builtData
+              }
+            })
+        })
+        .catch(error => {
+            console.log(error)
+            commit('setLoading', false)
+        })
+    },
+          delayCollapse () {
           if (this.showMore) {
                 this.triggerFadeOut = true
                 console.log(this.triggerFadeOut)

@@ -9,6 +9,9 @@
       </div>
       <div class="row mt-3">
         <div class="col-sm-12">
+          <button class="btn btn-primary" @click="sendUserData(userID)">
+            sendUserData
+          </button>
           <div class="form-group">
             <div class="input-group mb-3">
               <div class="input-group-prepend">
@@ -19,7 +22,7 @@
               type="text" 
               v-model="firstName" 
               class="form-control" 
-              :placeholder="user.personal.firstName">
+              :placeholder="userData.personal.firstName">
             </div>
             <div class="input-group mb-3">
               <div class="input-group-prepend">
@@ -30,7 +33,7 @@
               type="text" 
               v-model="lastName" 
               class="form-control" 
-              :placeholder="user.personal.lastName">
+              :placeholder="userData.personal.lastName">
             </div>
           </div>
           <div class="input-group mb-3">
@@ -42,7 +45,7 @@
             @keyup="onKeyUp"
             v-model="title" 
             class="form-control" 
-            :placeholder="user.personal.title">
+            :placeholder="userData.personal.title">
           </div>
             <div class="input-group mb-3">
               <div class="custom-file">
@@ -73,7 +76,7 @@
             v-model="email" 
             type="text" 
             class="form-control"
-            :placeholder="user.personal.email">
+            :placeholder="userData.personal.email">
           </div>
           <div class="input-group mb-3">
             <div class="input-group-prepend">
@@ -84,7 +87,7 @@
             v-model="twitterUrl"
             type="text" 
             class="form-control" 
-            :placeholder="user.personal.twitterUrl">
+            :placeholder="userData.personal.twitterUrl">
           </div>
           <div class="input-group mb-3">
             <div class="input-group-prepend">
@@ -95,7 +98,7 @@
             v-model="facebookUrl" 
             type="text" 
             class="form-control" 
-            :placeholder="user.personal.facebookUrl">
+            :placeholder="userData.personal.facebookUrl">
           </div>
           <div class="input-group mb-3">
             <div class="input-group-prepend">
@@ -106,7 +109,7 @@
             v-model="instagramUrl" 
             type="text" 
             class="form-control" 
-            :placeholder="user.personal.instagramUrl">
+            :placeholder="userData.personal.instagramUrl">
           </div>
           <div class="input-group mb-3">
             <div class="input-group-prepend">
@@ -117,7 +120,7 @@
             v-model="linkedInUrl" 
             type="text" 
             class="form-control" 
-            :placeholder="user.personal.linkedInUrl">
+            :placeholder="userData.personal.linkedInUrl">
           </div>
           <div class="input-group mb-3">
             <div class="input-group-prepend">
@@ -128,7 +131,7 @@
             v-model="websiteUrl" 
             type="text" 
             class="form-control" 
-            :placeholder="user.personal.websiteUrl">
+            :placeholder="userData.personal.websiteUrl">
           </div>
           <div class="text-center col mx-auto">
             <button v-if="!infoSaved" class="btn btn-primary button-shadow" @click="savePersonalInfo">
@@ -150,7 +153,7 @@
           <div class="flex-around">
             <div 
             class="card border-primary mb-3 mx-2" 
-            v-for="skill in skills" 
+            v-for="skill in userData.skills" 
             :class="{ jiggle: isEditable }"
             :key="skill.key" style="width: 10rem; position: relative;">
                 <div v-show="skill.strongestSkill" class="box">
@@ -203,7 +206,7 @@
               </div>
             </div>
             <div 
-            v-for="eduItem in education"
+            v-for="eduItem in userData.education"
             :key="eduItem.key"
             class="row mb-3 mx-0 border card-shadow">
               <div class="col-12">
@@ -240,7 +243,7 @@
           </div>
           <div class="col-12 mt-2">
             <div 
-            v-for="empItem in employment" 
+            v-for="empItem in userData.employment" 
             :key="empItem.key"
             class="row mb-3 mx-0 border card-shadow">
               <div class="col-12">
@@ -282,12 +285,12 @@
 </template>
 
 <script>
+import * as firebase from 'firebase'
 import Popper from 'vue-popperjs'
 import 'vue-popperjs/dist/css/vue-popper.css'
 import moment from 'moment'
 import EditSkillModal from './EditSkillModal'
 export default {
-  props: ['userData'],
   data () {
     return {
       infoSaved: false,
@@ -305,13 +308,17 @@ export default {
       isEditable: false,
       skillID: '',
       emailAlert: false,
-      dateCreated: moment().format('YYYY[-]MM[-]DD')
+      dateCreated: moment().format('YYYY[-]MM[-]DD'),
+      userData: []
     }
   },
   watch: {
     
   },
   computed: {
+    userID () {
+      return this.$store.getters.getUserID
+    },
     user () {
         return this.$store.getters.getUser
     },
@@ -328,28 +335,12 @@ export default {
       return this.$store.getters.error
     }
   },
+  created() {
+    this.fetchUserData(this.$store.getters.getUserID)
+  },
   methods: {
     onKeyUp () {
       this.infoSaved = false
-    },
-    savePersonalInfo () {
-      console.log("savePersonalInfo was called")
-      this.infoSaved = true
-
-      const personalInfoItems = {
-        firstName: this.firstName,
-        lastName: this.lastName,
-        title: this.title,
-        avatarUrl: this.avatarUrl,
-        email: this.email,
-        twitterUrl: this.twitterUrl,
-        facebookUrl: this.facebookUrl,
-        instagramUrl: this.instagramUrl,
-        linkedInUrl: this.linkedInUrl,
-        websiteUrl: this.websiteUrl
-      }
-
-      this.$store.dispatch('setPersonalInfo', personalInfoItems)
     },
     emailIsValid () {
       console.log("emailIsValid was called")
@@ -362,10 +353,6 @@ export default {
     },
     skillCardsEditable () {
       this.isEditable = !this.isEditable
-    },
-    sendID (id) {
-      this.$store.dispatch('setSkillEditing', id)
-      console.log("sent id " + id)
     },
     onFilePicked (event) {
       this.infoSaved = false
@@ -383,18 +370,106 @@ export default {
       fileReader.readAsDataURL(files[0])
       this.avatar = files[0]
     },
-    deleteEducation (id) {
-        console.log(id)
-        let newEducation = this.$store.getters.getEducation.filter(educationItem => educationItem.id !== id)
-
-        this.$store.dispatch('updateEducation', newEducation)
+    sendUserData (userId) {
+      firebase.database()
+      .ref('profiles')
+      .orderByChild("userID")
+      .equalTo(userId)
+      .once('value', function (snapshot) {
+       //snapshot would have list of NODES that satisfies the condition
+	      return snapshot.key
+      })
+      .then(key => {
+        firebase.database().ref('profiles').child(key).update(userData)
+      })
     },
-    deleteEmployment (id) {
-        console.log(id)
-        let newEmployment = this.$store.getters.getEmployment.filter(employmentItem => employmentItem.id !== id)
+    fetchUserData (userID) {
+        commit('setLoading', true)
+        console.log("fetchUserData called with userID of " + userID)
+        let db = firebase.database()
+        let ref = db.ref('/profiles/' + userID)
 
-        this.$store.dispatch('updateEmployment', newEmployment)
+        ref.once(data => {
+
+          let dataVal = data.val()
+          console.log(dataVal)
+
+          let builtData = {
+              personal: {
+                firstName: childData.personal.firstName,
+                lastName: childData.personal.lastName,
+                title: childData.personal.title,
+                avatarUrl: childData.personal.avatarUrl,
+                email: childData.personal.email,
+                twitterUrl: childData.personal.twitterUrl,
+                facebookUrl: childData.personal.facebookUrl,
+                instagramUrl: childData.personal.instagramUrl,
+                linkedInUrl: childData.personal.linkedInUrl,
+                websiteUrl: childData.personal.websiteUrl
+              },
+              userID: childData.userID,
+              email: childData.email,
+              skills: [],
+              employment: [],
+              education: []
+          }
+          if (childData.hasOwnProperty('skills')) {
+              for (skill in childData.skills) {
+                  builtData.skills.push(skill)
+              }
+          }
+          if (childData.hasOwnProperty('employment')) {
+              for (emp in childData.employment) {
+                  builtData.employment.push(emp)
+              }
+          }
+          if (childData.hasOwnProperty('education')) {
+              for (edu in childData.education) {
+                  builtData.education.push(edu)
+              }
+          }
+          this.userData = builtData
+        })
+        .catch(error => {
+            console.log(error)
+            commit('setLoading', false)
+        })
     }
+    // savePersonalInfo () {
+      //   console.log("savePersonalInfo was called")
+    //   this.infoSaved = true
+
+    //   const personalInfoItems = {
+      //     firstName: this.firstName,
+    //     lastName: this.lastName,
+    //     title: this.title,
+    //     avatarUrl: this.avatarUrl,
+    //     email: this.email,
+    //     twitterUrl: this.twitterUrl,
+    //     facebookUrl: this.facebookUrl,
+    //     instagramUrl: this.instagramUrl,
+    //     linkedInUrl: this.linkedInUrl,
+    //     websiteUrl: this.websiteUrl
+    //   }
+
+    //   this.$store.dispatch('setPersonalInfo', personalInfoItems)
+    // },
+    // sendID (id) {
+    //   this.$store.dispatch('setSkillEditing', id)
+    //   console.log("sent id " + id)
+    // },
+    // deleteEducation (id) {
+    //     console.log(id)
+    //     let newEducation = this.$store.getters.getEducation.filter(educationItem => educationItem.id !== id)
+
+    //     this.$store.dispatch('updateEducation', newEducation)
+    // },
+    // deleteEmployment (id) {
+    //     console.log(id)
+    //     let newEmployment = this.$store.getters.getEmployment.filter(employmentItem => employmentItem.id !== id)
+
+    //     this.$store.dispatch('updateEmployment', newEmployment)
+    // },
   },
   components: {
     EditSkillModal,
