@@ -1,15 +1,28 @@
 import * as firebase from 'firebase'
 import Shared from '../Shared'
+import { isNullOrUndefined } from 'util';
 
 export default {
     state: {
         userIsAuth: false,
-        skillEditingID: ''
+        skillEditingID: '',
+        user: {
+            id: ''
+        }
     },
     mutations: {
         setUserAuth (state, payload) {
             state.userIsAuth = payload
         },
+        setUser (state, payload) {
+            state.user = payload
+        },
+        setUserID (state, payload) {
+            state.user.id = payload
+        },
+        setSkillEditing (state, payload) {
+            state.skillEditingID = payload
+        }
         // setSkill (state, payload) {
         //     state.user.skills.push(payload)
         // },
@@ -31,53 +44,8 @@ export default {
         // updateEmployment (state, payload) {
         //     state.user.employment = payload
         // },
-        setSkillEditing (state, payload) {
-            state.skillEditingID = payload
-        }
     },
     actions: {
-        signUserUp ({commit}, payload) {
-            commit('setLoading', true)
-            commit('clearError')
-            firebase.auth().createUserWithEmailAndPassword(payload.email, payload.password)
-            .then(
-                user => {
-                    commit('setLoading', false)
-                    const newUser = {
-                        id: user.uid,
-                        personal: {
-                            firstName: 'Your',
-                            lastName: 'Name',
-                            title: 'VueSkills Resume Title',
-                            avatarUrl: 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIj8+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiBoZWlnaHQ9IjMwMHB4IiB3aWR0aD0iMzAwcHgiIHZlcnNpb249IjEuMCIgdmlld0JveD0iLTMwMCAtMzAwIDYwMCA2MDAiIHhtbDpzcGFjZT0icHJlc2VydmUiPgo8Y2lyY2xlIHN0cm9rZT0iI0FBQSIgc3Ryb2tlLXdpZHRoPSIxMCIgcj0iMjgwIiBmaWxsPSIjRkZGIi8+Cjx0ZXh0IHN0eWxlPSJsZXR0ZXItc3BhY2luZzoxO3RleHQtYW5jaG9yOm1pZGRsZTt0ZXh0LWFsaWduOmNlbnRlcjtzdHJva2Utb3BhY2l0eTouNTtzdHJva2U6IzAwMDtzdHJva2Utd2lkdGg6MjtmaWxsOiM0NDQ7Zm9udC1zaXplOjM2MHB4O2ZvbnQtZmFtaWx5OkJpdHN0cmVhbSBWZXJhIFNhbnMsTGliZXJhdGlvbiBTYW5zLCBBcmlhbCwgc2Fucy1zZXJpZjtsaW5lLWhlaWdodDoxMjUlO3dyaXRpbmctbW9kZTpsci10YjsiIHRyYW5zZm9ybT0ic2NhbGUoLjIpIj4KPHRzcGFuIHk9Ii00MCIgeD0iOCI+Tk8gSU1BR0U8L3RzcGFuPgo8dHNwYW4geT0iNDAwIiB4PSI4Ij5BVkFJTEFCTEU8L3RzcGFuPgo8L3RleHQ+Cjwvc3ZnPg==',
-                            email: '',
-                            twitterUrl: '',
-                            facebookUrl: '',
-                            instagramUrl: '',
-                            linkedInUrl: '',
-                            websiteUrl: ''
-                        },
-                        skills: [
-                           
-                        ],
-                        education: [
-                            
-                        ],
-                        employment: [
-                            
-                        ]
-                    }
-                    commit('setUser', newUser)
-                }
-            )
-            .catch(
-                error => {
-                    commit('setLoading', false),
-                    commit('setError', error),
-                    console.log(error)
-                }
-            )
-        },
         setSkillEditing ({commit}, payload) {
             commit('setSkillEditing', payload)
         },
@@ -91,7 +59,7 @@ export default {
                     const newUser = {
                         userID: user.uid,
                         email: payload.email,
-                        "personal": {
+                        personal: {
                             firstName: 'Your',
                             lastName: 'Name',
                             title: 'VueSkills Resume Title',
@@ -102,20 +70,12 @@ export default {
                             instagramUrl: '',
                             linkedInUrl: '',
                             websiteUrl: ''
-                        },
-                        "skills": {
-                           
-                        },
-                        "education": {
-                            
-                        },
-                        "employment": {
-                            
                         }
                     }
                     return newUser
                 })
             .then(newUser => {
+                commit('setUser', newUser)
                 return firebase.database().ref('profiles').push(newUser)
             })
             .then(fileData => {
@@ -130,17 +90,17 @@ export default {
                 }
             )
         },
-        // setSkill ({ commit}, payload) {
-        //     const newSkill = {
-        //         id: payload.id,
-        //         name: payload.name,
-        //         icon: Shared.state.techIcons[payload.name],
-        //         stars: payload.stars,
-        //         notes: payload.notes,
-        //         strongestSkill: payload.strongestSkill
-        //     }
-        //     commit('setSkill', newSkill)
-        // },
+        setSkill ({ commit}, payload) {
+            const newSkill = {
+                id: payload.id,
+                name: payload.name,
+                icon: Shared.state.techIcons[payload.name],
+                stars: payload.stars,
+                notes: payload.notes,
+                strongestSkill: payload.strongestSkill
+            }
+            commit('setSkill', newSkill)
+        },
         // setEducation ({ commit}, payload) {
         //     const newEducation = {
         //         id: payload.id,
@@ -185,60 +145,74 @@ export default {
         //     commit('updateEmployment', newEmployment)
         // },
         autoSignIn ({commit}, payload) {
-            commit('setUser', {
-                id: user.uid,
-                personal: {
-                    firstName: 'Your',
-                    lastName: 'Name',
-                    title: 'VueSkills Resume Title',
-                    avatarUrl: 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIj8+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiBoZWlnaHQ9IjMwMHB4IiB3aWR0aD0iMzAwcHgiIHZlcnNpb249IjEuMCIgdmlld0JveD0iLTMwMCAtMzAwIDYwMCA2MDAiIHhtbDpzcGFjZT0icHJlc2VydmUiPgo8Y2lyY2xlIHN0cm9rZT0iI0FBQSIgc3Ryb2tlLXdpZHRoPSIxMCIgcj0iMjgwIiBmaWxsPSIjRkZGIi8+Cjx0ZXh0IHN0eWxlPSJsZXR0ZXItc3BhY2luZzoxO3RleHQtYW5jaG9yOm1pZGRsZTt0ZXh0LWFsaWduOmNlbnRlcjtzdHJva2Utb3BhY2l0eTouNTtzdHJva2U6IzAwMDtzdHJva2Utd2lkdGg6MjtmaWxsOiM0NDQ7Zm9udC1zaXplOjM2MHB4O2ZvbnQtZmFtaWx5OkJpdHN0cmVhbSBWZXJhIFNhbnMsTGliZXJhdGlvbiBTYW5zLCBBcmlhbCwgc2Fucy1zZXJpZjtsaW5lLWhlaWdodDoxMjUlO3dyaXRpbmctbW9kZTpsci10YjsiIHRyYW5zZm9ybT0ic2NhbGUoLjIpIj4KPHRzcGFuIHk9Ii00MCIgeD0iOCI+Tk8gSU1BR0U8L3RzcGFuPgo8dHNwYW4geT0iNDAwIiB4PSI4Ij5BVkFJTEFCTEU8L3RzcGFuPgo8L3RleHQ+Cjwvc3ZnPg==',
-                    email: '',
-                    twitterUrl: '',
-                    facebookUrl: '',
-                    instagramUrl: '',
-                    linkedInUrl: '',
-                    websiteUrl: ''
-                },
-                skills: [
-                   
-                ],
-                education: [
-                    
-                ],
-                employment: [
-                    
-                ]
-            })
+            //This function delivers the UID from Firebase auth and stores it locally for use with fetching
+            commit('setUserID', payload)
         },
-        // fetchUserData ({commit, getters}) {
-        //     commit('setLoading', true)
-        //     firebase.database().ref('/users/' + getters.user.id + '/registrations/').once('value')
-        //     .then(data => {
-        //         const dataPairs = data.val()
-        //         let registeredMeetups = []
-        //         let swappedPairs = {}
-        //         for (let key in dataPairs) {
-        //             registeredMeetups.push(dataPairs[key])
-        //             swappedPairs[dataPairs[key]] = key
-        //         }
-        //         const updatedUser = {
-        //             id: getters.user.id,
-        //             registeredMeetups: registeredMeetups,
-        //             fbKeys: swappedPairs,
-        //             email: getters.user.email
-        //         }
-        //         commit('setLoading', false)
-        //         commit('setUser', updatedUser)
-        //     })
-        //     .catch(error => {
-        //         console.log(error)
-        //         commit('setLoading', false)
-        //     })
-        // }
+        fetchUserData ({commit, getters}) {
+            commit('setLoading', true)
+            console.log(getters.getUserID)
+            let db = firebase.database()
+            let ref = db.ref('profiles')
+
+            ref.once("value", function(snapshot) {
+                snapshot.forEach(function(childSnapshot) {
+                 var childData = childSnapshot.val();
+                 if (childData.userID == getters.getUserID) {
+                     console.log(childData)
+
+                     let builtData = {
+                         personal: {
+                            firstName: childData.personal.firstName,
+                            lastName: childData.personal.lastName,
+                            title: childData.personal.title,
+                            avatarUrl: childData.personal.avatarUrl,
+                            email: childData.personal.email,
+                            twitterUrl: childData.personal.twitterUrl,
+                            facebookUrl: childData.personal.facebookUrl,
+                            instagramUrl: childData.personal.instagramUrl,
+                            linkedInUrl: childData.personal.linkedInUrl,
+                            websiteUrl: childData.personal.websiteUrl
+                         },
+                         userID: childData.userID,
+                         email: childData.email,
+                         skills: [],
+                         employment: [],
+                         education: []
+                     }
+                     if (childData.hasOwnProperty('skills')) {
+                         for (skill in childData.skills) {
+                             builtData.skills.push(skill)
+                         }
+                     }
+                     if (childData.hasOwnProperty('employment')) {
+                         for (emp in childData.employment) {
+                             builtData.employment.push(emp)
+                         }
+                     }
+                     if (childData.hasOwnProperty('education')) {
+                         for (edu in childData.education) {
+                             builtData.education.push(edu)
+                         }
+                     }
+                     commit('setUser', builtData)
+                 }
+                })
+            })
+            .catch(error => {
+                console.log(error)
+                commit('setLoading', false)
+            })
+        }
     },
     getters: {
         userIsAuth (state) {
             return state.userIsAuth
+        },
+        getUser (state) {
+            return state.user
+        },
+        getUserID (state) {
+            return state.user.id
         },
         getSkillEditing (state) {
             return state.skillEditingID

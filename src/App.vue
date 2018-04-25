@@ -14,6 +14,7 @@
   
         <div class="collapse navbar-collapse" id="navbarsExample04">
           <ul class="navbar-nav ml-auto">
+            <li v-show="userIsAuth" flat :to="'/edit/' + this.$store.getters.getUser"></li>
             <li v-for="item in menuItems" :key="item.title" class="nav-item active">
               <router-link 
               class="nav-link" 
@@ -25,8 +26,8 @@
                 </router-link>
             </li>
             <li class="nav-item active">
-              <button class="btn btn-secondary nav-link" @click="isUserAuth = !isUserAuth">
-                UserAuth? {{ isUserAuth }}
+              <button class="btn btn-secondary nav-link">
+                UserAuth?
                 </button>
             </li>
           </ul>
@@ -71,17 +72,17 @@ export default {
         { icon: 'fas fa-sign-out-alt', title: 'Sign In', link: '/signin', dataToggle: 'modal', dataTarget: '#signInModal'},
         { icon: 'far fa-registered', title: 'Register', link: '/register'}
       ]
-      if (this.isUserAuth) {
+      if (this.userIsAuth) {
         menuItems = [
           { icon: 'fas fa-cog', title: 'Settings', link: '/settings', dataToggle: '', dataTarget: ''},
-          { icon: 'far fa-edit', title: 'Edit Profile', link: '/edit', dataToggle: '', dataTarget: ''},
+          { icon: 'far fa-edit', title: 'Edit Profile', link: '/edit'}
         ]
       }
       return menuItems
     },
-    isUserAuth () {
-      return this.$store.getters.user !== null && this.$store.getters.user !== undefined
-    }
+    userIsAuth () {
+      return this.$store.getters.userIsAuth
+    },
   },
   components: {
     Register,

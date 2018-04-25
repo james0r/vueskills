@@ -287,6 +287,7 @@ import 'vue-popperjs/dist/css/vue-popper.css'
 import moment from 'moment'
 import EditSkillModal from './EditSkillModal'
 export default {
+  props: ['userData'],
   data () {
     return {
       infoSaved: false,
@@ -312,7 +313,7 @@ export default {
   },
   computed: {
     user () {
-        return this.$store.getters.user
+        return this.$store.getters.getUser
     },
     skills: function () {
       return this.$store.getters.getSkills
