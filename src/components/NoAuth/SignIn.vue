@@ -24,12 +24,15 @@
           <input type="password" class="form-control" v-model="password">
         </div>
         <a href="#" style="text-decoration: none">Forgot Password?</a>
+        <div v-if="error" class="alert alert-danger" role="alert">
+            {{ error.message }}
+          </div>
       </div>
       <div class="modal-footer">
         <div class="col">
           <div class="row float-right">
             <router-link to="/register" class="btn btn-primary">Create an Account</router-link>
-            <button type="submit" class="btn btn-primary ml-2">Sign in</button>
+            <button @click="signIn" class="btn btn-primary ml-2">Sign in</button>
           </div>
           <div class="clearfix"></div>
 
@@ -49,10 +52,27 @@
             }
         },
         computed: {
-            
+            userIsAuth () {
+              return this.$store.getters.userIsAuth
+            },
+            error () {
+              return this.$store.getters.error
+            },
+            loading () {
+              return this.$store.getters.loading
+            }
         },
         methods: {
-
+            signIn () {
+              this.$store.dispatch('signUserIn', {email: this.email, password: this.password})
+            }
+        },
+        watch: {
+          userIsAuth (value) {
+            if (value == true) {
+              this.$router.push('/')
+            }
+          }
         }
     }
 

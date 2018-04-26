@@ -12,6 +12,12 @@
           <button class="btn btn-primary" @click="sendUserData(userID)">
             sendUserData
           </button>
+          <button class="btn btn-primary" @click="fetchUserData(userID)">
+            fetchData
+          </button>
+          <button class="btn btn-primary" @click="consolelog">
+            console log userData
+          </button>
           <div class="form-group">
             <div class="input-group mb-3">
               <div class="input-group-prepend">
@@ -20,7 +26,7 @@
               <input 
               @keyup="onKeyUp" 
               type="text" 
-              v-model="firstName" 
+              v-model="userData.personal.firstName" 
               class="form-control" 
               :placeholder="userData.personal.firstName">
             </div>
@@ -31,7 +37,7 @@
               <input 
               @keyup="onKeyUp" 
               type="text" 
-              v-model="lastName" 
+              v-model="userData.personal.lastName" 
               class="form-control" 
               :placeholder="userData.personal.lastName">
             </div>
@@ -43,7 +49,7 @@
             <input 
             type="text" 
             @keyup="onKeyUp"
-            v-model="title" 
+            v-model="userData.personal.title" 
             class="form-control" 
             :placeholder="userData.personal.title">
           </div>
@@ -61,7 +67,7 @@
               <div class="input-group-append">
             <popper trigger="click" :options="{placement: 'top'}">
                 <div class="popper">
-                  <img :src="avatarUrl" height="150px">
+                  <img :src="userData.avatarUrl" height="150px">
                 </div>
                 <span slot="reference" class="input-group-text" id="">Preview</span>
             </popper>
@@ -73,7 +79,7 @@
             </div>
             <input 
             @keyup="onKeyUp" 
-            v-model="email" 
+            v-model="userData.personal.email" 
             type="text" 
             class="form-control"
             :placeholder="userData.personal.email">
@@ -84,7 +90,7 @@
             </div>
             <input 
             @keyup="onKeyUp"
-            v-model="twitterUrl"
+            v-model="userData.personal.twitterUrl"
             type="text" 
             class="form-control" 
             :placeholder="userData.personal.twitterUrl">
@@ -95,7 +101,7 @@
             </div>
             <input 
             @keyup="onKeyUp" 
-            v-model="facebookUrl" 
+            v-model="userData.personal.facebookUrl" 
             type="text" 
             class="form-control" 
             :placeholder="userData.personal.facebookUrl">
@@ -106,7 +112,7 @@
             </div>
             <input 
             @keyup="onKeyUp" 
-            v-model="instagramUrl" 
+            v-model="userData.personal.instagramUrl" 
             type="text" 
             class="form-control" 
             :placeholder="userData.personal.instagramUrl">
@@ -117,7 +123,7 @@
             </div>
             <input 
             @keyup="onKeyUp" 
-            v-model="linkedInUrl" 
+            v-model="userData.personal.linkedInUrl" 
             type="text" 
             class="form-control" 
             :placeholder="userData.personal.linkedInUrl">
@@ -128,13 +134,13 @@
             </div>
             <input 
             @keyup="onKeyUp" 
-            v-model="websiteUrl" 
+            v-model="userData.personal.websiteUrl" 
             type="text" 
             class="form-control" 
             :placeholder="userData.personal.websiteUrl">
           </div>
           <div class="text-center col mx-auto">
-            <button v-if="!infoSaved" class="btn btn-primary button-shadow" @click="savePersonalInfo">
+            <button v-if="!infoSaved" class="btn btn-primary button-shadow" @click="sendUserData">
               <i class="far fa-save"></i> Save
             </button>
             <button v-else class="btn btn-primary button-shadow" @click="savePersonalInfo">
@@ -335,10 +341,14 @@ export default {
       return this.$store.getters.error
     }
   },
-  created() {
-    this.fetchUserData(this.$store.getters.getUserID)
+  created: function () {
+    let createdUserID = this.$store.getters.getUserID
+    this.fetchUserData(createdUserID)
   },
   methods: {
+    consolelog () {
+      console.log(this.userData)
+    },
     onKeyUp () {
       this.infoSaved = false
     },
@@ -371,70 +381,89 @@ export default {
       this.avatar = files[0]
     },
     sendUserData (userId) {
-      firebase.database()
-      .ref('profiles')
-      .orderByChild("userID")
-      .equalTo(userId)
-      .once('value', function (snapshot) {
-       //snapshot would have list of NODES that satisfies the condition
-	      return snapshot.key
-      })
-      .then(key => {
-        firebase.database().ref('profiles').child(key).update(userData)
-      })
+
+      let newPersonalObj = {
+        personal: {
+          avatarUrl: this.userData.avatarUrl,
+          email: this.userData.email,
+          facebookUrl: this.userData.facebookUrl,
+          firstName: this.userData.firstName,
+          lastName: this.userData.lastName,
+          instagramUrl: this.userData.instagramUrl,
+          linkedInUrl: this.userData.linkedInUrl,
+          title: this.userData.title,
+          twitterUrl: this.userData.twitterUrl,
+          websiteUrl: this.userData.websiteUrl
+        }
+      }
+     firebase.database().ref('/profiles/' + userID).update(newPersonalObj)
+     .then(data => {
+       console.log(data)
+     })
+
+     this.infoSaved = true
     },
     fetchUserData (userID) {
-        commit('setLoading', true)
+        this.$store.dispatch('setLoading', true)
         console.log("fetchUserData called with userID of " + userID)
         let db = firebase.database()
         let ref = db.ref('/profiles/' + userID)
-
-        ref.once(data => {
+        ref.once('value')
+        .then(data => {
 
           let dataVal = data.val()
-          console.log(dataVal)
-
-          let builtData = {
-              personal: {
-                firstName: childData.personal.firstName,
-                lastName: childData.personal.lastName,
-                title: childData.personal.title,
-                avatarUrl: childData.personal.avatarUrl,
-                email: childData.personal.email,
-                twitterUrl: childData.personal.twitterUrl,
-                facebookUrl: childData.personal.facebookUrl,
-                instagramUrl: childData.personal.instagramUrl,
-                linkedInUrl: childData.personal.linkedInUrl,
-                websiteUrl: childData.personal.websiteUrl
-              },
-              userID: childData.userID,
-              email: childData.email,
-              skills: [],
-              employment: [],
-              education: []
+          console.log(dataVal.data(key))
+          console.log(dataVal.email)
+          console.log(dataVal.isNew)
+          let blah = []
+          blah.push({ test: "var"})
+          console.log("this is blah " + blah)
+          
+          let builtData = {}
+          
+            builtData = {
+            personal: {
+              firstName: dataVal.personal.firstName,
+              lastName: dataVal.personal.lastName,
+              title: dataVal.personal.title,
+              avatarUrl: dataVal.personal.avatarUrl,
+              email: dataVal.personal.email,
+              twitterUrl: dataVal.personal.twitterUrl,
+              facebookUrl: dataVal.personal.facebookUrl,
+              instagramUrl:dataVal.personal.instagramUrl,
+              linkedInUrl: dataVal.personal.linkedInUrl,
+              websiteUrl: dataVal.personal.websiteUrl
+            },
+            userID: 'userID_placeholder',
+            email: dataVal.email,
+            skills: [],
+            employment: [],
+            education: []
           }
-          if (childData.hasOwnProperty('skills')) {
-              for (skill in childData.skills) {
-                  builtData.skills.push(skill)
-              }
+          if (skills in dataVal) {
+            for (skill in dataVal.skills) {
+              builtData.skills.push(dataVal.skills[skill])
+                console.log(skill)
+            }
           }
-          if (childData.hasOwnProperty('employment')) {
-              for (emp in childData.employment) {
-                  builtData.employment.push(emp)
-              }
+          if (employment in dataVal)  {
+            for (emp in dataVal.employment) {
+                builtData.employment.push(dataVal.employment[emp])
+            }
           }
-          if (childData.hasOwnProperty('education')) {
-              for (edu in childData.education) {
-                  builtData.education.push(edu)
-              }
+          if (education in dataVal) {
+            for (edu in dataVal.education) {
+                builtData.education.push(dataVal.education[edu])
+            }
           }
-          this.userData = builtData
-        })
-        .catch(error => {
-            console.log(error)
-            commit('setLoading', false)
-        })
-    }
+        console.log(builtData)
+        this.userData = builtData
+      })
+      .catch(error => {
+          console.log("error thrown" + error)
+          this.$store.dispatch('setLoading', false)
+      })
+    },
     // savePersonalInfo () {
       //   console.log("savePersonalInfo was called")
     //   this.infoSaved = true

@@ -82,8 +82,6 @@
         watch: {
           userIsAuth (value) {
             if (value !== null && value !== undefined) {
-              this.showBackdrop = false
-              this.closeModal = true
               this.$router.push('/')
             }
           },

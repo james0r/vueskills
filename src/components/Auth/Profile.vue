@@ -5,21 +5,21 @@
         <div class="outline-main col-10 col-sm-10 col-md-10 offset-md-1 col-lg-10 offset-lg-1">
           <div class="row profile-card-header text-center mb-3 mx-0">
             <div class="mx-auto my-3">
-              <img class="avatar-img" :src="profile.personal.avatarUrl">
+              <img class="avatar-img" :src="userData.personal.avatarUrl">
               <div class="header-title">
-                <h2 class="my-0">{{ profile.personal.firstName }} {{ profile.personal.lastName }}</h2>
-                <h5 class="my-0 text-white">{{ profile.personal.title }}</h5>
+                <h2 class="my-0">{{ userData.personal.firstName }} {{ profile.personal.lastName }}</h2>
+                <h5 class="my-0 text-white">{{ userData.personal.title }}</h5>
               </div>
             </div>
           </div>
-          <div v-if="hasSkills">
+          <div v-if="userData.skills.length > 0">
             <div
             style="height: 40px" 
             class="col-12 text-center bg-primary text-white card-shadow mt-3 mb-3 pb-0 pt-1">
               <h4 class="">Skills</h4>
             </div>
             <div class="flex-around">
-              <div class="card border-primary mb-3 mt-0" v-for="skill in profile.skills" :key="skill.key" style="width: 10rem;">
+              <div class="card border-primary mb-3 mt-0" v-for="skill in userData.skills" :key="skill.key" style="width: 10rem;">
                 <div class="card-header text-center py-1">{{ skill.name }}
                   <i :class="skill.icon"></i>
                 </div>
@@ -37,14 +37,14 @@
           </div>
           <div v-show="showMore">
             <education-component 
-            v-if="profile.education.length > 0"
+            v-if="userData.education.length > 0"
             :class="{fadeIn: showMore, fadeOut: triggerFadeOut}"
             ></education-component>
             <div v-else class="text-center mb-3">
               No Education Entered
             </div>
             <employment-component
-            v-if="profile.employment.length > 0"
+            v-if="userData.employment.length > 0"
             class="mb-3" 
             :class="{fadeIn: showMore, fadeOut: triggerFadeOut}"
             ></employment-component>
@@ -74,6 +74,7 @@
 <script>
 import EducationComponent from './educationComponent' 
 import EmploymentComponent from './employmentComponent' 
+import * as firebase from 'firebase'
 export default {
 
   name: 'Home',
@@ -81,7 +82,7 @@ export default {
     return {
         showMore: false,
         triggerFadeOut: false,
-        userData: {}
+        userData: []
     }
   },
   computed: {
@@ -98,66 +99,108 @@ export default {
       return this.$store.getters.error
     }
   },
-  created() {
-    this.fetchUserData()
+  created: function () {
+    console.log("created hook has run")
+    this.fetchUserData(this.$store.getters.getUserID)
   },
   methods: {
     fetchUserData (userID) {
-        commit('setLoading', true)
-        console.log(getters.getUserID)
+        this.$store.dispatch('setLoading', true)
+        console.log("fetchUserData called with userID of " + userID)
         let db = firebase.database()
-        let ref = db.ref('profiles')
+        let ref = db.ref('/profiles/' + userID)
+        ref.once('value')
+        .then(data => {
 
-        ref.once("value", function(snapshot) {
-            snapshot.forEach(function(childSnapshot) {
-              var childData = childSnapshot.val();
-              if (childData.userID == userID) {
-                  console.log(childData)
-
-                  let builtData = {
-                      personal: {
-                        firstName: childData.personal.firstName,
-                        lastName: childData.personal.lastName,
-                        title: childData.personal.title,
-                        avatarUrl: childData.personal.avatarUrl,
-                        email: childData.personal.email,
-                        twitterUrl: childData.personal.twitterUrl,
-                        facebookUrl: childData.personal.facebookUrl,
-                        instagramUrl: childData.personal.instagramUrl,
-                        linkedInUrl: childData.personal.linkedInUrl,
-                        websiteUrl: childData.personal.websiteUrl
-                      },
-                      userID: childData.userID,
-                      email: childData.email,
-                      skills: [],
-                      employment: [],
-                      education: []
+          let dataVal = data.val()
+          console.log(dataVal)
+          console.log(dataVal.email)
+          console.log(dataVal.isNew)
+          let builtData = {}
+          
+          if (dataVal.isNew == true){
+            console.log("isNew is true")
+             builtData = {
+                personal: {
+                  firstName: 'First',
+                  lastName: 'Last',
+                  title: 'Your Title',
+                  avatarUrl: 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIj8+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiBoZWlnaHQ9IjMwMHB4IiB3aWR0aD0iMzAwcHgiIHZlcnNpb249IjEuMCIgdmlld0JveD0iLTMwMCAtMzAwIDYwMCA2MDAiIHhtbDpzcGFjZT0icHJlc2VydmUiPgo8Y2lyY2xlIHN0cm9rZT0iI0FBQSIgc3Ryb2tlLXdpZHRoPSIxMCIgcj0iMjgwIiBmaWxsPSIjRkZGIi8+Cjx0ZXh0IHN0eWxlPSJsZXR0ZXItc3BhY2luZzoxO3RleHQtYW5jaG9yOm1pZGRsZTt0ZXh0LWFsaWduOmNlbnRlcjtzdHJva2Utb3BhY2l0eTouNTtzdHJva2U6IzAwMDtzdHJva2Utd2lkdGg6MjtmaWxsOiM0NDQ7Zm9udC1zaXplOjM2MHB4O2ZvbnQtZmFtaWx5OkJpdHN0cmVhbSBWZXJhIFNhbnMsTGliZXJhdGlvbiBTYW5zLCBBcmlhbCwgc2Fucy1zZXJpZjtsaW5lLWhlaWdodDoxMjUlO3dyaXRpbmctbW9kZTpsci10YjsiIHRyYW5zZm9ybT0ic2NhbGUoLjIpIj4KPHRzcGFuIHk9Ii00MCIgeD0iOCI+Tk8gSU1BR0U8L3RzcGFuPgo8dHNwYW4geT0iNDAwIiB4PSI4Ij5BVkFJTEFCTEU8L3RzcGFuPgo8L3RleHQ+Cjwvc3ZnPg==',
+                  email: 'your@email.com',
+                  twitterUrl: '',
+                  facebookUrl: '',
+                  instagramUrl: '',
+                  linkedInUrl: '',
+                  websiteUrl: ''
+                },
+                userID: 'userID_placeholder',
+                email: dataVal.email,
+                isNew: false,
+                skills: [],
+                employment: [],
+                education: []
+            }
+            console.log(userID)
+            let isNew = {isNew: true}
+            firebase.database().ref('/profiles/').child(userID).update(builtData)
+          } else {
+            console.log("isNew is false")
+             builtData = {
+              personal: {
+                firstName: dataVal.personal.firstName,
+                lastName: dataVal.personal.lastName,
+                title: dataVal.personal.title,
+                avatarUrl: dataVal.personal.avatarUrl,
+                email: dataVal.personal.email,
+                twitterUrl: dataVal.personal.twitterUrl,
+                facebookUrl: dataVal.personal.facebookUrl,
+                instagramUrl:dataVal.personal.instagramUrl,
+                linkedInUrl: dataVal.personal.linkedInUrl,
+                websiteUrl: dataVal.personal.websiteUrl
+              },
+              userID: 'userID_placeholder',
+              email: dataVal.email,
+              skills: [],
+              employment: [],
+              education: []
+            }
+            if (dataVal.hasOwnProperty('skills')) {
+              for (let key in dataVal.skills) {
+                let newSkill = {}
+                  for (let skill in dataVal.skills[key]) {
+                    newSkill[skill] = dataVal.skills[key][skill]
                   }
-                  if (childData.hasOwnProperty('skills')) {
-                      for (skill in childData.skills) {
-                          builtData.skills.push(skill)
-                      }
+                  builtData.skills.push(newSkill)
+                }
+            }
+            if (dataVal.hasOwnProperty('employment')) {
+              for (let key in dataVal.employment) {
+                let newEmployment = {}
+                  for (let emp in dataVal.employment[key]) {
+                    newEmployment[emp] = dataVal.employment[key][emp]
                   }
-                  if (childData.hasOwnProperty('employment')) {
-                      for (emp in childData.employment) {
-                          builtData.employment.push(emp)
-                      }
+                  builtData.skills.push(newEmployment)
+                }
+            }
+            if (dataVal.hasOwnProperty('education')) {
+              for (let key in dataVal.education) {
+                let newEducation = {}
+                  for (let edu in dataVal.education[key]) {
+                    newEducation[edu] = dataVal.education[key][edu]
                   }
-                  if (childData.hasOwnProperty('education')) {
-                      for (edu in childData.education) {
-                          builtData.education.push(edu)
-                      }
-                  }
-                  this.userData = builtData
-              }
-            })
+                  builtData.skills.push(newEducation)
+                }
+            }
+          }
+          console.log(builtData)
+          this.userData = builtData
         })
         .catch(error => {
-            console.log(error)
-            commit('setLoading', false)
+            console.log("error thrown" + error)
+            this.$store.dispatch('setLoading', false)
         })
     },
-          delayCollapse () {
+      delayCollapse () {
           if (this.showMore) {
                 this.triggerFadeOut = true
                 console.log(this.triggerFadeOut)

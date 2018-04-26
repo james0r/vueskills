@@ -106,6 +106,7 @@
 </template>
 
 <script>
+import * as firebase from 'firebase'
     export default {
         data: function() {
             return {
@@ -183,7 +184,8 @@
                     notes: this.skillNotes,
                     strongestSkill: this.strongestSkill
                 }
-                this.$store.dispatch('setSkill', skillData)
+                //Firebase push call here
+                firebase.database().ref('/profiles/' + this.$store.getters.getUserID + '/skills/').push(skillData)
 
                 this.clearValues()
             },

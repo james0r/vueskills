@@ -53,6 +53,9 @@ export default {
     actions: {
         clearError ({commit}) {
             commit('clearError')
+        },
+        setLoading (state, payload) {
+            state.loading = payload
         }
     },
     getters: {

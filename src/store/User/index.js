@@ -23,27 +23,6 @@ export default {
         setSkillEditing (state, payload) {
             state.skillEditingID = payload
         }
-        // setSkill (state, payload) {
-        //     state.user.skills.push(payload)
-        // },
-        // setEducation (state, payload) {
-        //     state.user.education.push(payload)
-        // },
-        // setEmployment (state, payload) {
-        //     state.user.employment.push(payload)
-        // },
-        // setPersonalInfo (state, payload) {
-        //     state.user.personal = payload
-        // },
-        // updateSkills (state, payload) {
-        //     state.user.skills = payload
-        // },
-        // updateEducation (state, payload) {
-        //     state.user.education = payload
-        // },
-        // updateEmployment (state, payload) {
-        //     state.user.employment = payload
-        // },
     },
     actions: {
         setUserAuth({commit}, payload) {
@@ -74,6 +53,24 @@ export default {
                 }
             )
         },
+        signUserIn ({commit}, payload) {
+            commit('setLoading', true)
+            commit('clearError')
+            firebase.auth().signInWithEmailAndPassword(payload.email, payload.password)
+            .then(
+                user => {
+                    commit('setUserID', user.uid)
+                    commit('setUserAuth', true)
+                }
+            )
+            .catch(
+                error => {
+                    commit('setLoading', false)
+                    commit('setError', error)
+                    console.log(error)
+                }
+            )
+        },
         setSkill ({ commit}, payload) {
             const newSkill = {
                 id: payload.id,
@@ -85,104 +82,6 @@ export default {
             }
             commit('setSkill', newSkill)
         },
-        // setEducation ({ commit}, payload) {
-        //     const newEducation = {
-        //         id: payload.id,
-        //         organization: payload.organization,
-        //         degree: payload.degree,
-        //         city: payload.city,
-        //         state: payload.state,
-        //         fromYear: payload.fromYear,
-        //         toYear: payload.toYear,
-        //         completed: payload.completed
-        //     }
-        //     commit('setEducation', newEducation)
-        // },
-        // setEmployment ({commit}, payload) {
-        //     const newEmployment = {
-        //         id: payload.id,
-        //         employer: payload.employer,
-        //         jobTitle: payload.jobTitle,
-        //         city: payload.city,
-        //         state: payload.state,
-        //         fromYear: payload.fromYear,
-        //         toYear: payload.toYear,
-        //         ach1: payload.ach1,
-        //         ach2: payload.ach2,
-        //         ach3: payload.ach3
-        //     }
-        //     commit('setEmployment', newEmployment)
-        // },
-        // setPersonalInfo ({ commit}, payload) {
-        //     commit('setPersonalInfo', payload)
-        // },
-        // updateSkills ({commit}, payload) {
-        //     const newSkills = payload
-        //     commit('updateSkills', newSkills)
-        // },
-        // updateEducation ({commit}, payload) {
-        //     const newEducation = payload
-        //     commit('updateEducation', newEducation)
-        // },
-        // updateEmployment ({commit}, payload) {
-        //     const newEmployment = payload
-        //     commit('updateEmployment', newEmployment)
-        // },
-        // fetchUserData ({commit, getters}) {
-        //     commit('setLoading', true)
-        //     console.log(getters.getUserID)
-        //     let db = firebase.database()
-        //     let ref = db.ref('profiles')
-
-        //     ref.once("value", function(snapshot) {
-        //         snapshot.forEach(function(childSnapshot) {
-        //          var childData = childSnapshot.val();
-        //          if (childData.userID == getters.getUserID) {
-        //              console.log(childData)
-
-        //              let builtData = {
-        //                  personal: {
-        //                     firstName: childData.personal.firstName,
-        //                     lastName: childData.personal.lastName,
-        //                     title: childData.personal.title,
-        //                     avatarUrl: childData.personal.avatarUrl,
-        //                     email: childData.personal.email,
-        //                     twitterUrl: childData.personal.twitterUrl,
-        //                     facebookUrl: childData.personal.facebookUrl,
-        //                     instagramUrl: childData.personal.instagramUrl,
-        //                     linkedInUrl: childData.personal.linkedInUrl,
-        //                     websiteUrl: childData.personal.websiteUrl
-        //                  },
-        //                  userID: childData.userID,
-        //                  email: childData.email,
-        //                  skills: [],
-        //                  employment: [],
-        //                  education: []
-        //              }
-        //              if (childData.hasOwnProperty('skills')) {
-        //                  for (skill in childData.skills) {
-        //                      builtData.skills.push(skill)
-        //                  }
-        //              }
-        //              if (childData.hasOwnProperty('employment')) {
-        //                  for (emp in childData.employment) {
-        //                      builtData.employment.push(emp)
-        //                  }
-        //              }
-        //              if (childData.hasOwnProperty('education')) {
-        //                  for (edu in childData.education) {
-        //                      builtData.education.push(edu)
-        //                  }
-        //              }
-        //              commit('setUser', builtData)
-        //          }
-        //         })
-        //     })
-        //     .catch(error => {
-        //         console.log(error)
-        //         commit('setLoading', false)
-        //     })
-        // }
         autoSignIn ({commit}, payload) {
             //This function delivers the UID from Firebase auth and stores it locally for use with fetching
             commit('setUserID', payload)
