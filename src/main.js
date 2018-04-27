@@ -11,6 +11,8 @@ import VModal from 'vue-js-modal'
 import EditProfile from '@/components/Auth/EditProfile'
 import EditSkillModal from '@/components/Auth/EditSkillModal'
 import Popper from 'vue-popperjs'
+import AddSkillModal from '@/components/Auth/AddSkillModal'
+import Vuex from 'Vuex'
 
 
 import './../node_modules/jquery/dist/jquery.min.js';
@@ -46,6 +48,7 @@ new Vue({
     })
   },
   components: { 
+  AddSkillModal,
   App,
   EditProfile,
   EditSkillModal

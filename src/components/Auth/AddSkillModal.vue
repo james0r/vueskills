@@ -94,7 +94,7 @@
                     <a href="#" 
                     class="btn btn-primary ml-3 px-3" 
                     :class="{ disabled: fieldsNotFilled }"
-                    @click="save"
+                    @click="save(userID)"
                     data-toggle="modal" 
                     data-target="#addSkillModal">Save</a>
                 </div>
@@ -107,9 +107,11 @@
 
 <script>
 import * as firebase from 'firebase'
+import store from '../../store'
     export default {
         data: function() {
             return {
+                store,
               techSelected: '',
               ratingSelected: 0,
               skillNotes: '',
@@ -117,7 +119,41 @@ import * as firebase from 'firebase'
               techRequired: false,
               ratingRequired: false,
               modalShown: null,
-              requiredAlert: false
+              requiredAlert: false,
+              techIcons: 
+                        {
+                            'Javascript': 'devicon-javascript-plain',
+                            'PHP': 'devicon-php-plain',
+                            'Python': 'devicon-python-plain',
+                            'C#': 'devicon-csharp-plain',
+                            'Webpack': 'devicon-webpack-plain',
+                            'Sass': 'devicon-sass-plain',
+                            'HTML5': 'devicon-html5-plain',
+                            'Gulp': 'devicon-gulp-plain',
+                            'Java': 'devicon-java-plain',
+                            'C++': 'devicon-cplusplus-plain',
+                            'Ruby': 'devicon-ruby-plain',
+                            'Windows': 'devicon-windows8-plain',
+                            'Linux': 'devicon-linux-plain',
+                            'Mac': 'devicon-apple-plain',
+                            'AWS': 'devicon-amazonwebservices-original',
+                            'Apache': 'devicon-apache-plain',
+                            'Photoshop': 'devicon-photoshop-plain',
+                            'Illustrator': 'devicon-illustrator-plain',
+                            'Vue.js': 'devicon-vuejs-plain',
+                            'React': 'devicon-react-plain',
+                            'Angular': 'devicon-angularjs-plain',
+                            'Django': 'devicon-django-plain',
+                            'CSS': 'devicon-css3-plain',
+                            'Git': 'devicon-git-plain',
+                            'jQuery': 'devicon-jquery-plain',
+                            'MongoDB': 'devicon-mongodb-plain',
+                            'Node.js': 'devicon-mongodb-plain',
+                            'MySQL': 'devicon-mysql-plain',
+                            'NGINX': 'devicon-nginx-plain',
+                            'Wordpress': 'devicon-wordpress-plain',
+                            'Typescript': 'devicon-typescript-plain'
+                        }
             }
         },
         watch: {
@@ -139,6 +175,9 @@ import * as firebase from 'firebase'
             }
         },
         computed: {
+            userID () {
+                return this.$store.getters.getUserID
+            },
             user () {
                 return this.$store.getters.user
             },
@@ -154,15 +193,38 @@ import * as firebase from 'firebase'
           }
         },
         methods: {
+            clearStrongest (userID, current) {
+                if (this.strongestSkill) {
+                   firebase.database()
+                   .ref('/profiles/' + userID + '/skills/')
+                   .once('value',function(s){
+                        var skills = s.val()
+                        var newUsers = {}
+                        for(var key in skills) {
+                            
+                            if (key !== current) {
+                                console.log("non current keys " + key)
+                                firebase.database()
+                                .ref('/profiles/' + userID + '/skills/' + key)
+                                .update({strongestSkill: false})
+                                .catch(error => {
+                                    console.log(error)
+                                })
+                            }
+                        }
+                    })
+                    .catch(error => {
+                        console.log(error)
+                    })
+                    this.strongestSkill =  false
+                }
+            },
             clearValues () {
                 this.techSelected = '',
                 this.ratingSelected = 0,
-                this.skillNotes = '',
-                this.strongestSkill = false
-
-                setTimeout
+                this.skillNotes = ''
             },
-            save () {
+            save (userID) {
                 if (this.techSelected == '') {
                     this.techRequired = true
                     return;
@@ -171,22 +233,26 @@ import * as firebase from 'firebase'
                     this.ratingRequired = true
                     return;
                 }
-                if (this.strongestSkill) {
-                    this.user.skills.map(function(currentValue) {
-                        currentValue.strongestSkill = false
-                    })
-                }
+               
 
                 const skillData = {
                     id: this.makeid(),
                     name: this.techSelected,
                     stars: this.ratingSelected,
                     notes: this.skillNotes,
-                    strongestSkill: this.strongestSkill
+                    strongestSkill: this.strongestSkill,
+                    icon: this.techIcons[this.techSelected]
                 }
                 //Firebase push call here
-                firebase.database().ref('/profiles/' + this.$store.getters.getUserID + '/skills/').push(skillData)
+                console.log("right before pushing, the strongestSkill is " + this.strongestSkill)
+                firebase.database().ref('/profiles/' + userID + '/skills/').push(skillData)
+                .then(data => {
+                    console.log("data.key is  " + data.key)
+                    this.clearStrongest(this.$store.getters.getUserID, data.key)
+                })
 
+                console.log("right before pushing, the strongestSkill is " + this.strongestSkill)
+                this.$store.dispatch('triggerFetch')
                 this.clearValues()
             },
             cancel () {

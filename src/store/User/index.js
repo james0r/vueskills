@@ -8,9 +8,13 @@ export default {
         skillEditingID: '',
         user: {
             id: ''
-        }
+        },
+        triggerFetch: false
     },
     mutations: {
+        triggerFetch (state) {
+            state.triggerFetch = !state.triggerFetch
+        },
         setUserAuth (state, payload) {
             state.userIsAuth = payload
         },
@@ -25,6 +29,9 @@ export default {
         }
     },
     actions: {
+        triggerFetch({commit}) {
+            commit('triggerFetch')
+        },
         setUserAuth({commit}, payload) {
             commit('setUserAuth', payload)
         },
@@ -89,6 +96,9 @@ export default {
         },
     },
     getters: {
+        triggerFetch (state) {
+            return state.triggerFetch
+        },
         userIsAuth (state) {
             return state.userIsAuth
         },

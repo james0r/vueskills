@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import Vuex from 'vuex'
+import Vuex from 'Vuex'
 import shared from './Shared'
 import user from './User'
 import profiles from './Profiles'

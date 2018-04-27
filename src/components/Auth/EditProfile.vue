@@ -322,6 +322,11 @@ export default {
     
   },
   computed: {
+    triggerFetch () {
+      let nullVar = this.$store.getters.triggerFetch
+      this.fetchUserData(this.$store.getters.getUserID)
+      return nullVar
+    },
     userID () {
       return this.$store.getters.getUserID
     },
@@ -342,8 +347,7 @@ export default {
     }
   },
   created: function () {
-    let createdUserID = this.$store.getters.getUserID
-    this.fetchUserData(createdUserID)
+    this.fetchUserData(this.$store.getters.getUserID)
   },
   methods: {
     consolelog () {
@@ -380,7 +384,7 @@ export default {
       fileReader.readAsDataURL(files[0])
       this.avatar = files[0]
     },
-    sendUserData (userId) {
+    sendUserData (userID) {
 
       let newPersonalObj = {
         personal: {
@@ -412,7 +416,6 @@ export default {
         .then(data => {
 
           let dataVal = data.val()
-          console.log(dataVal.data(key))
           console.log(dataVal.email)
           console.log(dataVal.isNew)
           let blah = []
@@ -440,21 +443,32 @@ export default {
             employment: [],
             education: []
           }
-          if (skills in dataVal) {
-            for (skill in dataVal.skills) {
-              builtData.skills.push(dataVal.skills[skill])
-                console.log(skill)
-            }
+          if (dataVal.hasOwnProperty('skills')) {
+            for (let key in dataVal.skills) {
+              let newSkill = {}
+                for (let skill in dataVal.skills[key]) {
+                  newSkill[skill] = dataVal.skills[key][skill]
+                }
+                builtData.skills.push(newSkill)
+              }
           }
-          if (employment in dataVal)  {
-            for (emp in dataVal.employment) {
-                builtData.employment.push(dataVal.employment[emp])
-            }
+          if (dataVal.hasOwnProperty('employment')) {
+            for (let key in dataVal.employment) {
+              let newEmployment = {}
+                for (let emp in dataVal.employment[key]) {
+                  newEmployment[emp] = dataVal.employment[key][emp]
+                }
+                builtData.skills.push(newEmployment)
+              }
           }
-          if (education in dataVal) {
-            for (edu in dataVal.education) {
-                builtData.education.push(dataVal.education[edu])
-            }
+          if (dataVal.hasOwnProperty('education')) {
+            for (let key in dataVal.education) {
+              let newEducation = {}
+                for (let edu in dataVal.education[key]) {
+                  newEducation[edu] = dataVal.education[key][edu]
+                }
+                builtData.skills.push(newEducation)
+              }
           }
         console.log(builtData)
         this.userData = builtData
