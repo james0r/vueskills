@@ -107,11 +107,9 @@
 
 <script>
 import * as firebase from 'firebase'
-import store from '../../store'
     export default {
         data: function() {
             return {
-                store,
               techSelected: '',
               ratingSelected: 0,
               skillNotes: '',
@@ -193,6 +191,10 @@ import store from '../../store'
           }
         },
         methods: {
+            triggerMyEvent () {
+                console.log("triggerEvent called")
+                this.$bus.$emit('updateEditProfile')
+            },
             clearStrongest (userID, current) {
                 if (this.strongestSkill) {
                    firebase.database()
@@ -203,7 +205,6 @@ import store from '../../store'
                         for(var key in skills) {
                             
                             if (key !== current) {
-                                console.log("non current keys " + key)
                                 firebase.database()
                                 .ref('/profiles/' + userID + '/skills/' + key)
                                 .update({strongestSkill: false})
@@ -212,6 +213,9 @@ import store from '../../store'
                                 })
                             }
                         }
+                    })
+                    .then(data => {
+                        this.triggerMyEvent()
                     })
                     .catch(error => {
                         console.log(error)
@@ -236,7 +240,7 @@ import store from '../../store'
                
 
                 const skillData = {
-                    id: this.makeid(),
+                    id: 'placeholder',
                     name: this.techSelected,
                     stars: this.ratingSelected,
                     notes: this.skillNotes,
@@ -244,14 +248,34 @@ import store from '../../store'
                     icon: this.techIcons[this.techSelected]
                 }
                 //Firebase push call here
-                console.log("right before pushing, the strongestSkill is " + this.strongestSkill)
                 firebase.database().ref('/profiles/' + userID + '/skills/').push(skillData)
                 .then(data => {
                     console.log("data.key is  " + data.key)
                     this.clearStrongest(this.$store.getters.getUserID, data.key)
+                    firebase.database()
+                    .ref('/profiles/' + userID + '/skills/')
+                    .once('value',function(s){
+                        var skills = s.val()
+                        var newUsers = {}
+                        for(var key in skills) {
+                            
+                            if (key == data.key) {
+                                firebase.database()
+                                .ref('/profiles/' + userID + '/skills/' + key)
+                                .update({id: key})
+                                .catch(error => {
+                                    console.log(error)
+                                })
+                            }
+                        }
+                    })
+                    .then(data => {
+                        this.triggerMyEvent()
+                    })
+                    .catch(error => {
+                        console.log(error)
+                    })
                 })
-
-                console.log("right before pushing, the strongestSkill is " + this.strongestSkill)
                 this.$store.dispatch('triggerFetch')
                 this.clearValues()
             },

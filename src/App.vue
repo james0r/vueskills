@@ -47,9 +47,8 @@
     <add-education-modal></add-education-modal>
     <add-employment-modal></add-employment-modal>
     <directional-landing-modal></directional-landing-modal>
+    <edit-skill-modal></edit-skill-modal>
     <add-skill-modal></add-skill-modal>
-  
-
   </div>
 </template>
 
@@ -61,8 +60,8 @@ import AddEducationModal from './components/Auth/AddEducationModal'
 import AddEmploymentModal from './components/Auth/AddEmploymentModal'
 import DirectionalLandingModal from './components/NoAuth/DirectionalLandingModal'
 import AddSkillModal from './components/Auth/AddSkillModal'
+import EditSkillModal from './components/Auth/EditSkillModal'
 import Profile from './components/Auth/Profile'
-
 
 export default {
   data () {
@@ -105,6 +104,7 @@ export default {
     AddEmploymentModal,
     DirectionalLandingModal,
     AddSkillModal,
+    EditSkillModal,
     Profile
   }
   // name: 'App',

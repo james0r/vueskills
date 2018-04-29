@@ -9,14 +9,11 @@
       </div>
       <div class="row mt-3">
         <div class="col-sm-12">
-          <button class="btn btn-primary" @click="sendUserData(userID)">
+          <button class="btn btn-primary" data-toggle="modal" data-target="#editSkillModal">
             sendUserData
           </button>
           <button class="btn btn-primary" @click="fetchUserData(userID)">
             fetchData
-          </button>
-          <button class="btn btn-primary" @click="consolelog">
-            console log userData
           </button>
           <div class="form-group">
             <div class="input-group mb-3">
@@ -184,7 +181,7 @@
                       v-show="isEditable"
                       class="mx-auto"
                       :class="{ clickable: isEditable }"
-                      @click="sendID(skill.id)"
+                      @click="sendSkillEditing(skill.id)"
                       data-toggle="modal"
                       data-target="#editSkillModal">
                       <p class="text-center my-0 py-0">Edit</p>
@@ -286,7 +283,6 @@
         </div>
       </div>
     </div>
-    <edit-skill-modal></edit-skill-modal>
   </div>
 </template>
 
@@ -295,7 +291,6 @@ import * as firebase from 'firebase'
 import Popper from 'vue-popperjs'
 import 'vue-popperjs/dist/css/vue-popper.css'
 import moment from 'moment'
-import EditSkillModal from './EditSkillModal'
 export default {
   data () {
     return {
@@ -317,6 +312,12 @@ export default {
       dateCreated: moment().format('YYYY[-]MM[-]DD'),
       userData: []
     }
+  },
+  mounted () {
+    this.$bus.$on('updateEditProfile', ($event) => {
+      console.log('My event has been triggered', $event)
+      this.fetchUserData(this.$store.getters.getUserID)
+    })
   },
   watch: {
     
@@ -350,8 +351,8 @@ export default {
     this.fetchUserData(this.$store.getters.getUserID)
   },
   methods: {
-    consolelog () {
-      console.log(this.userData)
+    sendSkillEditing (skillID) {
+      this.$bus.$emit('skillEditing', skillID)
     },
     onKeyUp () {
       this.infoSaved = false
@@ -515,7 +516,6 @@ export default {
     // },
   },
   components: {
-    EditSkillModal,
     'popper': Popper
   }
 }

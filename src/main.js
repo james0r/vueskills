@@ -27,6 +27,16 @@ Vue.component('v-select', vSelect)
 Vue.config.productionTip = false
 Vue.use(VModal)
 Vue.use(Popper)
+
+const EventBus = new Vue()
+
+Object.defineProperties(Vue.prototype, {
+  $bus: {
+    get: function () {
+      return EventBus
+    }
+  }
+})
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
