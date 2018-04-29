@@ -137,10 +137,11 @@
             :placeholder="userData.personal.websiteUrl">
           </div>
           <div class="text-center col mx-auto">
-            <button v-if="!infoSaved" class="btn btn-primary button-shadow" @click="sendUserData">
+            <button v-if="!infoSaved" class="btn btn-primary button-shadow" 
+            @click="sendUserData(userID)">
               <i class="far fa-save"></i> Save
             </button>
-            <button v-else class="btn btn-primary button-shadow" @click="savePersonalInfo">
+            <button v-else class="btn btn-primary button-shadow">
               <i class="far fa-save"></i> Saved
             </button>
           </div>
@@ -389,16 +390,16 @@ export default {
 
       let newPersonalObj = {
         personal: {
-          avatarUrl: this.userData.avatarUrl,
-          email: this.userData.email,
-          facebookUrl: this.userData.facebookUrl,
-          firstName: this.userData.firstName,
-          lastName: this.userData.lastName,
-          instagramUrl: this.userData.instagramUrl,
-          linkedInUrl: this.userData.linkedInUrl,
-          title: this.userData.title,
-          twitterUrl: this.userData.twitterUrl,
-          websiteUrl: this.userData.websiteUrl
+          avatarUrl: this.userData.personal.avatarUrl,
+          email: this.userData.personal.email,
+          facebookUrl: this.userData.personal.facebookUrl,
+          firstName: this.userData.personal.firstName,
+          lastName: this.userData.personal.lastName,
+          instagramUrl: this.userData.personal.instagramUrl,
+          linkedInUrl: this.userData.personal.linkedInUrl,
+          title: this.userData.personal.title,
+          twitterUrl: this.userData.personal.twitterUrl,
+          websiteUrl: this.userData.personal.websiteUrl
         }
       }
      firebase.database().ref('/profiles/' + userID).update(newPersonalObj)
