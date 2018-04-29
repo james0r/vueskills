@@ -19,7 +19,7 @@
                         <div class="my-3">
                             <v-select 
                             placeholder="Choose a technology" 
-                            v-model="skillLoaded.name" 
+                            v-model="skillObj.name" 
                             :options="[
                             'Angular',
                             'Apache',
@@ -59,7 +59,7 @@
                         <div class="form-group">
                         <select 
                             placeholder="Rate your ability"
-                            v-model="skillLoaded.stars" 
+                            v-model="skillObj.stars" 
                             class="form-control">
                             <option value=0 selected disabled>Rate your ability</option>
                             <option value=1>1 (Weakest)</option>
@@ -75,7 +75,7 @@
                         </div>
                         <div class="form-group">
                         <textarea 
-                        v-model="skillLoaded.notes" 
+                        v-model="skillObj.notes" 
                         class="form-control" 
                         rows="3" 
                         placeholder="Optional Notes"></textarea>
@@ -83,7 +83,7 @@
                         <div class="btn-groupmb-2">
                         <label class="btn btn-primary">
                             <input 
-                            v-model="skillLoaded.strongestSkill" 
+                            v-model="skillObj.strongestSkill" 
                             type="checkbox" 
                             name="field" 
                             value="NO"> Strongest
@@ -95,7 +95,7 @@
                 <div class="modal-footer">
                     <a href="#" 
                     class="btn btn-danger mr-auto" 
-                    @click="deleteSkill(skillID)"
+                    @click="deleteSkill(skillObj.id)"
                     data-toggle="modal" 
                     data-target="#editSkillModal">Delete</a>
                     <a 
@@ -105,7 +105,7 @@
                     data-target="#editSkillModal">Cancel</a>
                     <a href="#" 
                     class="btn bg-primary text-white ml-2 px-3" 
-                    @click="updateSkill"
+                    @click="save"
                     data-toggle="modal" 
                     data-target="#editSkillModal">Save</a>
                 </div>
@@ -125,7 +125,15 @@ import * as firebase from 'firebase'
               name: '',
               stars: 0,
               notes: '',
-              strongestSkill: false
+              strongestSkill: false,
+              skillObj: {
+                  icon: '',
+                  id: '',
+                  name: '',
+                  notes: '',
+                  stars: "",
+                  strongestSkill: false
+              }
             }
         },
         mounted () {
@@ -136,66 +144,101 @@ import * as firebase from 'firebase'
             })
             console.log("EditSkillModal has been mounted")
         },
+        destroyed () {
+            this.$bus.$off('skillEditing', ($event) => {
+            console.log($event)
+            })
+        },
         computed: {
-            userID () {
-                return this.$store.getters.getUserID
-            }
+ 
         },
         methods: {
+            clearStrongest (userID, current) {
+                console.log("clearStrongest() was called")
+                if (this.skillObj.strongestSkill) {
+                   firebase.database()
+                   .ref('/profiles/' + userID + '/skills/')
+                   .once('value',function(s){
+                        var skills = s.val()
+                        var newUsers = {}
+                        for(var key in skills) {
+                            
+                            if (key !== current) {
+                                firebase.database()
+                                .ref('/profiles/' + userID + '/skills/' + key)
+                                .update({strongestSkill: false})
+                                .catch(error => {
+                                    console.log(error)
+                                })
+                            }
+                        }
+                    })
+                    .then(data => {
+                        this.triggerMyEvent()
+                    })
+                    .catch(error => {
+                        console.log(error)
+                    })
+                    this.strongestSkill =  false
+                }
+            },
+            triggerMyEvent () {
+                console.log("triggerEvent called")
+                this.$bus.$emit('updateEditProfile')
+            },
             deleteSkill (id) {
+                let newSkillObj = {}
                 console.log("detete skill called with id: " + id)
-                let newSkills = this.$store.getters.user.skills.filter(skill => skill.id !== id)
-
-                this.$store.dispatch('updateSkills', newSkills)
+                firebase.database()
+                .ref('/profiles/' + this.$store.getters.getUserID + '/skills/')
+                .child(id).remove()
+                .then(data => {
+                    this.triggerMyEvent()
+                })
 
             },
+            save () {
+                firebase.database().ref('/profiles/' + this.$store.getters.getUserID + '/skills/' + this.id).update({
+                    icon: this.skillObj.icon,
+                    id: this.skillObj.id,
+                    name: this.skillObj.name,
+                    notes: this.skillObj.notes,
+                    stars: this.skillObj.stars,
+                    strongestSkill: this.skillObj.strongestSkill
+                })
+                .then(data => {
+                    this.clearStrongest(this.$store.getters.getUserID, this.skillObj.id)
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+            },
             fetchSkill (skillID) {
-                this.$store.dispatch('setLoading', true)
+                // this.$store.dispatch('setLoading', true)
                 console.log("fetchSkill called with skill ID of: " + skillID)
-                let db = firebase.database()
-                let ref = db.ref('/profiles/' + userID)
-                ref.once('value')
+                firebase.database().ref('/profiles/' + this.$store.getters.getUserID + '/skills/').once('value')
                 .then(data => {
 
-                let dataVal = data.val()
+                let skillVal = data.val()
+                console.log(skillVal)
                 
-                let builtData = {}
-                
-                    builtData = {
-                    personal: {
-                    firstName: dataVal.personal.firstName,
-                    lastName: dataVal.personal.lastName,
-                    title: dataVal.personal.title,
-                    avatarUrl: dataVal.personal.avatarUrl,
-                    email: dataVal.personal.email,
-                    twitterUrl: dataVal.personal.twitterUrl,
-                    facebookUrl: dataVal.personal.facebookUrl,
-                    instagramUrl:dataVal.personal.instagramUrl,
-                    linkedInUrl: dataVal.personal.linkedInUrl,
-                    websiteUrl: dataVal.personal.websiteUrl
-                    },
-                    userID: 'userID_placeholder',
-                    email: dataVal.email,
-                    skills: [],
-                    employment: [],
-                    education: []
-                }
-                if (dataVal.hasOwnProperty('skills')) {
-                    for (let key in dataVal.skills) {
-                    let newSkill = {}
-                        for (let skill in dataVal.skills[key]) {
-                        newSkill[skill] = dataVal.skills[key][skill]
+                    for (let key in skillVal) {
+                        if (key == skillID) {
+                            console.log("skill found is " + key)
+                            firebase.database()
+                            .ref('/profiles/' + this.$store.getters.getUserID + '/skills/' + key).once('value')
+                            .then(data => {
+                                console.log(data.val())
+                                this.skillObj = data.val()
+                                return
+                            })
                         }
-                        builtData.skills.push(newSkill)
                     }
-                }
-                console.log(builtData)
-                this.userData = builtData
-            })
-            .catch(error => {
-                console.log("error thrown" + error)
+                })
+                .catch(error => {
+                console.log("Some error occured while iterating through user skills --> " + error)
                 this.$store.dispatch('setLoading', false)
-            })
+                })
             },
         }
     }

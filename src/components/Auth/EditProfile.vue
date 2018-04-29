@@ -319,15 +319,15 @@ export default {
       this.fetchUserData(this.$store.getters.getUserID)
     })
   },
+  destroyed () {
+    this.$bus.$off('updateEditProfile', ($event) => {
+      console.log($event)
+    })
+  },
   watch: {
     
   },
   computed: {
-    triggerFetch () {
-      let nullVar = this.$store.getters.triggerFetch
-      this.fetchUserData(this.$store.getters.getUserID)
-      return nullVar
-    },
     userID () {
       return this.$store.getters.getUserID
     },
@@ -417,11 +417,6 @@ export default {
         .then(data => {
 
           let dataVal = data.val()
-          console.log(dataVal.email)
-          console.log(dataVal.isNew)
-          let blah = []
-          blah.push({ test: "var"})
-          console.log("this is blah " + blah)
           
           let builtData = {}
           

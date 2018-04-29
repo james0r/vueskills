@@ -5,7 +5,6 @@ import { isNullOrUndefined } from 'util';
 export default {
     state: {
         userIsAuth: false,
-        skillEditingID: '',
         user: {
             id: ''
         },
@@ -23,9 +22,6 @@ export default {
         },
         setUserID (state, payload) {
             state.user.id = payload
-        },
-        setSkillEditing (state, payload) {
-            state.skillEditingID = payload
         }
     },
     actions: {
@@ -34,9 +30,6 @@ export default {
         },
         setUserAuth({commit}, payload) {
             commit('setUserAuth', payload)
-        },
-        setSkillEditing ({commit}, payload) {
-            commit('setSkillEditing', payload)
         },
         signUserUp ({commit}, payload) {
             commit('setLoading', true)
@@ -107,9 +100,6 @@ export default {
         },
         getUserID (state) {
             return state.user.id
-        },
-        getSkillEditing (state) {
-            return state.skillEditingID
         },
         getSkills (state) {
             return state.user.skills
