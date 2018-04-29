@@ -108,6 +108,9 @@
 <script>
 import * as firebase from 'firebase'
     export default {
+        mounted () {
+                $('#addSkillModal').on('hidden.bs.modal', this.clearValues)
+        },
         data: function() {
             return {
               techSelected: '',
@@ -226,7 +229,8 @@ import * as firebase from 'firebase'
             clearValues () {
                 this.techSelected = '',
                 this.ratingSelected = 0,
-                this.skillNotes = ''
+                this.skillNotes = '',
+                this.strongestSkill = false
             },
             save (userID) {
                 if (this.techSelected == '') {

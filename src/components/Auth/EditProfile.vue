@@ -196,7 +196,10 @@
               <button class="btn btn-primary button-shadow" @click="skillCardsEditable">
                 <i class="far fa-edit"></i> Edit
               </button>
-              <button class="btn btn-primary button-shadow ml-3" data-toggle="modal" data-target="#addSkillModal">
+              <button class="btn btn-primary button-shadow ml-3" 
+                      :disabled="isEditable"
+                      data-toggle="modal" 
+                      data-target="#addSkillModal">
                 <i class="fas fa-plus"></i> Add
               </button>
             </div>

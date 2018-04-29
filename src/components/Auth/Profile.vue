@@ -7,7 +7,7 @@
             <div class="mx-auto my-3">
               <img class="avatar-img" :src="userData.personal.avatarUrl">
               <div class="header-title">
-                <h2 class="my-0">{{ userData.personal.firstName }} {{ profile.personal.lastName }}</h2>
+                <h2 class="my-0">{{ userData.personal.firstName }} {{ userData.personal.lastName }}</h2>
                 <h5 class="my-0 text-white">{{ userData.personal.title }}</h5>
               </div>
             </div>
