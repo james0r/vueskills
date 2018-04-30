@@ -111,11 +111,13 @@
     </div>
   </div>
 </div>
-
 </template>
 
 <script>
   export default {
+      mounted () {
+         $('#addEmploymentModal').on('hidden.bs.modal', this.clearValues)
+      },
       data: function() {
           return {
               states: [
@@ -205,7 +207,6 @@
                 this.ach1 = '',
                 this.ach2 = '',
                 this.ach3 = ''
-
             },
              makeid() {
                 var text = "";
@@ -216,9 +217,6 @@
 
                 return text;
             }
-      },
-      created() {
-
       }
   }
 </script>

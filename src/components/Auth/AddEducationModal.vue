@@ -98,6 +98,9 @@
 
 <script>
   export default {
+      mounted () {
+         $('#addEducationModal').on('hidden.bs.modal', this.clearValues)
+      },
       data: function() {
           return {
               states: [
