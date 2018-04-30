@@ -187,7 +187,6 @@ import * as firebase from 'firebase'
                 this.$bus.$emit('updateEditProfile')
             },
             deleteSkill (id) {
-                let newSkillObj = {}
                 console.log("detete skill called with id: " + id)
                 firebase.database()
                 .ref('/profiles/' + this.$store.getters.getUserID + '/skills/')
@@ -195,7 +194,6 @@ import * as firebase from 'firebase'
                 .then(data => {
                     this.triggerMyEvent()
                 })
-
             },
             save () {
                 firebase.database().ref('/profiles/' + this.$store.getters.getUserID + '/skills/' + this.id).update({

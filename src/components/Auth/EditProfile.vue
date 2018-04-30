@@ -389,6 +389,24 @@ export default {
       fileReader.readAsDataURL(files[0])
       this.avatar = files[0]
     },
+    deleteEmployment (empID) {
+        console.log("detete employment called with id: " + empID)
+        firebase.database()
+        .ref('/profiles/' + this.$store.getters.getUserID + '/employment/')
+        .child(empID).remove()
+        .then(data => {
+            this.fetchUserData(this.$store.getters.getUserID)
+        })
+    },
+    deleteEducation (eduID) {
+          console.log("detete education called with id: " + eduID)
+          firebase.database()
+          .ref('/profiles/' + this.$store.getters.getUserID + '/education/')
+          .child(eduID).remove()
+          .then(data => {
+              this.fetchUserData(this.$store.getters.getUserID)
+          })
+    },
     sendUserData (userID) {
 
       let newPersonalObj = {
