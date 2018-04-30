@@ -51,6 +51,13 @@
                     <button type="button" class="btn btn-danger">Delete Account</button>
                   </div>
                 </div>
+                <div class="row d-flex nowrap mt-3">
+                  <div class="col-12">
+                    <div class="alert alert-danger text-center" role="alert">
+                      Settings options will be implemented in a later version of Vueskills.
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

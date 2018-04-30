@@ -64,7 +64,7 @@
               <div class="input-group-append">
             <popper trigger="click" :options="{placement: 'top'}">
                 <div class="popper">
-                  <img :src="userData.avatarUrl" height="150px">
+                  <img :src="userData.personal.avatarUrl" height="150px">
                 </div>
                 <span slot="reference" class="input-group-text" id="">Preview</span>
             </popper>
@@ -384,10 +384,10 @@ export default {
       }
       const fileReader = new FileReader()
       fileReader.addEventListener('load', () => {
-        this.avatarUrl = fileReader.result
+        this.userData.personal.avatarUrl = fileReader.result
       })
       fileReader.readAsDataURL(files[0])
-      this.avatar = files[0]
+      this.userData.personal.avatar = files[0]
     },
     deleteEmployment (empID) {
         console.log("detete employment called with id: " + empID)
