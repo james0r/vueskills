@@ -101,7 +101,7 @@
           data-toggle="modal" 
           data-target="#addEmploymentModal">Cancel</a>
           <a href="#" 
-          @click="save"
+          @click="save(userID)"
           :class="{ disabled: fieldsNotFilled}"
           data-toggle="modal" 
           data-target="#addEmploymentModal"
@@ -114,6 +114,7 @@
 </template>
 
 <script>
+import * as firebase from 'firebase'
   export default {
       mounted () {
          $('#addEmploymentModal').on('hidden.bs.modal', this.clearValues)
@@ -159,9 +160,16 @@
                   this.requiredAlert = false
                   return false
                 }
+          },
+          userID () {
+            return this.$store.getters.getUserID
           }
       },
       methods: {
+            triggerMyEvent () {
+              console.log("triggerEvent called")
+              this.$bus.$emit('updateEditProfile')
+            },
             yearsArray() {
               let years = []
               for (let i = 1950; i < 2019 ; i++) {
@@ -169,34 +177,48 @@
               }
               return years;
             },
-            save () {
-            if (this.employer == '' ||
-                this.jobTitle == '' ||
-                this.city == '' ||
-                this.state == '' ||
-                this.fromYear == null ||
-                this.toYear == null) {
-                  this.requiredAlert = true
-                  return
-                  //Dispatch info
-                } else {
-                  this.requiredAlert = false
-                  let employmentItem = {
-                    id: this.makeid(),  
-                    employer: this.employer,
-                    jobTitle: this.jobTitle,
-                    city: this.city,
-                    state: this.state,
-                    fromYear: this.fromYear,
-                    toYear: this.toYear,
-                    ach1: this.ach1,
-                    ach2: this.ach2,
-                    ach3: this.ach3
-                  }
-                  this.$store.dispatch('setEmployment', employmentItem)
-                  this.clearValues()
-                }
-          },
+            save (userID) {                       
+              const empData = {
+                  id: '',
+                  employer: this.employer,
+                  jobTitle: this.jobTitle,
+                  city: this.city,
+                  state: this.state,
+                  ach1: this.ach1,
+                  ach2: this.ach2,
+                  ach3: this.ach3,
+                  fromYear: this.fromYear,
+                  toYear: this.toYear,
+              }
+              //Firebase push call here
+              firebase.database().ref('/profiles/' + userID + '/employment/').push(empData)
+              .then(data => {
+                  console.log("data.key is  " + data.key)
+                  firebase.database()
+                  .ref('/profiles/' + userID + '/employment/')
+                  .once('value',function(s){
+                      var employmentItems = s.val()
+                      for(var key in employmentItems) {
+                        if (key == data.key) {
+                          console.log("key has equaled data.key")
+                            firebase.database()
+                            .ref('/profiles/' + userID + '/employment/' + key)
+                            .update({id: key})
+                            .catch(error => {
+                                console.log(error)
+                            })
+                        }
+                      }
+                  })
+                  .then(() => {
+                      this.triggerMyEvent()
+                  })
+                  .catch(error => {
+                      console.log(error)
+                  })
+              })
+              this.clearValues()
+            },
             clearValues () {
                 this.employer = '',
                 this.jobTitle = '',

@@ -84,7 +84,7 @@
                 <a href="#" 
                 :class="{ disabled: fieldsNotFilled}"
                 class="btn btn-primary ml-2 px-3"
-                @click="save"
+                @click="save(userID)"
                 data-toggle="modal"
                 data-target="#addEducationModal"
                 >Save</a>
@@ -97,6 +97,7 @@
 </template>
 
 <script>
+import * as firebase from 'firebase'
   export default {
       mounted () {
          $('#addEducationModal').on('hidden.bs.modal', this.clearValues)
@@ -123,47 +124,79 @@
           }
       },
       computed: {
-          keepToYearHigher () {
-              if (this.toYear <= this.fromYear && this.fromYear !== null && this.toYear !== null) {
-                  return 'Invalid year range.'
-              }
-          },
-          fieldsNotFilled () {
-            if (this.organization == '' ||
-                this.degree == '' ||
-                this.city == '' ||
-                this.state == '' ||
-                this.fromYear == null ||
-                this.toYear == null ||
-                this.completed == null) {
-                  this.requiredAlert = true
-                return true
-                } else {
-                  this.requiredAlert = false
-                  return false
-                }
+        keepToYearHigher () {
+          if (this.toYear <= this.fromYear && this.fromYear !== null && this.toYear !== null) {
+              return 'Invalid year range.'
           }
+        },
+        userID () {
+          return this.$store.getters.getUserID
+        },
+        fieldsNotFilled () {
+          if (this.organization == '' ||
+              this.degree == '' ||
+              this.city == '' ||
+              this.state == '' ||
+              this.fromYear == null ||
+              this.toYear == null ||
+              this.completed == null) {
+                this.requiredAlert = true
+              return true
+              } else {
+                this.requiredAlert = false
+                return false
+              }
+        }
       },
       methods: {
+        triggerMyEvent () {
+          console.log("triggerEvent called")
+          this.$bus.$emit('updateEditProfile')
+        },
         toggleModal () {
           this.modalHidden = !this.modalHidden
         },
-          save () {
-            
-                  let educationItem = {
-                    id: this.makeid(),
-                    organization: this.organization,
-                    degree: this.degree,
-                    city: this.city,
-                    state: this.state,
-                    fromYear: this.fromYear,
-                    toYear: this.toYear,
-                    completed: this.completed
+        save (userID) {                       
+          const eduData = {
+              organization: this.organization,
+              degree: this.degree,
+              city: this.city,
+              state: this.state,
+              fromYear: this.fromYear,
+              toYear: this.toYear,
+              completed: this.completed,
+              id: 'placeholder'
+          }
+          //Firebase push call here
+          firebase.database().ref('/profiles/' + userID + '/education/').push(eduData)
+          .then(data => {
+              console.log("data.key is  " + data.key)
+              firebase.database()
+              .ref('/profiles/' + userID + '/education/')
+              .once('value',function(s){
+                  var educationItems = s.val()
+                  for(var key in educationItems) {
+                      
+                      if (key == data.key) {
+                        console.log("key has equaled data.key")
+                          firebase.database()
+                          .ref('/profiles/' + userID + '/education/' + key)
+                          .update({id: key})
+                          .catch(error => {
+                              console.log(error)
+                          })
+                      }
                   }
-
-                  this.$store.dispatch('setEducation', educationItem)
-                  this.clearValues()
-          },
+              })
+              .then(() => {
+                  this.triggerMyEvent()
+              })
+              .catch(error => {
+                  console.log(error)
+              })
+          })
+          this.clearValues()
+        },
           yearsArray() {
               let years = []
               for (let i = 1950; i < 2019 ; i++) {

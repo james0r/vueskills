@@ -405,6 +405,7 @@ export default {
           websiteUrl: this.userData.personal.websiteUrl
         }
       }
+
      firebase.database().ref('/profiles/' + userID).update(newPersonalObj)
      .then(data => {
        console.log(data)
@@ -458,7 +459,7 @@ export default {
                 for (let emp in dataVal.employment[key]) {
                   newEmployment[emp] = dataVal.employment[key][emp]
                 }
-                builtData.skills.push(newEmployment)
+                builtData.employment.push(newEmployment)
               }
           }
           if (dataVal.hasOwnProperty('education')) {
@@ -467,7 +468,7 @@ export default {
                 for (let edu in dataVal.education[key]) {
                   newEducation[edu] = dataVal.education[key][edu]
                 }
-                builtData.skills.push(newEducation)
+                builtData.education.push(newEducation)
               }
           }
         console.log(builtData)
@@ -478,41 +479,6 @@ export default {
           this.$store.dispatch('setLoading', false)
       })
     },
-    // savePersonalInfo () {
-      //   console.log("savePersonalInfo was called")
-    //   this.infoSaved = true
-
-    //   const personalInfoItems = {
-      //     firstName: this.firstName,
-    //     lastName: this.lastName,
-    //     title: this.title,
-    //     avatarUrl: this.avatarUrl,
-    //     email: this.email,
-    //     twitterUrl: this.twitterUrl,
-    //     facebookUrl: this.facebookUrl,
-    //     instagramUrl: this.instagramUrl,
-    //     linkedInUrl: this.linkedInUrl,
-    //     websiteUrl: this.websiteUrl
-    //   }
-
-    //   this.$store.dispatch('setPersonalInfo', personalInfoItems)
-    // },
-    // sendID (id) {
-    //   this.$store.dispatch('setSkillEditing', id)
-    //   console.log("sent id " + id)
-    // },
-    // deleteEducation (id) {
-    //     console.log(id)
-    //     let newEducation = this.$store.getters.getEducation.filter(educationItem => educationItem.id !== id)
-
-    //     this.$store.dispatch('updateEducation', newEducation)
-    // },
-    // deleteEmployment (id) {
-    //     console.log(id)
-    //     let newEmployment = this.$store.getters.getEmployment.filter(employmentItem => employmentItem.id !== id)
-
-    //     this.$store.dispatch('updateEmployment', newEmployment)
-    // },
   },
   components: {
     'popper': Popper

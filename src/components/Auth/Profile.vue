@@ -42,6 +42,7 @@
           </div>
           <div v-show="showMore">
             <education-component 
+            :userData="userData"
             v-if="userData.education.length > 0"
             :class="{fadeIn: showMore, fadeOut: triggerFadeOut}"
             ></education-component>
@@ -49,6 +50,7 @@
               No Education Entered
             </div>
             <employment-component
+            :userData="userData"
             v-if="userData.employment.length > 0"
             class="mb-3" 
             :class="{fadeIn: showMore, fadeOut: triggerFadeOut}"
@@ -109,6 +111,10 @@ export default {
     this.fetchUserData(this.$store.getters.getUserID)
   },
   methods: {
+    emitUserData (userDataToEmit) {
+      console.log("emitUserData called")
+        this.$bus.$emit('emitUserData', userDataToEmit)
+    },
     fetchUserData (userID) {
         this.$store.dispatch('setLoading', true)
         console.log("fetchUserData called with userID of " + userID)
@@ -184,7 +190,7 @@ export default {
                   for (let emp in dataVal.employment[key]) {
                     newEmployment[emp] = dataVal.employment[key][emp]
                   }
-                  builtData.skills.push(newEmployment)
+                  builtData.employment.push(newEmployment)
                 }
             }
             if (dataVal.hasOwnProperty('education')) {
@@ -193,12 +199,12 @@ export default {
                   for (let edu in dataVal.education[key]) {
                     newEducation[edu] = dataVal.education[key][edu]
                   }
-                  builtData.skills.push(newEducation)
+                  builtData.education.push(newEducation)
                 }
             }
           }
-          console.log(builtData)
           this.userData = builtData
+          this.emitUserData(builtData)
         })
         .catch(error => {
             console.log("error thrown" + error)

@@ -6,7 +6,7 @@
         </div>
       </div>
       <div 
-      v-for="eduItem in education"
+      v-for="eduItem in userData.education"
       :key="eduItem.key"
       class="row mb-3 mx-0 border card-shadow">
         <div class="col-12">
@@ -36,10 +36,18 @@
 
 <script>
 export default {
+  props: ['userData'],
+  mounted () {
+    // this.$bus.$on('emitUserData', ($event) => {
+    //   this.storeUserData($event)
+    //   console.log("educationComponent received the emit event")
+    // })
+  },
   computed: {
-    education: function () {
-     return this.$store.getters.getEducation
-     }
+
+  },
+  methods: {
+   
   }
 }
 </script>

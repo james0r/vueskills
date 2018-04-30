@@ -5,7 +5,7 @@
         <h4 class="pt-1">Employment</h4>
       </div>
     </div>
-    <div class="col-12 card-shadow" v-for="empItem in employment" :key="empItem.key">
+    <div class="col-12 card-shadow" v-for="empItem in userData.employment" :key="empItem.key">
       <div class="row">
         <div class="col-8 font-weight-bold">{{ empItem.employer }}</div>
         <div class="col-4 text-right font-italic nowrap">{{ empItem.city }}, {{ empItem.state }}</div>
@@ -36,13 +36,14 @@
 
 
 <script>
-    export default {
-      computed: {
-        employment: function () {
-        return this.$store.getters.getEmployment
-     }
-  }
+  export default {
+    props: ['userData'],
+    computed: {
+      employment: function () {
+      return this.$store.getters.getEmployment
+      }
     }
+  }
 </script>
 
 <style>
