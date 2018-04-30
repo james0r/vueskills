@@ -199,6 +199,9 @@ import * as firebase from 'firebase'
                 this.$bus.$emit('updateEditProfile')
             },
             clearStrongest (userID, current) {
+                console.log("clearStrongest called with userID " + userID + " and current key " + current)
+                console.log("this.strongestSkill " + this.strongestSkill)
+                
                 if (this.strongestSkill) {
                    firebase.database()
                    .ref('/profiles/' + userID + '/skills/')
@@ -275,13 +278,13 @@ import * as firebase from 'firebase'
                     })
                     .then(data => {
                         this.triggerMyEvent()
+                        this.clearValues()
                     })
                     .catch(error => {
                         console.log(error)
                     })
                 })
                 this.$store.dispatch('triggerFetch')
-                this.clearValues()
             },
             cancel () {
                 console.log("cancel was called")
