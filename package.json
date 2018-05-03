@@ -1,6 +1,6 @@
 {
   "name": "vueskills",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A simple app for job seekers to create public resumes with an emphasis on their skills.",
   "author": "James <james.auble@gmail.com>",
   "private": true,

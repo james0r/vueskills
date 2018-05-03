@@ -180,11 +180,13 @@ import * as firebase from 'firebase'
                         console.log(error)
                     })
                     this.strongestSkill =  false
+                } else {
+                    this.triggerMyEvent()
                 }
             },
             triggerMyEvent () {
                 console.log("triggerEvent called")
-                this.$bus.$emit('updateEditProfile')
+                this.$bus.$emit('updateEditProfile', this.$store.getters.getUserID)
             },
             deleteSkill (id) {
                 console.log("detete skill called with id: " + id)
@@ -236,6 +238,10 @@ import * as firebase from 'firebase'
                 .catch(error => {
                 console.log("Some error occured while iterating through user skills --> " + error)
                 this.$store.dispatch('setLoading', false)
+                })
+
+                this.$bus.$off('skillEditing', ($event) => {
+                    console.log($event)
                 })
             },
         }

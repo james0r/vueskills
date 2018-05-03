@@ -4,17 +4,21 @@
     <div class="col-12 col-lg-10 offset-lg-1 outline-main my-3">
       <div class="row">
         <div class="col-12 pt-1 text-center bg-primary text-white card-shadow">
-          <h4 class="">Personal Information</h4>
+          <div class="row position-relative">
+            <h4 class="mx-auto">Personal Information</h4>
+            <div 
+            class="position-absolute" 
+            style="right: 12px; top: 4px;cursor: pointer"
+            @click="refreshClick">
+              <div :class="{'fa-spin': refreshSpinning}">
+                <a class="fas fa-sync"></a>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <div class="row mt-3">
         <div class="col-sm-12">
-          <button class="btn btn-primary" data-toggle="modal" data-target="#editSkillModal">
-            sendUserData
-          </button>
-          <button class="btn btn-primary" @click="fetchUserData(userID)">
-            fetchData
-          </button>
           <div class="form-group">
             <div class="input-group mb-3">
               <div class="input-group-prepend">
@@ -314,18 +318,21 @@ export default {
       skillID: '',
       emailAlert: false,
       dateCreated: moment().format('YYYY[-]MM[-]DD'),
-      userData: []
+      userData: [],
+      refreshSpinning: false
     }
   },
   mounted () {
     this.$bus.$on('updateEditProfile', ($event) => {
       console.log('My event has been triggered', $event)
       this.fetchUserData(this.$store.getters.getUserID)
+      return
     })
   },
   destroyed () {
     this.$bus.$off('updateEditProfile', ($event) => {
       console.log($event)
+      return
     })
   },
   watch: {
@@ -355,6 +362,15 @@ export default {
     this.fetchUserData(this.$store.getters.getUserID)
   },
   methods: {
+    refreshClick () {
+      this.fetchUserData(this.userID)
+      this.refreshSpinning = true
+      let that = this
+      setTimeout(function () {
+        that.refreshSpinning = false
+      }, 2000)
+
+    },
     sendSkillEditing (skillID) {
       this.$bus.$emit('skillEditing', skillID)
     },

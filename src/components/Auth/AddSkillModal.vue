@@ -221,6 +221,7 @@ import * as firebase from 'firebase'
                         }
                     })
                     .then(data => {
+                        console.log("triggerMyEvent being called with data from clearS")
                         this.triggerMyEvent()
                     })
                     .catch(error => {

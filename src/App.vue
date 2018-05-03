@@ -5,7 +5,7 @@
         <router-link to="/" class="navbar-brand" style="cursor: pointer">
         <div class="row nowrap pl-2">
         <img src="./assets/vueskills-logo.png" height="38px" class="ml-0">
-        <p class="my-auto ml-1">Vueskills</p>
+        <p class="my-auto ml-1">Vueskills (Alpha Release)</p>
         </div>
         </router-link>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample04" aria-controls="navbarsExample04" aria-expanded="false" aria-label="Toggle navigation">
@@ -34,11 +34,7 @@
                 {{ item.title }} 
                 </router-link>
             </li>
-            <li class="nav-item active">
-              <button class="btn btn-secondary nav-link">
-                UserAuth?
-                </button>
-            </li>
+
           </ul>
         </div>
       </nav>      
@@ -49,6 +45,14 @@
     <directional-landing-modal></directional-landing-modal>
     <edit-skill-modal></edit-skill-modal>
     <add-skill-modal></add-skill-modal>
+    <router-link 
+    to="/credits"
+    height=50px 
+    width=50px
+    class="position-fixed text-primary info-button-container">
+      <i class="fas fa-info-circle info-button" style="box-shadow: 5px 5px 5px 5px black"></i>
+    </router-link>
+    
   </div>
 </template>
 
@@ -122,5 +126,22 @@ export default {
 
     .modal-header {
     box-shadow: 0px 5px 8px 2px #888888;
+    }
+    .info-button-container {
+    right: 20px; 
+    bottom: 15px; 
+    cursor: pointer;
+    line-height: 64px;
+    font-size: 48px;
+    border-radius: 50%;
+    border: none;
+    text-shadow: 8px 2px #888888;
+    }
+
+    .info-button:hover, .info-button:focus {
+      color: 800080;
+    }
+    .info-button-container .info-button {
+    text-shadow: 5px 5px 2px #272634;
     }
 </style>

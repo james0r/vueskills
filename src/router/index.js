@@ -20,6 +20,7 @@ import Profile from '@/components/Auth/Profile'
 Vue.use(Router)
 
 export default new Router({
+    base: '/vueskills',
     routes: [
         {
         path: '/',
