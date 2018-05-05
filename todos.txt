@@ -6,3 +6,10 @@ add transitions using <transition> </transition> tags
 look into font awesome v-for conflict
 prevent order change on save-edit
 add delete confirm to education and employment
+
+--- ROADMAP ---
+v1.0.2
+Hook up settings options.
+Implement directional landing
+v1.0.3
+Information and credits page.

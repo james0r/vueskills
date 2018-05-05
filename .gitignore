@@ -14,10 +14,3 @@ todos.txt
 *.ntvs*
 *.njsproj
 *.sln
-
---- ROADMAP ---
-v1.0.2
-Hook up settings options.
-Implement directional landing
-v1.0.3
-Information and credits page.
