@@ -82,6 +82,13 @@ export default {
       this.$store.dispatch('setUserAuth', false)
     }
   },
+  watch: {
+    userIsAuth (value) {
+      if (value !== true) {
+        this.$router.push('/signin')
+      }
+    },
+  },
   computed: {
     menuItems () {
       let menuItems = [

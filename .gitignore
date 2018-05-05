@@ -5,6 +5,7 @@ ignore/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+todos.txt
 
 # Editor directories and files
 .idea
@@ -13,3 +14,10 @@ yarn-error.log*
 *.ntvs*
 *.njsproj
 *.sln
+
+--- ROADMAP ---
+v1.0.2
+Hook up settings options.
+Implement directional landing
+v1.0.3
+Information and credits page.

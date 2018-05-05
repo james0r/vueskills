@@ -87,6 +87,11 @@
           },
           isBackdrop () {
             return !closeModal
+          },
+          userIsAuth (value) {
+            if (value == true) {
+              this.$router.push('/')
+            }
           }
         },
         methods: {
