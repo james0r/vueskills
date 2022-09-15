@@ -10,7 +10,7 @@
     "build": "node build/build.js"
   },
   "dependencies": {
-    "bootstrap": "^4.0.0",
+    "bootstrap": "^4.3.1",
     "devicon": "^2.0.0",
     "firebase": "^4.12.1",
     "jquery": "^3.3.1",
